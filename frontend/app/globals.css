@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-google-sans-flex), ui-sans-serif, system-ui, sans-serif;
+  --color-htp-blue: #7a94fd;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+@keyframes htp-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes htp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

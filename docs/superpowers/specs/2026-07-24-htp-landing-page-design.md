@@ -1,7 +1,5 @@
 # Hack The Path — Landing Page Design Spec
 
-**Date:** 2026-07-24
-**Status:** Approved (pending spec review)
 **Location of app:** `frontend/` (Next.js 16, React 19, Tailwind v4)
 
 ## 1. Overview
