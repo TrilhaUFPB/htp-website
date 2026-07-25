@@ -9,7 +9,7 @@ const googleSansFlex = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Hack The Path — 20–21 fev 2027 · João Pessoa",
+  title: "Hack The Path",
   description:
     "Hackathon universitário do Nordeste. Dois dias construindo com IA ao lado de mentores e empresas. Aceite o desafio.",
 };
