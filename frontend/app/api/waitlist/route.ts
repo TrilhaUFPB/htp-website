@@ -1,20 +1,38 @@
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import {
+  isHoneypotTriggered,
+  parseWaitlistRequest,
+} from "@/lib/waitlist/schema";
+
+const GENERIC_VALIDATION_ERROR = "Informe um e-mail válido.";
+const GENERIC_REQUEST_ERROR = "Requisição inválida.";
 
 export async function POST(request: Request) {
-  let body: { email?: string };
+  let body: unknown;
 
   try {
     body = await request.json();
   } catch {
-    return Response.json({ error: "Requisição inválida." }, { status: 400 });
+    return Response.json({ error: GENERIC_REQUEST_ERROR }, { status: 400 });
   }
 
-  const email = body.email?.trim().toLowerCase();
-
-  if (!email || !emailPattern.test(email)) {
-    return Response.json({ error: "Informe um e-mail válido." }, { status: 400 });
+  if (typeof body !== "object" || body === null) {
+    return Response.json({ error: GENERIC_REQUEST_ERROR }, { status: 400 });
   }
 
-  // TODO: persist waitlist signups (Resend)
+  const payload = body as { website?: string };
+
+  if (isHoneypotTriggered(payload)) {
+    return Response.json({ ok: true });
+  }
+
+  const parsed = parseWaitlistRequest(body);
+
+  if (!parsed.success) {
+    return Response.json({ error: GENERIC_VALIDATION_ERROR }, { status: 400 });
+  }
+
+  // TODO(phase 1): persist waitlist signups (Supabase)
+  void parsed.data;
+
   return Response.json({ ok: true });
 }

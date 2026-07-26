@@ -15,6 +15,7 @@ const buttonStyles = {
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -47,6 +48,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     setStatus("idle");
     setErrorMessage("");
     setEmail("");
+    setHoneypot("");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +60,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: variant, website: honeypot }),
       });
 
       if (!response.ok) {
@@ -139,6 +141,17 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                 </div>
 
                 <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(event) => setHoneypot(event.target.value)}
+                    className="pointer-events-none absolute left-[-9999px] h-px w-px overflow-hidden opacity-0"
+                  />
+
                   <label htmlFor="notify-email" className="sr-only">
                     E-mail
                   </label>
@@ -150,6 +163,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     required
                     autoComplete="email"
                     placeholder="seu@email.com"
+                    maxLength={254}
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     className="w-full rounded-2xl border-[1.5px] border-black bg-white px-4 py-4 text-base outline-none transition-colors placeholder:text-[#999] focus:border-htp-blue"
