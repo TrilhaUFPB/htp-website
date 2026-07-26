@@ -1,6 +1,5 @@
 import Image from "next/image";
-
-const LUMA_URL = "https://lu.ma";
+import { NotifySignup } from "@/components/notify-signup";
 
 const MARQUEE_ITEMS = [
   "Hack Your Path",
@@ -38,14 +37,7 @@ export default function Home() {
               <br />
               <span className="font-bold text-htp-blue">João Pessoa · PB</span>
             </p>
-            <a
-              href={LUMA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-full bg-black px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
-            >
-              Aceite o desafio <span aria-hidden>→</span>
-            </a>
+            <NotifySignup variant="hero" />
           </div>
         </div>
 
@@ -193,14 +185,7 @@ export default function Home() {
           <p className="m-0 max-w-[480px] text-[clamp(16px,1.4vw,19px)] leading-relaxed text-[#aaa]">
             Entre na lista e seja avisado assim que as inscrições abrirem.
           </p>
-          <a
-            href={LUMA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100"
-          >
-            Quero ser avisado <span aria-hidden>→</span>
-          </a>
+          <NotifySignup variant="footer" />
         </div>
 
         <footer className="flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-4 border-t border-[#2a2a2a] px-0 pb-9 pt-7 text-[13px] font-medium tracking-[0.06em]">
