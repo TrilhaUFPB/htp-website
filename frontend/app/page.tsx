@@ -2,6 +2,15 @@ import Image from "next/image";
 
 const LUMA_URL = "https://lu.ma";
 
+const MARQUEE_ITEMS = [
+  "Hack Your Path",
+  "Seek Your Future",
+  "Build your trail",
+  "We are Path Seekers",
+] as const;
+
+const MARQUEE_UNITS = Array.from({ length: 4 }, () => MARQUEE_ITEMS).flat();
+
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-black">
@@ -55,14 +64,24 @@ export default function Home() {
       </section>
 
       {/* MARQUEE */}
-      <div className="overflow-hidden whitespace-nowrap bg-black py-4 text-white">
-        <div className="inline-flex animate-[htp-marquee_24s_linear_infinite]">
-          <span className="pr-14 text-sm font-semibold uppercase tracking-[0.28em]">
-            Inove · Colabore · Transforme · Onde ideias encontram propósito ·&nbsp;
-          </span>
-          <span className="pr-14 text-sm font-semibold uppercase tracking-[0.28em]">
-            Inove · Colabore · Transforme · Onde ideias encontram propósito ·&nbsp;
-          </span>
+      <div className="overflow-hidden bg-black py-4 text-white">
+        <div className="flex w-max animate-[htp-marquee_40s_linear_infinite] will-change-transform">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 items-center gap-[1.75rem]"
+            >
+              {MARQUEE_UNITS.map((unit, index) => (
+                <span
+                  key={`${copy}-${index}`}
+                  className="whitespace-nowrap text-sm font-semibold uppercase tracking-[0.28em]"
+                >
+                  {unit} ·
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -74,30 +93,32 @@ export default function Home() {
               O evento
             </p>
             <h2 className="m-0 max-w-[820px] text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-              Onde ideias encontram propósito.
+              Hack The Path.
             </h2>
             <p className="m-0 max-w-[640px] text-[clamp(16px,1.4vw,20px)] font-normal leading-relaxed text-[#444]">
-              Dois dias construindo com IA ao lado de mentores e empresas — um
-              hackathon universitário feito por estudantes, do Nordeste para o
-              mundo.
+              Dois dias de evento presencial. Hackathon, palestras, talks e conversas com empresas,
+              o ambiente ideal para hackear sua própria trajetória até lugares que pareciam impossíveis.
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { title: "Inove", text: "Construa um projeto real em 48 horas." },
               {
-                title: "Colabore",
-                text: "Times de universidades de todo o Nordeste.",
+                title: "Competição",
+                text: "Projeto real, mão na massa do zero ao pitch final.",
               },
               {
-                title: "Transforme",
-                text: "Ideias com impacto, avaliadas por quem constrói.",
+                title: "Conexão",
+                text: "Mentores, jurados e empresas presentes durante todo o evento.",
+              },
+              {
+                title: "Metanoia",
+                text: "Uma experiência pensada para mudar a forma como você pensa.",
               },
             ].map((card) => (
               <div
                 key={card.title}
-                className="flex flex-col gap-2.5 rounded-[24px] border-[1.5px] border-black p-8"
+                className="flex cursor-default flex-col gap-2.5 rounded-[24px] border-[1.5px] border-black p-8 transition-colors duration-200 hover:border-htp-blue"
               >
                 <h3 className="m-0 text-xl font-extrabold uppercase tracking-[0.04em]">
                   {card.title}
