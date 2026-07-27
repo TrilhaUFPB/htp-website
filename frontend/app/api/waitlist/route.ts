@@ -2,9 +2,11 @@ import {
   isHoneypotTriggered,
   parseWaitlistRequest,
 } from "@/lib/waitlist/schema";
+import { submitWaitlistSignup } from "@/lib/waitlist/service";
 
 const GENERIC_VALIDATION_ERROR = "Informe um e-mail válido.";
 const GENERIC_REQUEST_ERROR = "Requisição inválida.";
+const GENERIC_SERVER_ERROR = "Não foi possível enviar. Tente de novo.";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,8 +33,16 @@ export async function POST(request: Request) {
     return Response.json({ error: GENERIC_VALIDATION_ERROR }, { status: 400 });
   }
 
-  // TODO(phase 1): persist waitlist signups (Supabase)
-  void parsed.data;
+  try {
+    await submitWaitlistSignup({
+      email: parsed.data.email,
+      source: parsed.data.source,
+      consentAccepted: parsed.data.consent,
+      userAgent: request.headers.get("user-agent") ?? undefined,
+    });
+  } catch {
+    return Response.json({ error: GENERIC_SERVER_ERROR }, { status: 500 });
+  }
 
   return Response.json({ ok: true });
 }

@@ -30,6 +30,7 @@ describe("parseWaitlistRequest", () => {
     const result = parseWaitlistRequest({
       email: "  User@Example.COM  ",
       source: "hero",
+      consent: true,
     });
 
     expect(result.success).toBe(true);
@@ -63,9 +64,25 @@ describe("parseWaitlistRequest", () => {
     expect(result.success).toBe(false);
   });
 
+  it("rejects signup without consent", () => {
+    const result = parseWaitlistRequest({
+      email: "user@example.com",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects explicit false consent", () => {
+    const result = parseWaitlistRequest({
+      email: "user@example.com",
+      consent: false,
+    });
+    expect(result.success).toBe(false);
+  });
+
   it("does not fail when honeypot is present but empty", () => {
     const result = parseWaitlistRequest({
       email: "user@example.com",
+      consent: true,
       website: "",
     });
     expect(result.success).toBe(true);

@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+
+import { privacyConfig } from "@/content/privacy";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer";
@@ -15,6 +18,7 @@ const buttonStyles = {
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
@@ -23,6 +27,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const titleId = useId();
   const descriptionId = useId();
+  const consentId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -48,6 +53,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     setStatus("idle");
     setErrorMessage("");
     setEmail("");
+    setConsent(false);
     setHoneypot("");
   };
 
@@ -60,7 +66,12 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: variant, website: honeypot }),
+        body: JSON.stringify({
+          email,
+          source: variant,
+          consent: consent ? true : undefined,
+          website: honeypot,
+        }),
       });
 
       if (!response.ok) {
@@ -173,9 +184,32 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     <p className="m-0 text-sm font-medium text-[#b00020]">{errorMessage}</p>
                   ) : null}
 
+                  <label
+                    htmlFor={consentId}
+                    className="flex items-start gap-3 text-sm leading-relaxed text-[#444]"
+                  >
+                    <input
+                      id={consentId}
+                      type="checkbox"
+                      checked={consent}
+                      onChange={(event) => setConsent(event.target.checked)}
+                      className="mt-1 h-4 w-4 shrink-0 accent-black"
+                    />
+                    <span>
+                      {privacyConfig.waitlistConsentLabel}{" "}
+                      <Link
+                        href="/privacidade"
+                        className="font-semibold text-black underline decoration-htp-blue underline-offset-4"
+                      >
+                        política de privacidade
+                      </Link>
+                      .
+                    </span>
+                  </label>
+
                   <button
                     type="submit"
-                    disabled={status === "loading"}
+                    disabled={status === "loading" || !consent}
                     className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {status === "loading" ? "Enviando..." : "Entrar na lista"}

@@ -16,6 +16,9 @@ export const waitlistRequestSchema = z.object({
     .pipe(z.email({ error: "Informe um e-mail válido." }))
     .transform((value) => value.toLowerCase()),
   source: z.enum(WAITLIST_SOURCES).optional(),
+  consent: z.literal(true, {
+    error: "É necessário aceitar o uso dos dados para entrar na lista.",
+  }),
   /** Honeypot — bots fill this; humans never see it. */
   website: z.string().optional(),
 });
