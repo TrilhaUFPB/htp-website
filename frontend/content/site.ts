@@ -2,8 +2,7 @@ export const siteConfig = {
   name: "Hack The Path",
   shortName: "HTP",
   title: "Hack The Path",
-  description:
-    "Hackathon universitário do Nordeste em João Pessoa. Dois dias construindo com IA ao lado de mentores e empresas — 20 e 21 de fevereiro de 2027.",
+  description: "Hackathon · João Pessoa - PB · 20–21 de fevereiro de 2027",
   tagline: "Onde ideias encontram propósito.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -14,16 +13,10 @@ export const siteConfig = {
     "Hack The Path",
     "HTP",
     "hackathon",
-    "hackathon universitário",
-    "UFPB",
     "Trilha UFPB",
     "João Pessoa",
     "Paraíba",
     "Nordeste",
-    "inteligência artificial",
-    "inovação",
-    "tecnologia",
-    "evento universitário",
   ],
   authors: [{ name: "Trilha UFPB", url: "https://instagram.com/trilhaufpb" }],
   creator: "Trilha UFPB",
@@ -50,6 +43,6 @@ export const siteConfig = {
     path: "/images/og/og-image.png",
     width: 1200,
     height: 630,
-    alt: "Hack The Path — hackathon universitário em João Pessoa, 20–21 de fevereiro de 2027",
+    alt: "Hack The Path — João Pessoa, 20–21 de fevereiro de 2027",
   },
 } as const;
