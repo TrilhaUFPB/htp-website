@@ -1,16 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1566.7 1566.7" role="img" aria-label="Hack The Path">
-  <rect fill="#7a94fd" width="1566.7" height="1566.7" />
-  <g transform="translate(0 482.25)">
-    <path
-      fill="#fff"
-      d="M1281.2,115.2c87.4,0,153.3,58.5,153.3,145.9s-65.9,143.3-153.3,143.3h-135.2v82.7h-84.1V115.2h219.3ZM1146,327.7h131.8c43,0,72.6-23.5,72.6-66.6s-29.6-69.3-72.6-69.3h-131.8v135.9Z"
-    />
-    <path
-      fill="#fff"
-      d="M979.4,115.2v75.3h-151.3v296.6h-84.1V190.5h-151.3v-75.3h386.7Z"
-    />
-    <path fill="#fff" d="M216.2,487.1h-84.1V115.2h84.1v371.9ZM426.1,115.2h84.1v371.9h-84.1V115.2Z" />
-    <rect fill="#fff" x="216.2" y="301.1" width="104.9" height="75.3" />
-    <rect fill="#fff" x="321.2" y="225.8" width="104.9" height="75.3" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hack The Path">
+  <rect width="512" height="512" fill="#7a94fd" />
+  <g fill="#000" transform="translate(106 108.4) scale(0.7935)">
+    <g transform="translate(-132.1 -115.2)">
+      <path d="M216.2,487.1h-84.1V115.2h84.1v371.9ZM426.1,115.2h84.1v371.9h-84.1V115.2Z" />
+      <rect x="216.2" y="301.1" width="104.9" height="75.3" />
+      <rect x="321.2" y="225.8" width="104.9" height="75.3" />
+    </g>
   </g>
 </svg>
