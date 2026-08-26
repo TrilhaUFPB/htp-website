@@ -142,12 +142,12 @@ export default function Home() {
               Onde
             </p>
             <h2 className="m-0 text-[clamp(40px,4.6vw,64px)] font-black leading-none tracking-[-0.02em]">
-              João
+              Palazzo
               <br />
-              Pessoa · PB
+              Cristal
             </h2>
             <p className="m-0 text-base font-medium leading-[1.55] text-[#1a1a1a]">
-              Local em definição — anunciamos em breve.
+              R. Quatrocentos e Noventa e Dois, 2-114 - Lot. Progresso, Cabedelo - PB
             </p>
           </div>
         </div>

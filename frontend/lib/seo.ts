@@ -93,6 +93,7 @@ export function createEventJsonLd() {
         endDate: siteConfig.event.endDate,
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         eventStatus: "https://schema.org/EventScheduled",
+        isAccessibleForFree: true,
         url: siteConfig.url,
         image: new URL(siteConfig.ogImage.path, siteConfig.url).toString(),
         location: {
@@ -100,6 +101,7 @@ export function createEventJsonLd() {
           name: siteConfig.event.locationName,
           address: {
             "@type": "PostalAddress",
+            streetAddress: siteConfig.event.streetAddress,
             addressLocality: siteConfig.event.addressLocality,
             addressRegion: siteConfig.event.addressRegion,
             addressCountry: siteConfig.event.addressCountry,
