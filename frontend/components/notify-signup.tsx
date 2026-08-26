@@ -6,13 +6,16 @@ import { useEffect, useId, useRef, useState } from "react";
 import { privacyConfig } from "@/content/privacy";
 
 type NotifySignupProps = {
-  variant?: "hero" | "footer";
+  variant?: "hero" | "footer" | "cta";
 };
 
 const buttonStyles = {
   hero: "inline-flex items-center gap-3 rounded-full bg-black px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100",
   footer:
     "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
+  // Blue on a light section: inverts to black on hover, since the footer
+  // variant's white hover would vanish against a white background.
+  cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-black hover:text-white hover:opacity-100",
 } as const;
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {

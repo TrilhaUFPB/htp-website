@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CtaSection } from "@/components/cta";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { createFaqJsonLd } from "@/lib/seo";
@@ -161,42 +162,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SPONSORS */}
-      <section className="flex justify-center bg-white px-8 py-[130px] sm:px-14">
-        <div className="flex w-full max-w-[1040px] flex-col gap-6">
+      {/* FAQ */}
+      <FaqSection />
+
+      {/* CTA */}
+      <CtaSection />
+
+      {/* SPONSORS + FOOTER */}
+      <section className="flex flex-col items-center bg-black px-8 pt-[150px] text-white sm:px-14">
+        <div className="flex w-full max-w-[1040px] flex-col gap-7 pb-[150px]">
           <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.2em] text-htp-blue">
             Patrocinadores
           </p>
-          <h2 className="m-0 text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+          <h2 className="m-0 text-[clamp(40px,5.2vw,72px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
             Em breve.
           </h2>
-          <p className="m-0 max-w-[560px] text-[clamp(16px,1.4vw,19px)] leading-relaxed text-[#444]">
+          <p className="m-0 max-w-[680px] text-[clamp(16px,1.4vw,20px)] leading-relaxed text-[#aaa]">
             Quer levar sua marca para o Hack the Path?{" "}
             <a
               href="https://instagram.com/trilhaufpb"
               target="_blank"
               rel="noopener noreferrer"
-              className="border-b-2 border-htp-blue font-bold text-black"
+              className="whitespace-nowrap border-b-2 border-htp-blue font-bold text-white"
             >
               Fale com a gente →
             </a>
           </p>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <FaqSection />
-
-      {/* CTA + FOOTER */}
-      <section className="flex flex-col items-center bg-black px-8 pt-[130px] text-white sm:px-14">
-        <div className="flex w-full max-w-[1040px] flex-col items-center gap-8 pb-[120px] text-center">
-          <h2 className="m-0 text-[clamp(40px,5.5vw,76px)] font-black leading-[0.98] tracking-[-0.02em]">
-            Aceite o desafio.
-          </h2>
-          <p className="m-0 max-w-[480px] text-[clamp(16px,1.4vw,19px)] leading-relaxed text-[#aaa]">
-            Entre na lista e seja avisado assim que as inscrições abrirem.
-          </p>
-          <NotifySignup variant="footer" />
         </div>
 
         <footer className="flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-4 border-t border-[#2a2a2a] px-0 pb-9 pt-7 text-[13px] font-medium tracking-[0.06em]">

@@ -4,7 +4,7 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="flex scroll-mt-14 justify-center bg-white px-8 py-[130px] sm:px-14"
+      className="flex scroll-mt-14 justify-center bg-white px-8 pb-[100px] pt-[130px] sm:px-14"
     >
       <div className="grid w-full max-w-[1040px] grid-cols-1 items-start gap-12 lg:grid-cols-[0.75fr_1.25fr]">
         <div className="flex flex-col gap-6">
