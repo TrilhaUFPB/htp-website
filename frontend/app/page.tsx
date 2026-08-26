@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
+import { createFaqJsonLd } from "@/lib/seo";
 
 const MARQUEE_ITEMS = [
   "Hack Your Path",
@@ -11,8 +13,14 @@ const MARQUEE_ITEMS = [
 const MARQUEE_UNITS = Array.from({ length: 4 }, () => MARQUEE_ITEMS).flat();
 
 export default function Home() {
+  const faqJsonLd = createFaqJsonLd();
+
   return (
     <div className="flex min-h-screen flex-col bg-white text-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* HERO */}
       <section className="grid min-h-screen grid-cols-1 lg:grid-cols-[minmax(440px,1.1fr)_1fr]">
         <div className="flex flex-col gap-8 px-8 pb-14 pt-9 sm:px-14">
@@ -175,6 +183,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FaqSection />
 
       {/* CTA + FOOTER */}
       <section className="flex flex-col items-center bg-black px-8 pt-[130px] text-white sm:px-14">

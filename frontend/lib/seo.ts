@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { faqItems } from "@/content/faq";
 import { siteConfig } from "@/content/site";
 
 const ogImageUrl = new URL(siteConfig.ogImage.path, siteConfig.url);
@@ -119,5 +120,21 @@ export function createEventJsonLd() {
         },
       },
     ],
+  };
+}
+
+export function createFaqJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteConfig.url}/#faq`,
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   };
 }
