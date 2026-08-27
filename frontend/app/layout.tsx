@@ -5,9 +5,13 @@ import { createEventJsonLd, createSiteMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const googleSansFlex = localFont({
-  src: "./fonts/google-sans-flex/GoogleSansFlex-Variable.ttf",
+  src: "./fonts/google-sans-flex/GoogleSansFlex-Latin-wght.woff2",
   variable: "--font-google-sans-flex",
   display: "swap",
+  // Declaring the variable font's weight range is what lets the browser drive
+  // the wght axis. Without it the @font-face defaults to 400 and the browser
+  // synthesises bold for the heavy headings instead of using the real weights.
+  weight: "1 1000",
 });
 
 export const metadata: Metadata = createSiteMetadata();
