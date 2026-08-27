@@ -206,12 +206,12 @@ export default function Home() {
             hackthepath.com.br
           </a>
           <a
-            href="https://instagram.com/trilhaufpb"
+            href="https://www.instagram.com/hackthepath/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#777]"
           >
-            @trilhaufpb
+            @hackthepath
           </a>
         </footer>
       </section>
