@@ -26,13 +26,6 @@ export default function Home() {
       {/* HERO */}
       <section className="grid min-h-screen grid-cols-1 lg:grid-cols-[minmax(440px,1.1fr)_1fr]">
         <div className="flex flex-col gap-8 px-8 pb-14 pt-9 sm:px-14">
-          <div className="flex items-center justify-between text-[13px] font-semibold uppercase tracking-[0.14em]">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-block h-2.5 w-2.5 animate-[htp-blink_1.4s_steps(1)_infinite] rounded-full bg-htp-blue" />
-              <span>Em breve</span>
-            </div>
-          </div>
-
           <div className="flex flex-1 flex-col items-center justify-center gap-10 text-center">
             <Image
               src="/images/logo/png/hack-the-path-02.png"
@@ -99,7 +92,7 @@ export default function Home() {
             </h2>
             <p className="m-0 max-w-[640px] text-[clamp(16px,1.4vw,20px)] font-normal leading-relaxed text-[#444]">
               Dois dias de evento presencial. Hackathon, palestras, talks e conversas com empresas,
-              o ambiente ideal para hackear sua própria trajetória até lugares que pareciam impossíveis.
+              o ambiente ideal para hackear sua própria trajetória até lugares que antes pareciam impossíveis.
             </p>
           </div>
 
@@ -107,15 +100,15 @@ export default function Home() {
             {[
               {
                 title: "Competição",
-                text: "Projeto real, mão na massa do zero ao pitch final.",
+                text: "Projeto real, do zero ao pitch final, exposto a mais de 150 países.",
               },
               {
                 title: "Conexão",
                 text: "Mentores, jurados e empresas presentes durante todo o evento.",
               },
               {
-                title: "Metanoia",
-                text: "Uma experiência pensada para mudar a forma como você pensa.",
+                title: "Experiência",
+                text: "Um evento pensado para mudar a forma como você pensa.",
               },
             ].map((card) => (
               <div
