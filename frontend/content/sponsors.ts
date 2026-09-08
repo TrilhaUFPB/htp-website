@@ -9,25 +9,11 @@ export type Sponsor = {
 
 export const sponsors: readonly Sponsor[] = [
   {
-    name: "Valor Capital Group",
-    url: "https://valorcapitalgroup.com",
-    logo: "/images/sponsors/valor.svg",
-    width: 185,
-    height: 30,
-  },
-  {
     name: "AI Tinkerers",
     url: "https://aitinkerers.org",
     logo: "/images/sponsors/ai-tinkerers.png",
     width: 600,
     height: 131,
-  },
-  {
-    name: "NXTP Ventures",
-    url: "https://nxtp.vc",
-    logo: "/images/sponsors/nxtp.png",
-    width: 506,
-    height: 206,
   },
   {
     name: "Fundação Behring",

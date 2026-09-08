@@ -13,7 +13,7 @@ export function Sponsors() {
         </h2>
       </div>
 
-      <ul className="m-0 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="m-0 flex list-none flex-wrap gap-5 p-0">
         {sponsors.map((sponsor) => (
           <li key={sponsor.name} className="flex">
             {/* The card keeps the border geometry of the other cards on the site.
@@ -28,7 +28,7 @@ export function Sponsors() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${sponsor.name} (abre em nova aba)`}
-              className="flex h-[112px] w-full items-center justify-center rounded-[24px] border-[1.5px] border-black bg-white px-9 transition-colors duration-200 hover:border-htp-blue hover:opacity-100!"
+              className="flex h-[112px] w-[240px] items-center justify-center rounded-[24px] border-[1.5px] border-black bg-white px-9 transition-colors duration-200 hover:border-htp-blue hover:opacity-100!"
             >
               {/* Every logo is fitted into the same full-width, 52px-tall box.
                   Capping the height rather than the width is what normalises
