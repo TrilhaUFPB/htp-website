@@ -1,34 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hack The Path
+
+Landing page for Hack The Path, a hackathon organized by Trilha UFPB in João Pessoa, PB (February 20–21, 2027).
+
+## Stack
+
+- [Next.js](https://nextjs.org) (App Router, Turbopack)
+- React 19 + TypeScript
+- Tailwind CSS 4
+- Supabase (waitlist storage)
+- Resend (transactional email, optional)
+- PostHog (analytics, optional)
+- Vitest (unit tests)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp .env.example .env.local # fill in the values you need
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-## Learn More
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Build for production |
+| `npm run start` | Run the production build |
+| `npm run lint` | Lint the codebase |
+| `npm run test` | Run the test suite once |
+| `npm run test:watch` | Run the test suite in watch mode |
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See `.env.example` for the full list. In short:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` — waitlist storage
+- `CRON_SECRET` — auth for the Vercel Cron job at `/api/cron/keep-warm`
+- `RESEND_*` — optional, waitlist confirmation emails
+- `NEXT_PUBLIC_POSTHOG_*` — optional, analytics
+- `NEXT_PUBLIC_SITE_URL` — canonical URL used in SEO metadata
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/            Routes, layout, SEO files (sitemap, robots), API endpoints
+components/     UI sections (hero, FAQ, CTA, sponsors, waitlist signup form)
+content/        Static copy and structured data for each section
+lib/            SEO helpers and other shared logic
+public/         Static assets (images, fonts)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+Deployed on [Vercel](https://vercel.com). A cron job hits `/api/cron/keep-warm` every 5 days to keep the Supabase project active.
