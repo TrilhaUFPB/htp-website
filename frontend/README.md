@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 See `.env.example` for the full list. In short:
 
 - `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` — waitlist storage
-- `CRON_SECRET` — auth for the Vercel Cron job at `/api/cron/keep-warm`
+- `CRON_SECRET` — auth for the GitHub Actions job hitting `/api/cron/keep-warm`
 - `RESEND_*` — optional, waitlist confirmation emails
 - `NEXT_PUBLIC_POSTHOG_*` — optional, analytics
 - `NEXT_PUBLIC_SITE_URL` — canonical URL used in SEO metadata
@@ -55,4 +55,4 @@ public/         Static assets (images, fonts)
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com). A cron job hits `/api/cron/keep-warm` every 5 days to keep the Supabase project active.
+Deployed on [Vercel](https://vercel.com). A GitHub Actions workflow (`.github/workflows/keep-warm.yml`) hits `/api/cron/keep-warm` every 5 days to keep the Supabase project active.

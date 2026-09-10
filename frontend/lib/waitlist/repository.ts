@@ -35,10 +35,25 @@ export async function insertWaitlistEntry(
   return { inserted: (data?.length ?? 0) > 0 };
 }
 
-export async function pingDatabase(): Promise<void> {
+const KEEP_WARM_EMAIL = "keep-warm@internal.hackthepath.com.br";
+const KEEP_WARM_CONSENT_VERSION = "keep-warm";
+
+/**
+ * Upserts a reserved dummy row so the write always lands on the same email
+ * (unique/not null column) instead of accumulating fake signups over time.
+ */
+export async function keepWaitlistWarm(): Promise<void> {
   const supabase = createSupabaseAdmin();
 
-  const { error } = await supabase.from("waitlist").select("id").limit(1);
+  const { error } = await supabase.from("waitlist").upsert(
+    {
+      email: KEEP_WARM_EMAIL,
+      source: "keep-warm",
+      consent_at: new Date().toISOString(),
+      consent_version: KEEP_WARM_CONSENT_VERSION,
+    },
+    { onConflict: "email" },
+  );
 
   if (error) {
     throw error;

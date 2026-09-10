@@ -1,8 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/keep-warm",
-      "schedule": "0 12 */5 * *"
-    }
-  ]
-}
+{}

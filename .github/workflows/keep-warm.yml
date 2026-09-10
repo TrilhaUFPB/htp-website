@@ -1,0 +1,24 @@
+name: Keep Supabase warm
+
+on:
+  schedule:
+    - cron: "0 12 */5 * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call keep-warm endpoint
+        run: |
+          status=$(curl -sS -o /tmp/response.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "https://www.hackthepath.com.br/api/cron/keep-warm")
+
+          echo "HTTP status: $status"
+          cat /tmp/response.json
+
+          if [ "$status" != "200" ]; then
+            echo "Keep-warm request failed."
+            exit 1
+          fi

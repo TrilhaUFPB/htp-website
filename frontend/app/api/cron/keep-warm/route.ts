@@ -1,4 +1,4 @@
-import { pingDatabase } from "@/lib/waitlist/repository";
+import { keepWaitlistWarm } from "@/lib/waitlist/repository";
 
 /**
  * Supabase failures arrive in two shapes: an `Error` from the fetch layer,
@@ -45,15 +45,15 @@ export async function GET(request: Request) {
   }
 
   try {
-    await pingDatabase();
+    await keepWaitlistWarm();
   } catch (error) {
     const reason = describeError(error);
 
-    console.error(`[keep-warm] Database ping failed: ${reason}`);
+    console.error(`[keep-warm] Keep-warm write failed: ${reason}`);
 
     // Safe to return: this branch is only reachable with a valid cron secret.
     return Response.json(
-      { error: "Database ping failed.", reason },
+      { error: "Keep-warm write failed.", reason },
       { status: 500 },
     );
   }
