@@ -33,6 +33,10 @@ export async function POST(request: Request) {
     return Response.json({ error: GENERIC_VALIDATION_ERROR }, { status: 400 });
   }
 
+  if (process.env.HTP_LOCAL_PREVIEW === "true") {
+    return Response.json({ ok: true, preview: true });
+  }
+
   try {
     await submitWaitlistSignup({
       email: parsed.data.email,

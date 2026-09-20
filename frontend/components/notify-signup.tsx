@@ -7,6 +7,8 @@ import { privacyConfig } from "@/content/privacy";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
+  className?: string;
+  localPreview?: boolean;
 };
 
 const buttonStyles = {
@@ -18,7 +20,7 @@ const buttonStyles = {
   cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-black hover:text-white hover:opacity-100",
 } as const;
 
-export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
+export function NotifySignup({ variant = "hero", className, localPreview = false }: NotifySignupProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -28,6 +30,8 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   );
   const [errorMessage, setErrorMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   const descriptionId = useId();
   const consentId = useId();
@@ -35,18 +39,37 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   useEffect(() => {
     if (!open) return;
 
+    const trigger = triggerRef.current;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     inputRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        setStatus("idle");
+        setEmail("");
+        setConsent(false);
+        setErrorMessage("");
+      }
+      if (event.key === "Tab") {
+        const items = dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not([tabindex="-1"]), a[href]');
+        if (!items?.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault(); last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault(); first.focus();
+        }
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      trigger?.focus();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
@@ -64,6 +87,11 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage("");
+
+    if (localPreview) {
+      setStatus("success");
+      return;
+    }
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -95,7 +123,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
+      <button ref={triggerRef} type="button" onClick={() => setOpen(true)} className={className ?? buttonStyles[variant]}>
         Quero ser avisado <span aria-hidden>→</span>
       </button>
 
@@ -105,6 +133,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
           onClick={close}
         >
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
@@ -127,14 +156,15 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   id={titleId}
                   className="m-0 text-[clamp(28px,4vw,34px)] font-extrabold leading-[1.05] tracking-[-0.02em]"
                 >
-                  Você está na lista.
+                  {localPreview ? "Teste concluído." : "Você está na lista."}
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                  Te avisamos assim que as inscrições abrirem.
+                  {localPreview ? "Prévia local: nenhum dado foi enviado ou salvo." : "Te avisamos assim que as inscrições abrirem."}
                 </p>
                 <button
                   type="button"
                   onClick={close}
+                  autoFocus
                   className="mt-2 inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
                 >
                   Fechar
@@ -150,7 +180,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     Quero ser avisado
                   </p>
                   <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                    Deixe seu e-mail e avisamos quando as inscrições abrirem.
+                    {localPreview ? "Prévia local. Teste o formulário: nenhum dado será enviado ou salvo." : "Deixe seu e-mail e avisamos quando as inscrições abrirem."}
                   </p>
                 </div>
 
