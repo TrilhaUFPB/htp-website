@@ -90,8 +90,6 @@ export function createEventJsonLd() {
         "@id": `${siteConfig.url}/#event`,
         name: siteConfig.event.name,
         description: siteConfig.description,
-        startDate: siteConfig.event.startDate,
-        endDate: siteConfig.event.endDate,
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         eventStatus: "https://schema.org/EventScheduled",
         isAccessibleForFree: true,

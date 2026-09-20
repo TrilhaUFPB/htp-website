@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Hack The Path",
   shortName: "HTP",
   title: "Hack The Path",
-  description: "Hackathon · João Pessoa - PB · 20–21 de fevereiro de 2027",
+  description: "Hackathon · João Pessoa - PB",
   tagline: "Onde ideias encontram propósito.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -23,8 +23,6 @@ export const siteConfig = {
   publisher: "Trilha UFPB",
   event: {
     name: "Hack The Path",
-    startDate: "2027-02-20",
-    endDate: "2027-02-21",
     locationName: "Palazzo Cristal",
     streetAddress: "R. Quatrocentos e Noventa e Dois, 2-114 - Lot. Progresso",
     addressLocality: "Cabedelo",
@@ -44,6 +42,6 @@ export const siteConfig = {
     path: "/images/og/og-image.png",
     width: 1200,
     height: 630,
-    alt: "Hack The Path — João Pessoa, 20–21 de fevereiro de 2027",
+    alt: "Hack The Path — João Pessoa",
   },
 } as const;
