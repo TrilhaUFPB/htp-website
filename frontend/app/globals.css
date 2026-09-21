@@ -5,6 +5,10 @@
   --color-htp-blue: #7a94fd;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   margin: 0;
@@ -104,17 +108,23 @@ a:hover {
   flex-direction: column;
   align-items: center;
   gap: 34px;
+  padding-top: 62px;
 }
 
-.hero-copy h1 {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+/* Light weight for the setup, bold for the claim, following the hero this was
+   ported from. */
+.hero-title {
+  margin: 0;
+  font-size: clamp(34px, 3.8vw, 58px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
 }
 
-.hero-copy h1 img {
-  width: min(540px, 100%);
-  height: auto;
+.hero-title strong {
+  font-weight: 700;
 }
 
 .hero-scroll-cue {
@@ -169,11 +179,16 @@ a:hover {
   }
 
   .hero-copy {
-    gap: 24px;
+    gap: 26px;
+    padding-top: 56px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-copy {
+    padding-top: 0;
+  }
+
   .scroll-hero {
     --hero-progress: 1;
     height: 100svh;
@@ -194,5 +209,171 @@ a:hover {
 
   .hero-scroll-cue {
     display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Site header.
+
+   Transparent over the hero at the top of the page, gone on the way down, and
+   back on a solid surface on the way up. ScrollHeader sets data-mode; every
+   appearance below follows from it.
+--------------------------------------------------------------------------- */
+
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 100;
+  padding: 12px 20px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  height: 86px;
+  background: transparent;
+  color: #fff;
+  transition: transform 0.22s ease, background-color 0.18s ease, border-color 0.18s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header-inner {
+  display: flex;
+  height: 100%;
+  width: min(1280px, calc(100% - 64px));
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-inline: auto;
+}
+
+.brand {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* The asset is the black wordmark; inverting it is what makes it read white
+   over the hero and lets it turn back on the solid surface. */
+.brand img {
+  display: block;
+  width: 196px;
+  height: auto;
+  filter: invert(1);
+}
+
+.header-inner nav {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.header-inner nav a {
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-inner nav a:hover {
+  opacity: 1;
+  color: #b4c3ff;
+}
+
+.site-header[data-mode="hidden"] {
+  transform: translateY(-100%);
+}
+
+.site-header[data-mode="visible"],
+.site-header:focus-within:not([data-mode="top"]) {
+  transform: translateY(0);
+  background: #fff;
+  color: #080808;
+  border-bottom-color: #e5e5e5;
+}
+
+.site-header[data-mode="visible"] .brand img,
+.site-header:focus-within:not([data-mode="top"]) .brand img {
+  filter: none;
+}
+
+.site-header[data-mode="visible"] nav a:hover,
+.site-header:focus-within:not([data-mode="top"]) nav a:hover {
+  color: #536bd1;
+}
+
+main section[id] {
+  scroll-margin-top: 104px;
+}
+
+/* Narrow screens stack the two halves rather than dropping the nav: the
+   section links are the reason the header is here. */
+@media (max-width: 680px) {
+  .site-header {
+    height: 96px;
+  }
+
+  .header-inner {
+    width: calc(100% - 32px);
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px;
+  }
+
+  .brand img {
+    width: 142px;
+  }
+
+  .header-inner nav {
+    gap: 16px;
+    font-size: 11px;
+    letter-spacing: -0.01em;
+  }
+
+  .header-inner nav a {
+    padding: 0;
+  }
+
+  main section[id] {
+    scroll-margin-top: 112px;
+  }
+}
+
+/* Reduced motion takes the header out of the overlay game entirely. The hero
+   is already inset there, so a transparent header would put white type on the
+   white page above it; in flow on a solid surface it always reads, and nothing
+   slides. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-header,
+  .site-header[data-mode="hidden"],
+  .site-header[data-mode="visible"] {
+    position: relative;
+    transform: none;
+    background: #fff;
+    color: #080808;
+    border-bottom-color: #e5e5e5;
+    transition: none;
+  }
+
+  .site-header .brand img {
+    filter: none;
+  }
+
+  main section[id] {
+    scroll-margin-top: 24px;
   }
 }
