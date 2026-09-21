@@ -7,13 +7,11 @@ import { privacyConfig } from "@/content/privacy";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
-  // Lets a section override the pill entirely; the hero needs a light button
-  // on black, which none of the shared variants provide.
-  className?: string;
 };
 
 const buttonStyles = {
-  hero: "inline-flex items-center gap-3 rounded-full bg-black px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100",
+  // The hero sits on the black aperture stage, so its pill is the light one.
+  hero: "inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:opacity-100",
   footer:
     "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
   // Blue on a light section: inverts to black on hover, since the footer
@@ -21,7 +19,7 @@ const buttonStyles = {
   cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-black hover:text-white hover:opacity-100",
 } as const;
 
-export function NotifySignup({ variant = "hero", className }: NotifySignupProps) {
+export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -98,11 +96,7 @@ export function NotifySignup({ variant = "hero", className }: NotifySignupProps)
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className={className ?? buttonStyles[variant]}
-      >
+      <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
         Quero ser avisado <span aria-hidden>→</span>
       </button>
 

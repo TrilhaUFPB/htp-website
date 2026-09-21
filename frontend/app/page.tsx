@@ -49,10 +49,7 @@ export default function Home() {
               <br />
               <strong>João Pessoa · PB</strong>
             </p>
-            <NotifySignup
-              variant="hero"
-              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
-            />
+            <NotifySignup variant="hero" />
           </div>
 
           <p className="hero-scroll-cue" aria-hidden="true">

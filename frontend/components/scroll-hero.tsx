@@ -9,20 +9,30 @@ import { useEffect, useRef } from "react";
  */
 export function ScrollHero({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    const stage = stageRef.current;
+    if (!element || !stage) return;
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
 
     const update = () => {
       frame = 0;
-      const distance = Math.max(1, element.offsetHeight - window.innerHeight);
+      // Progress is measured against the sticky stage's own travel: the stage
+      // un-pins after the section has scrolled past by its own height minus the
+      // stage's. Deriving it from the section's live offset rather than
+      // window.scrollY keeps it correct wherever the hero sits in the document,
+      // and comparing two measured elements avoids mixing svh (the CSS heights)
+      // with the visual viewport (window.innerHeight), which differ on mobile
+      // while the browser toolbars are collapsing.
+      const distance = Math.max(1, element.offsetHeight - stage.offsetHeight);
+      const travelled = -element.getBoundingClientRect().top;
       const progress = motion.matches
         ? 1
-        : Math.min(1, Math.max(0, window.scrollY / distance));
+        : Math.min(1, Math.max(0, travelled / distance));
       element.style.setProperty("--hero-progress", String(progress));
     };
 
@@ -45,7 +55,9 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
 
   return (
     <section ref={ref} className="scroll-hero" aria-labelledby="hero-title">
-      <div className="scroll-hero-stage">{children}</div>
+      <div ref={stageRef} className="scroll-hero-stage">
+        {children}
+      </div>
     </section>
   );
 }

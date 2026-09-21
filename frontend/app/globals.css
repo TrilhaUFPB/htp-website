@@ -77,15 +77,24 @@ a:hover {
   place-items: center;
 }
 
-/* Feather the artwork against the frame edges; copy stays crisp. */
+/* Feather the artwork against the frame edges; copy stays crisp.
+
+   The layer is sized to the viewport rather than to the frame, so the frame
+   contracting does not resize it. That keeps the two mask gradients and the
+   blade SVG from being re-resolved on every scroll frame; the frame's
+   overflow crops the few pixels that fall outside it. */
 .hero-art {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  width: 100vw;
+  height: 100svh;
   overflow: hidden;
   z-index: -1;
   mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent),
     linear-gradient(to right, transparent, black 14%, black 86%, transparent);
   mask-composite: intersect;
+  transform: translate(-50%, -50%);
 }
 
 .aperture {
