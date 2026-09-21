@@ -25,3 +25,210 @@ a:hover {
     transform: translate3d(-50%, 0, 0);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Scroll-driven aperture hero.
+
+   The stage opens full-bleed and black, then contracts into the white page
+   frame as the runway is scrolled. Everything reads from --hero-progress,
+   published by the ScrollHero client component, so the choreography is a
+   handful of calc() calls rather than a timeline.
+--------------------------------------------------------------------------- */
+
+@keyframes htp-lens-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scaleY(1.075);
+    opacity: 1;
+  }
+}
+
+.scroll-hero {
+  --hero-progress: 0;
+  position: relative;
+  height: 200svh;
+  /* The page wrapper is a flex column; opt out of shrinking so the runway
+     keeps its full height. */
+  flex: none;
+}
+
+.scroll-hero-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100svh;
+  place-items: center;
+}
+
+.hero-frame {
+  position: relative;
+  display: grid;
+  width: calc(100% - var(--hero-progress) * 72px);
+  height: calc(100svh - var(--hero-progress) * 88px);
+  border-radius: calc(var(--hero-progress) * 30px);
+  background: #000;
+  color: #fff;
+  isolation: isolate;
+  overflow: hidden;
+  place-items: center;
+}
+
+/* Feather the artwork against the frame edges; copy stays crisp. */
+.hero-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent),
+    linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+  mask-composite: intersect;
+}
+
+.aperture {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(1600px, 104%);
+  height: max(860px, 104%);
+  max-width: none;
+  transform: translate(-50%, -50%) scale(calc(1 + var(--hero-progress) * 0.09))
+    rotate(calc(var(--hero-progress) * 2deg));
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* The brand sphere as a compact mark above the wordmark. Behind the copy it
+   moired against the blades; at this size its bars stay legible as bars. */
+.hero-mark {
+  width: 112px;
+  height: auto;
+  filter: drop-shadow(0 0 22px rgba(122, 148, 253, 0.45));
+}
+
+.brand-lens-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: htp-lens-breathe 5.4s ease-in-out infinite;
+}
+
+.hero-copy {
+  display: flex;
+  width: min(760px, calc(100% - 48px));
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+}
+
+.hero-copy h1 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.hero-copy h1 img {
+  width: min(540px, 100%);
+  height: auto;
+}
+
+.hero-meta {
+  margin: 0;
+  font-size: clamp(16px, 1.5vw, 21px);
+  font-weight: 500;
+  line-height: 1.55;
+  text-align: center;
+  color: #d6dcf6;
+}
+
+.hero-meta strong {
+  font-weight: 700;
+  color: #9db0ff;
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  bottom: calc(26px + var(--hero-progress) * 10px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #8d95b8;
+  opacity: calc(1 - var(--hero-progress) * 2.4);
+  transform: translateX(-50%);
+}
+
+.hero-scroll-cue span {
+  animation: htp-cue-drift 2.4s ease-in-out infinite;
+}
+
+@keyframes htp-cue-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@media (max-width: 680px) {
+  .scroll-hero {
+    height: 170svh;
+  }
+
+  .hero-frame {
+    width: calc(100% - var(--hero-progress) * 24px);
+    height: calc(100svh - var(--hero-progress) * 52px);
+    border-radius: calc(var(--hero-progress) * 22px);
+  }
+
+  .aperture {
+    width: 1320px;
+    height: max(980px, 116%);
+  }
+
+  .hero-art {
+    mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent),
+      linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .hero-copy {
+    gap: 24px;
+  }
+
+  .hero-mark {
+    width: 86px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hero {
+    --hero-progress: 1;
+    height: 100svh;
+  }
+
+  .scroll-hero-stage {
+    position: relative;
+  }
+
+  .aperture {
+    transform: translate(-50%, -50%);
+    will-change: auto;
+  }
+
+  .brand-lens-bar,
+  .hero-scroll-cue span {
+    animation: none;
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+}

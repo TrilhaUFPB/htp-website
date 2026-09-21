@@ -7,6 +7,9 @@ import { privacyConfig } from "@/content/privacy";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
+  // Lets a section override the pill entirely; the hero needs a light button
+  // on black, which none of the shared variants provide.
+  className?: string;
 };
 
 const buttonStyles = {
@@ -18,7 +21,7 @@ const buttonStyles = {
   cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-black hover:text-white hover:opacity-100",
 } as const;
 
-export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
+export function NotifySignup({ variant = "hero", className }: NotifySignupProps) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -95,7 +98,11 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={className ?? buttonStyles[variant]}
+      >
         Quero ser avisado <span aria-hidden>→</span>
       </button>
 

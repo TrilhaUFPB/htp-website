@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { Aperture } from "@/components/aperture";
+import { BrandLens } from "@/components/brand-lens";
 import { CtaSection } from "@/components/cta";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
+import { ScrollHero } from "@/components/scroll-hero";
 import { Sponsors } from "@/components/sponsors";
 import { createFaqJsonLd } from "@/lib/seo";
 
@@ -24,39 +27,39 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       {/* HERO */}
-      <section className="grid min-h-screen grid-cols-1 lg:grid-cols-[minmax(440px,1.1fr)_1fr]">
-        <div className="flex flex-col gap-8 px-8 pb-14 pt-9 sm:px-14">
-          <div className="flex flex-1 flex-col items-center justify-center gap-10 text-center">
-            <Image
-              src="/images/logo/png/hack-the-path-02.png"
-              alt="Hack The Path"
-              width={3128}
-              height={637}
-              priority
-              className="h-auto w-[min(560px,100%)]"
-            />
-            <p className="m-0 text-[clamp(17px,1.5vw,22px)] font-medium leading-relaxed">
+      <ScrollHero>
+        <div className="hero-frame">
+          <div className="hero-art">
+            <Aperture />
+          </div>
+
+          <div className="hero-copy">
+            <BrandLens className="hero-mark" />
+            <h1 id="hero-title">
+              <Image
+                src="/images/logo/svg/hack-the-path-01.svg"
+                alt="Hack The Path"
+                width={1564}
+                height={318}
+                priority
+              />
+            </h1>
+            <p className="hero-meta">
               20–21 de fevereiro de 2027
               <br />
-              <span className="font-bold text-htp-blue">João Pessoa · PB</span>
+              <strong>João Pessoa · PB</strong>
             </p>
-            <NotifySignup variant="hero" />
-          </div>
-        </div>
-
-        <div className="relative min-h-[60vh] overflow-hidden">
-          <div className="absolute -left-[60px] top-0 bottom-0 right-0">
-            <Image
-              src="/images/hero/hero-sunburst.png"
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-left"
+            <NotifySignup
+              variant="hero"
+              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
             />
           </div>
+
+          <p className="hero-scroll-cue" aria-hidden="true">
+            Role para entrar <span>↓</span>
+          </p>
         </div>
-      </section>
+      </ScrollHero>
 
       {/* MARQUEE */}
       <div className="overflow-hidden bg-black py-4 text-white">
