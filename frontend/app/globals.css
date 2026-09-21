@@ -35,18 +35,6 @@ a:hover {
    handful of calc() calls rather than a timeline.
 --------------------------------------------------------------------------- */
 
-@keyframes htp-lens-breathe {
-  0%,
-  100% {
-    transform: scaleY(1);
-    opacity: 0.72;
-  }
-  50% {
-    transform: scaleY(1.075);
-    opacity: 1;
-  }
-}
-
 .scroll-hero {
   --hero-progress: 0;
   position: relative;
@@ -110,20 +98,6 @@ a:hover {
   will-change: transform;
 }
 
-/* The brand sphere as a compact mark above the wordmark. Behind the copy it
-   moired against the blades; at this size its bars stay legible as bars. */
-.hero-mark {
-  width: 112px;
-  height: auto;
-  filter: drop-shadow(0 0 22px rgba(122, 148, 253, 0.45));
-}
-
-.brand-lens-bar {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: htp-lens-breathe 5.4s ease-in-out infinite;
-}
-
 .hero-copy {
   display: flex;
   width: min(760px, calc(100% - 48px));
@@ -141,20 +115,6 @@ a:hover {
 .hero-copy h1 img {
   width: min(540px, 100%);
   height: auto;
-}
-
-.hero-meta {
-  margin: 0;
-  font-size: clamp(16px, 1.5vw, 21px);
-  font-weight: 500;
-  line-height: 1.55;
-  text-align: center;
-  color: #d6dcf6;
-}
-
-.hero-meta strong {
-  font-weight: 700;
-  color: #9db0ff;
 }
 
 .hero-scroll-cue {
@@ -211,10 +171,6 @@ a:hover {
   .hero-copy {
     gap: 24px;
   }
-
-  .hero-mark {
-    width: 86px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -232,7 +188,6 @@ a:hover {
     will-change: auto;
   }
 
-  .brand-lens-bar,
   .hero-scroll-cue span {
     animation: none;
   }

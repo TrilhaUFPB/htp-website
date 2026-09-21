@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Aperture } from "@/components/aperture";
-import { BrandLens } from "@/components/brand-lens";
 import { CtaSection } from "@/components/cta";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
@@ -34,7 +33,6 @@ export default function Home() {
           </div>
 
           <div className="hero-copy">
-            <BrandLens className="hero-mark" />
             <h1 id="hero-title">
               <Image
                 src="/images/logo/svg/hack-the-path-01.svg"
@@ -44,11 +42,6 @@ export default function Home() {
                 priority
               />
             </h1>
-            <p className="hero-meta">
-              20–21 de fevereiro de 2027
-              <br />
-              <strong>João Pessoa · PB</strong>
-            </p>
             <NotifySignup variant="hero" />
           </div>
 
@@ -57,28 +50,6 @@ export default function Home() {
           </p>
         </div>
       </ScrollHero>
-
-      {/* MARQUEE */}
-      <div className="overflow-hidden bg-black py-4 text-white">
-        <div className="flex w-max animate-[htp-marquee_40s_linear_infinite] will-change-transform">
-          {[0, 1].map((copy) => (
-            <div
-              key={copy}
-              aria-hidden={copy === 1}
-              className="flex shrink-0 items-center gap-[1.75rem]"
-            >
-              {MARQUEE_UNITS.map((unit, index) => (
-                <span
-                  key={`${copy}-${index}`}
-                  className="whitespace-nowrap text-sm font-semibold uppercase tracking-[0.28em]"
-                >
-                  {unit} ·
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* ABOUT */}
       <section className="flex justify-center bg-white px-8 py-[130px] sm:px-14">
@@ -155,6 +126,28 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* MARQUEE */}
+      <div className="overflow-hidden bg-black py-4 text-white">
+        <div className="flex w-max animate-[htp-marquee_40s_linear_infinite] will-change-transform">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 items-center gap-[1.75rem]"
+            >
+              {MARQUEE_UNITS.map((unit, index) => (
+                <span
+                  key={`${copy}-${index}`}
+                  className="whitespace-nowrap text-sm font-semibold uppercase tracking-[0.28em]"
+                >
+                  {unit} ·
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* FAQ */}
       <FaqSection />

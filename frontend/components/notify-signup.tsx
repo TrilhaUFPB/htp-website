@@ -97,7 +97,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
-        Quero ser avisado <span aria-hidden>→</span>
+        Quero ser avisado
       </button>
 
       {open ? (
