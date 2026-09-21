@@ -52,7 +52,7 @@ export default function Home() {
           </Link>
           <nav aria-label="Navegação principal">
             <a href="#patrocinadores">Patrocinadores</a>
-            <a href="#evento">O evento</a>
+            <a href="#evento">Sobre</a>
             <a href="#quando">Quando e onde</a>
             <a href="#faq">Dúvidas</a>
           </nav>
@@ -92,7 +92,7 @@ export default function Home() {
         className="flex justify-center px-8 py-[clamp(96px,11vw,170px)] sm:px-14"
       >
         <div className="flex w-full max-w-[1040px] flex-col gap-14 sm:gap-24">
-          <div className="grid grid-cols-1 items-center gap-8 sm:grid-cols-[auto_1fr] sm:gap-16">
+          <div className="grid grid-cols-1 items-center gap-8 sm:grid-cols-[auto_1fr] sm:gap-40">
             <h2 className="m-0 text-[clamp(48px,7vw,112px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
               Hack
               <br />
