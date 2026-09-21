@@ -56,6 +56,19 @@ describe("parseWaitlistRequest", () => {
     expect(result.success).toBe(false);
   });
 
+  it.each(["hero", "footer", "cta"])(
+    "accepts the %s source the signup button can send",
+    (source) => {
+      const result = parseWaitlistRequest({
+        email: "user@example.com",
+        source,
+        consent: true,
+      });
+
+      expect(result.success).toBe(true);
+    },
+  );
+
   it("rejects unknown source values", () => {
     const result = parseWaitlistRequest({
       email: "user@example.com",

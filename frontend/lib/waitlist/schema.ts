@@ -3,7 +3,11 @@ import { z } from "zod";
 /** RFC 5321 maximum length for an email address. */
 export const WAITLIST_EMAIL_MAX_LENGTH = 254;
 
-export const WAITLIST_SOURCES = ["hero", "footer"] as const;
+/**
+ * Must cover every NotifySignup variant: the variant name is posted as the
+ * source, so a value missing here fails validation and the button 400s.
+ */
+export const WAITLIST_SOURCES = ["hero", "footer", "cta"] as const;
 
 export type WaitlistSource = (typeof WAITLIST_SOURCES)[number];
 
