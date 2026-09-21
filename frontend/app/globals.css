@@ -301,6 +301,22 @@ a:hover {
   color: #536bd1;
 }
 
+/* Keep the overlay transparent throughout the hero, including upward scroll. */
+.site-header[data-hero-visible="true"],
+.site-header[data-hero-visible="true"]:focus-within {
+  background: transparent;
+  color: #fff;
+  border-bottom-color: transparent;
+}
+
+.site-header[data-hero-visible="true"] .brand img {
+  filter: invert(1);
+}
+
+.site-header[data-hero-visible="true"] nav a:hover {
+  color: #b4c3ff;
+}
+
 main section[id] {
   scroll-margin-top: 104px;
 }
@@ -349,7 +365,9 @@ main section[id] {
 
   .site-header,
   .site-header[data-mode="hidden"],
-  .site-header[data-mode="visible"] {
+  .site-header[data-mode="visible"],
+  .site-header[data-hero-visible="true"],
+  .site-header[data-hero-visible="true"]:focus-within {
     position: relative;
     transform: none;
     background: #fff;
@@ -358,7 +376,8 @@ main section[id] {
     transition: none;
   }
 
-  .site-header .brand img {
+  .site-header .brand img,
+  .site-header[data-hero-visible="true"] .brand img {
     filter: none;
   }
 

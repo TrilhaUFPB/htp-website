@@ -17,6 +17,8 @@ export function ScrollHeader({ children }: { children: React.ReactNode }) {
     const header = ref.current;
     if (!header) return;
 
+    const hero = document.querySelector(".scroll-hero");
+
     let previous = Math.max(0, window.scrollY);
     let travel = 0;
     let direction = 0;
@@ -24,6 +26,8 @@ export function ScrollHeader({ children }: { children: React.ReactNode }) {
 
     const update = () => {
       frame = 0;
+      const heroBounds = hero?.getBoundingClientRect();
+      header.dataset.heroVisible = String(Boolean(heroBounds && heroBounds.bottom > 0 && heroBounds.top < window.innerHeight));
       const y = Math.max(0, window.scrollY);
       const delta = y - previous;
       previous = y;
@@ -52,11 +56,14 @@ export function ScrollHeader({ children }: { children: React.ReactNode }) {
       if (!frame) frame = window.requestAnimationFrame(update);
     };
 
+    update();
     window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, []);
 
