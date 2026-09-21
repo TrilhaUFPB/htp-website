@@ -72,49 +72,69 @@ export default function Home() {
         </div>
       </ScrollHero>
 
+      {/* SPONSORS */}
+      <section
+        id="patrocinadores"
+        className="flex scroll-mt-14 justify-center bg-white px-8 pt-[130px] sm:px-14"
+      >
+        <Sponsors />
+      </section>
+
       {/* ABOUT */}
       <section id="evento" className="flex justify-center bg-white px-8 py-[130px] sm:px-14">
-        <div className="flex w-full max-w-[1040px] flex-col gap-14">
+        <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
           <div className="flex flex-col gap-6">
             <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.2em] text-htp-blue">
-              O evento
+              01 / Abra seu caminho
             </p>
-            <h2 className="m-0 max-w-[820px] text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-              Hack The Path.
+            <h2 className="m-0 max-w-[480px] text-[clamp(30px,3.6vw,46px)] font-normal leading-[1.18] tracking-[-0.02em]">
+              Você já tem ideias.
+              <br />
+              <strong className="font-bold">
+                Dê a elas um lugar
+                <br />
+                para acontecer.
+              </strong>
             </h2>
-            <p className="m-0 max-w-[640px] text-[clamp(16px,1.4vw,20px)] font-normal leading-relaxed text-[#444]">
-              Dois dias de evento presencial. Hackathon, palestras, talks e conversas com empresas,
-              o ambiente ideal para hackear sua própria trajetória até lugares que antes pareciam impossíveis.
+            <p className="m-0 max-w-[440px] text-base leading-[1.8] text-[#5c5c5c]">
+              Uma conversa que muda sua perspectiva. Uma equipe que compra sua ideia. Um projeto
+              que sai da sua cabeça e ganha o mundo.
             </p>
+            <p className="m-0 max-w-[440px] text-base leading-[1.8] text-[#5c5c5c]">
+              O Hack The Path reúne estudantes, mentores e empresas para dois dias de troca e
+              construção. Talento daqui. Possibilidades muito além.
+            </p>
+            <a
+              href="#quando"
+              className="mt-2 inline-flex w-fit items-center gap-3 border-b border-black pb-2 text-sm font-semibold"
+            >
+              Veja como vai acontecer <span aria-hidden="true">↗</span>
+            </a>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Competição",
-                text: "Projeto real, do zero ao pitch final, exposto a mais de 150 países.",
-              },
-              {
-                title: "Conexão",
-                text: "Mentores, jurados e empresas presentes durante todo o evento.",
-              },
-              {
-                title: "Experiência",
-                text: "Um evento pensado para mudar a forma como você pensa.",
-              },
-            ].map((card) => (
-              <div
-                key={card.title}
-                className="flex cursor-default flex-col gap-2.5 rounded-[24px] border-[1.5px] border-black p-8 transition-colors duration-200 hover:border-htp-blue"
-              >
-                <h3 className="m-0 text-xl font-extrabold uppercase tracking-[0.04em]">
-                  {card.title}
-                </h3>
-                <p className="m-0 text-[15px] leading-[1.55] text-[#444]">
-                  {card.text}
-                </p>
-              </div>
-            ))}
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.14em] text-[#777]">
+              <span>Hack Your Path</span>
+              <span>001</span>
+            </div>
+            <Image
+              src="/images/brand/graphics/sphere.svg"
+              alt=""
+              width={360}
+              height={360}
+              className="w-full"
+              aria-hidden="true"
+            />
+            <div className="flex items-center justify-between gap-4">
+              <p className="m-0 text-base leading-[1.5]">
+                Mesmas pessoas.
+                <br />
+                <strong className="font-bold">Novos caminhos.</strong>
+              </p>
+              <span aria-hidden="true" className="text-[32px] font-light leading-none">
+                ↗
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -176,13 +196,8 @@ export default function Home() {
       {/* CTA */}
       <CtaSection />
 
-      {/* SPONSORS + FOOTER */}
-      <section
-        id="patrocinadores"
-        className="flex flex-col items-center bg-black px-8 pt-[150px] text-white sm:px-14"
-      >
-        <Sponsors />
-
+      {/* FOOTER */}
+      <section className="flex flex-col items-center bg-black px-8 pt-[70px] text-white sm:px-14">
         <footer className="flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-4 border-t border-[#2a2a2a] px-0 pb-9 pt-7 text-[13px] font-medium tracking-[0.06em]">
           <Image
             src="/images/logo/png/hack-the-path-03.png"

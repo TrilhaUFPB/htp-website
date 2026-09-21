@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_1" data-name="Camada 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #7a94fd;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" width="300" height="300"/>
+  <g>
+    <g>
+      <rect x="28.2" y="126.29" width="8.7" height="47.42"/>
+      <rect x="45.6" y="94.58" width="8.7" height="110.85"/>
+      <rect x="63" y="77.68" width="8.7" height="144.64"/>
+      <rect x="80.4" y="67.02" width="8.7" height="165.96"/>
+      <rect x="97.8" y="60.95" width="8.7" height="178.1"/>
+      <rect x="202.2" y="126.29" width="8.7" height="47.42" transform="translate(413.1 300) rotate(-180)"/>
+      <rect x="184.8" y="94.58" width="8.7" height="110.85" transform="translate(378.3 300) rotate(-180)"/>
+      <rect x="167.4" y="77.68" width="8.7" height="144.64" transform="translate(343.5 300) rotate(-180)"/>
+      <rect x="150" y="67.02" width="8.7" height="165.96" transform="translate(308.7 300) rotate(-180)"/>
+      <rect x="132.6" y="60.95" width="8.7" height="178.1" transform="translate(273.9 300) rotate(-180)"/>
+      <rect x="115.2" y="58.72" width="8.7" height="182.56"/>
+    </g>
+    <g>
+      <rect class="cls-2" x="89.1" y="126.29" width="8.7" height="47.42"/>
+      <rect class="cls-2" x="106.5" y="94.58" width="8.7" height="110.85"/>
+      <rect class="cls-2" x="123.9" y="77.68" width="8.7" height="144.64"/>
+      <rect class="cls-2" x="141.3" y="67.02" width="8.7" height="165.96"/>
+      <rect class="cls-2" x="158.7" y="60.95" width="8.7" height="178.1"/>
+      <rect class="cls-2" x="263.1" y="126.29" width="8.7" height="47.42" transform="translate(534.89 300) rotate(-180)"/>
+      <rect class="cls-2" x="245.7" y="94.58" width="8.7" height="110.85" transform="translate(500.09 300) rotate(-180)"/>
+      <rect class="cls-2" x="228.3" y="77.68" width="8.7" height="144.64" transform="translate(465.29 300) rotate(-180)"/>
+      <rect class="cls-2" x="210.9" y="67.02" width="8.7" height="165.96" transform="translate(430.5 300) rotate(-180)"/>
+      <rect class="cls-2" x="193.5" y="60.95" width="8.7" height="178.1" transform="translate(395.7 300) rotate(-180)"/>
+      <rect class="cls-2" x="176.1" y="58.72" width="8.7" height="182.56"/>
+    </g>
+  </g>
+</svg>
