@@ -43,3 +43,6 @@ supabase/.temp/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Scratch reference material, not part of the app
+/transitions
