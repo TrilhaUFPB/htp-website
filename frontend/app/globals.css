@@ -127,36 +127,6 @@ a:hover {
   font-weight: 700;
 }
 
-.hero-scroll-cue {
-  position: absolute;
-  bottom: calc(26px + var(--hero-progress) * 10px);
-  left: 50%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: #8d95b8;
-  opacity: calc(1 - var(--hero-progress) * 2.4);
-  transform: translateX(-50%);
-}
-
-.hero-scroll-cue span {
-  animation: htp-cue-drift 2.4s ease-in-out infinite;
-}
-
-@keyframes htp-cue-drift {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(4px);
-  }
-}
-
 @media (max-width: 680px) {
   .scroll-hero {
     height: 170svh;
@@ -201,14 +171,6 @@ a:hover {
   .aperture {
     transform: translate(-50%, -50%);
     will-change: auto;
-  }
-
-  .hero-scroll-cue span {
-    animation: none;
-  }
-
-  .hero-scroll-cue {
-    display: none;
   }
 }
 

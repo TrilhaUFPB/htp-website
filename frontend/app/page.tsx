@@ -69,10 +69,6 @@ export default function Home() {
             </h1>
             <NotifySignup variant="hero" />
           </div>
-
-          <p className="hero-scroll-cue" aria-hidden="true">
-            Role para entrar <span>↓</span>
-          </p>
         </div>
       </ScrollHero>
 
