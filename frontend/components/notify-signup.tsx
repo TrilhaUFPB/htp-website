@@ -14,9 +14,8 @@ const buttonStyles = {
   hero: "inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:opacity-100",
   footer:
     "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
-  // Blue on a light section: inverts to black on hover, since the footer
-  // variant's white hover would vanish against a white background.
-  cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-black hover:text-white hover:opacity-100",
+  // The CTA section sits on black too, so this mirrors the footer pill.
+  cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
 } as const;
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
@@ -98,6 +97,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     <>
       <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
         Quero ser avisado
+        {variant === "cta" ? <span aria-hidden="true">→</span> : null}
       </button>
 
       {open ? (
