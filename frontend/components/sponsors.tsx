@@ -3,12 +3,12 @@ import { sponsors } from "@/content/sponsors";
 
 export function Sponsors() {
   return (
-    <div className="flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-7 border-b border-[#e5e5e5] pb-14 sm:gap-12">
-      <p className="m-0 shrink-0 text-[14px] font-bold uppercase tracking-[0.2em] text-htp-blue">
+    <div className="flex w-full max-w-[1040px] flex-col items-center gap-7 border-b border-[#e5e5e5] pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:pb-14 lg:text-left">
+      <p className="m-0 shrink-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue sm:text-[14px]">
         Com o apoio de
       </p>
 
-      <ul className="m-0 flex flex-1 list-none flex-wrap items-center justify-center gap-14 p-0">
+      <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:gap-14">
         {sponsors.map((sponsor) => (
           <li key={sponsor.name} className="flex">
             {/* No card this time: the logo sits straight on the page, so the
@@ -28,7 +28,7 @@ export function Sponsors() {
                 alt={sponsor.name}
                 width={sponsor.width}
                 height={sponsor.height}
-                className="h-10 w-auto object-contain"
+                className="h-8 w-auto object-contain sm:h-10"
               />
             </a>
           </li>

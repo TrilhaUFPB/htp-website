@@ -13,6 +13,7 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
     if (!element || !stage) return;
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 680px)");
     let frame = 0;
     let previousScroll = window.scrollY;
     let scrolling = false;
@@ -48,7 +49,10 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
       const exitProgress = Math.max(0, (travelled - distance) / stage.offsetHeight);
       const returnPhase = Math.min(1, Math.max(0, exitProgress / 0.55));
       const returnEase = returnPhase * returnPhase * (3 - 2 * returnPhase);
-      const reveal = Math.min(1, Math.max(0, (progress - 0.85) / 0.15));
+      // Phone scroll is short; start contracting the frame halfway so the page
+      // arrives in one flick instead of after a long tunnel.
+      const revealStart = compact.matches ? 0.48 : 0.85;
+      const reveal = Math.min(1, Math.max(0, (progress - revealStart) / (1 - revealStart)));
       const easedReveal = reveal * reveal * (3 - 2 * reveal);
       // A single light swell near the end of the tunnel, fading before exit.
       const beamPhase = Math.min(1, Math.max(0, (journey - 0.48) / 0.42));
@@ -80,12 +84,14 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", schedule);
     motion.addEventListener("change", schedule);
+    compact.addEventListener("change", schedule);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", schedule);
       motion.removeEventListener("change", schedule);
+      compact.removeEventListener("change", schedule);
     };
   }, []);
 

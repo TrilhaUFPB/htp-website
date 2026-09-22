@@ -3,8 +3,8 @@ import { NotifySignup } from "@/components/notify-signup";
 
 export function CtaSection() {
   return (
-    <section className="flex flex-col items-center rounded-t-[30px] bg-black px-8 pt-[clamp(96px,11vw,150px)] text-white sm:px-14">
-      <div className="flex w-full max-w-[720px] flex-col items-center gap-8 pb-[clamp(96px,11vw,150px)] text-center">
+    <section className="flex flex-col items-center rounded-t-[24px] bg-black px-5 pt-16 text-white sm:rounded-t-[30px] sm:px-14 sm:pt-[clamp(96px,11vw,150px)]">
+      <div className="flex w-full max-w-[720px] flex-col items-center gap-6 pb-16 text-center sm:gap-8 sm:pb-[clamp(96px,11vw,150px)]">
         <h2 className="m-0 text-[clamp(40px,5.6vw,80px)] font-black leading-[0.98] tracking-[-0.03em]">
           Aceite o desafio.
         </h2>
@@ -14,7 +14,7 @@ export function CtaSection() {
         <NotifySignup variant="cta" />
       </div>
 
-      <footer className="flex w-full max-w-[1040px] flex-wrap items-center justify-between gap-4 border-t border-[#2a2a2a] px-0 pb-9 pt-7 text-[13px] font-medium tracking-[0.06em]">
+      <footer className="flex w-full max-w-[1040px] flex-col items-center gap-3 border-t border-[#2a2a2a] px-0 pb-8 pt-6 text-center text-[13px] font-medium tracking-[0.06em] sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:pb-9 sm:pt-7 sm:text-left">
         <Image
           src="/images/logo/png/hack-the-path-03.png"
           alt="Hack The Path"

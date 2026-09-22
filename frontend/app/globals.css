@@ -155,13 +155,15 @@ a:hover {
 }
 
 @media (max-width: 680px) {
+  /* One short flick, not a desktop-length tunnel. The JS starts the frame
+     reveal at mid-run so the rest of the page arrives in that same gesture. */
   .scroll-hero {
-    height: 446.667svh;
+    height: 170svh;
   }
 
   .hero-frame {
-    width: calc(100% - var(--hero-progress) * 24px);
-    height: calc(100svh - var(--hero-progress) * 52px);
+    width: calc(100% - var(--hero-progress) * 20px);
+    height: calc(100svh - var(--hero-progress) * 28px);
     border-radius: calc(var(--hero-progress) * 22px);
   }
 
@@ -176,8 +178,18 @@ a:hover {
   }
 
   .hero-copy {
-    gap: 26px;
-    padding-top: 56px;
+    width: min(760px, calc(100% - 32px));
+    gap: 20px;
+    padding-top: 28px;
+  }
+
+  .hero-title {
+    font-size: clamp(30px, 8vw, 36px);
+    line-height: 1.1;
+  }
+
+  .hero-title-break {
+    display: block;
   }
 }
 
@@ -321,18 +333,16 @@ main section[id] {
   scroll-margin-top: 104px;
 }
 
-/* Narrow screens stack the two halves rather than dropping the nav: the
-   section links are the reason the header is here. */
+/* Phone header is the wordmark only — the four section links are too
+   small to tap and just add noise over the hero. */
 @media (max-width: 680px) {
   .site-header {
-    height: 96px;
+    height: 64px;
   }
 
   .header-inner {
     width: calc(100% - 32px);
-    flex-direction: column;
     justify-content: center;
-    gap: 9px;
   }
 
   .brand img {
@@ -340,17 +350,11 @@ main section[id] {
   }
 
   .header-inner nav {
-    gap: 16px;
-    font-size: 11px;
-    letter-spacing: -0.01em;
-  }
-
-  .header-inner nav a {
-    padding: 0;
+    display: none;
   }
 
   main section[id] {
-    scroll-margin-top: 112px;
+    scroll-margin-top: 80px;
   }
 }
 
