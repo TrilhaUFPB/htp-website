@@ -19,11 +19,11 @@ function readMs(name: string, fallback: number) {
 
 const buttonStyles = {
   // The hero sits on the black aperture stage, so its pill is the light one.
-  hero: "inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:opacity-100",
+  hero: "inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-[16px] text-[16px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:opacity-100 sm:px-10 sm:py-[18px] sm:text-[17px]",
   footer:
-    "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
+    "inline-flex items-center justify-center gap-3 rounded-full bg-htp-blue px-8 py-[16px] text-[16px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100 sm:px-11 sm:py-[18px] sm:text-[17px]",
   // The CTA section sits on black too, so this mirrors the footer pill.
-  cta: "inline-flex items-center gap-3 rounded-full bg-htp-blue px-11 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100",
+  cta: "inline-flex items-center justify-center gap-3 rounded-full bg-htp-blue px-8 py-[16px] text-[16px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-white hover:opacity-100 sm:px-11 sm:py-[18px] sm:text-[17px]",
 } as const;
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
@@ -141,7 +141,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
       {phase !== "closed" ? (
         <div
-          className={`t-modal-scrim fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-[2px]${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
+          className={`t-modal-scrim fixed inset-0 z-50 flex items-end justify-center bg-black/60 px-4 py-4 backdrop-blur-[2px] sm:items-center sm:px-6${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
           onClick={close}
         >
           <div
@@ -149,7 +149,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
             aria-modal="true"
             aria-labelledby={titleId}
             aria-describedby={descriptionId}
-            className={`t-modal relative w-full max-w-[440px] rounded-[28px] border-[1.5px] border-black bg-white p-8 text-black shadow-[0_24px_80px_rgba(0,0,0,0.25)]${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
+            className={`t-modal relative max-h-[min(640px,calc(100dvh-32px))] w-full max-w-[440px] overflow-y-auto rounded-[24px] border-[1.5px] border-black bg-white p-6 text-black shadow-[0_24px_80px_rgba(0,0,0,0.25)] sm:rounded-[28px] sm:p-8${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
             onClick={(event) => event.stopPropagation()}
           >
             <button

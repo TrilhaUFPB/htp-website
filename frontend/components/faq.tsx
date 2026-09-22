@@ -10,9 +10,9 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="flex scroll-mt-14 justify-center bg-white px-8 pb-[100px] pt-[130px] sm:px-14"
+      className="flex scroll-mt-14 justify-center bg-white px-5 pb-16 pt-16 sm:px-14 sm:pb-[100px] sm:pt-[130px]"
     >
-      <div className="grid w-full max-w-[1040px] grid-cols-1 items-start gap-12 lg:grid-cols-[0.75fr_1.25fr]">
+      <div className="grid w-full max-w-[1040px] grid-cols-1 items-start gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-12">
         <div className="flex flex-col gap-6">
           <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.2em] text-htp-blue">
             Dúvidas
@@ -36,7 +36,7 @@ export function FaqSection() {
               >
                 <button
                   type="button"
-                  className="t-acc-head flex w-full cursor-pointer items-center justify-between gap-6 border-0 bg-transparent py-6 text-left font-inherit text-[clamp(17px,1.7vw,21px)] font-bold leading-snug tracking-[-0.01em] text-inherit transition-colors duration-200 hover:text-htp-blue"
+                  className="t-acc-head flex w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent py-5 text-left font-inherit text-[clamp(17px,1.7vw,21px)] font-bold leading-snug tracking-[-0.01em] text-inherit transition-colors duration-200 hover:text-htp-blue sm:gap-6 sm:py-6"
                   aria-expanded={open}
                   onClick={() => setOpenIndex(open ? null : index)}
                 >
