@@ -1,6 +1,12 @@
+"use client";
+
+import { useState } from "react";
+
 import { faqItems } from "@/content/faq";
 
 export function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   return (
     <section
       id="faq"
@@ -19,26 +25,45 @@ export function FaqSection() {
         </div>
 
         <div className="flex flex-col">
-          {faqItems.map((item) => (
-            <details
-              key={item.question}
-              name="htp-faq"
-              className="group border-t-[1.5px] border-black last:border-b-[1.5px]"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-[clamp(17px,1.7vw,21px)] font-bold leading-snug tracking-[-0.01em] transition-colors duration-200 hover:text-htp-blue [&::-webkit-details-marker]:hidden">
-                {item.question}
-                <span
-                  aria-hidden
-                  className="shrink-0 text-[26px] font-normal leading-none transition-[rotate,color] duration-200 group-hover:text-htp-blue group-open:rotate-45 group-open:text-htp-blue"
+          {faqItems.map((item, index) => {
+            const open = openIndex === index;
+
+            return (
+              <div
+                key={item.question}
+                className="t-acc border-t-[1.5px] border-black last:border-b-[1.5px]"
+                data-open={open ? "true" : "false"}
+              >
+                <button
+                  type="button"
+                  className="t-acc-head flex w-full cursor-pointer items-center justify-between gap-6 border-0 bg-transparent py-6 text-left font-inherit text-[clamp(17px,1.7vw,21px)] font-bold leading-snug tracking-[-0.01em] text-inherit transition-colors duration-200 hover:text-htp-blue"
+                  aria-expanded={open}
+                  onClick={() => setOpenIndex(open ? null : index)}
                 >
-                  +
-                </span>
-              </summary>
-              <p className="m-0 pb-7 pr-6 text-base leading-[1.6] text-[#444] sm:pr-12">
-                {item.answer}
-              </p>
-            </details>
-          ))}
+                  {item.question}
+                  <span className="t-acc-chevron shrink-0 text-current" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="22" height="22">
+                      <path
+                        d="M4 6.5L8 10.5L12 6.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <div className="t-acc-panel">
+                  <div className="t-acc-panel-inner" inert={open ? undefined : true}>
+                    <p className="m-0 pb-7 pr-6 text-base font-normal leading-[1.6] text-[#444] sm:pr-12">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
