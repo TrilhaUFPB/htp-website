@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "Hack The Path",
   shortName: "HTP",
-  title: "Hack The Path",
-  description: "Hack The Path será o maior hackathon da história do Nordeste",
+  title: "Hack The Path — Maior Hackathon do Nordeste",
+  description:
+    "Dois dias de evento presencial, 20 e 21 de fevereiro. Hackathon, palestras e conversas com empresas.",
   tagline: "O maior hackathon da história do Nordeste",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -44,6 +45,6 @@ export const siteConfig = {
     path: "/images/og/og-image.png",
     width: 1200,
     height: 630,
-    alt: "Hack The Path será o maior hackathon da história do Nordeste",
+    alt: "Hack The Path — Maior Hackathon do Nordeste",
   },
 } as const;
