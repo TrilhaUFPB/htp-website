@@ -9,6 +9,14 @@ type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
 };
 
+type DialogPhase = "closed" | "entering" | "open" | "closing";
+
+function readMs(name: string, fallback: number) {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue(name);
+  const value = Number.parseFloat(raw);
+  return Number.isFinite(value) ? value : fallback;
+}
+
 const buttonStyles = {
   // The hero sits on the black aperture stage, so its pill is the light one.
   hero: "inline-flex items-center gap-3 rounded-full bg-white px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-black transition-colors hover:bg-htp-blue hover:opacity-100",
@@ -19,7 +27,7 @@ const buttonStyles = {
 } as const;
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
-  const [open, setOpen] = useState(false);
+  const [phase, setPhase] = useState<DialogPhase>("closed");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
@@ -33,14 +41,48 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const consentId = useId();
 
   useEffect(() => {
-    if (!open) return;
+    if (phase !== "entering") return;
+
+    let inner = 0;
+    const outer = window.requestAnimationFrame(() => {
+      inner = window.requestAnimationFrame(() => setPhase("open"));
+    });
+
+    return () => {
+      window.cancelAnimationFrame(outer);
+      window.cancelAnimationFrame(inner);
+    };
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "closing") return;
+
+    const ms = readMs("--modal-close-dur", 150);
+    const id = window.setTimeout(() => {
+      setPhase("closed");
+      setStatus("idle");
+      setErrorMessage("");
+      setEmail("");
+      setConsent(false);
+      setHoneypot("");
+    }, ms);
+
+    return () => window.clearTimeout(id);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase === "closed") return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    inputRef.current?.focus();
+    if (phase === "open") inputRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setPhase((current) =>
+          current === "closed" || current === "closing" ? current : "closing",
+        );
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -49,15 +91,12 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [phase]);
 
   const close = () => {
-    setOpen(false);
-    setStatus("idle");
-    setErrorMessage("");
-    setEmail("");
-    setConsent(false);
-    setHoneypot("");
+    setPhase((current) =>
+      current === "closed" || current === "closing" ? current : "closing",
+    );
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,14 +134,14 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={buttonStyles[variant]}>
+      <button type="button" onClick={() => setPhase("entering")} className={buttonStyles[variant]}>
         Quero ser avisado
         {variant === "cta" ? <span aria-hidden="true">→</span> : null}
       </button>
 
-      {open ? (
+      {phase !== "closed" ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-[2px]"
+          className={`t-modal-scrim fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-[2px]${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
           onClick={close}
         >
           <div
@@ -110,7 +149,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
             aria-modal="true"
             aria-labelledby={titleId}
             aria-describedby={descriptionId}
-            className="relative w-full max-w-[440px] rounded-[28px] border-[1.5px] border-black bg-white p-8 text-black shadow-[0_24px_80px_rgba(0,0,0,0.25)]"
+            className={`t-modal relative w-full max-w-[440px] rounded-[28px] border-[1.5px] border-black bg-white p-8 text-black shadow-[0_24px_80px_rgba(0,0,0,0.25)]${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
             onClick={(event) => event.stopPropagation()}
           >
             <button
