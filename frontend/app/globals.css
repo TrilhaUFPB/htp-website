@@ -391,6 +391,25 @@ main section[id] {
 }
 
 /* ---------------------------------------------------------------------------
+   Scroll reveal.
+
+   Sections below the hero fade up into view once. ScrollEffects arms this by
+   adding data-reveal-armed after mount (so content stays visible without JS
+   or under reduced motion) and stamps data-reveal-visible once an element
+   has crossed the IntersectionObserver threshold.
+--------------------------------------------------------------------------- */
+
+[data-reveal][data-reveal-armed] {
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal][data-reveal-armed]:not([data-reveal-visible]) {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* ---------------------------------------------------------------------------
    Transitions.dev — modal + accordion.
    Snippets are pasted as shipped so durations stay on the motion tokens.
 --------------------------------------------------------------------------- */
