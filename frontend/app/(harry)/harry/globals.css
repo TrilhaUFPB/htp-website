@@ -1,0 +1,774 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-funnel-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-funnel-display), var(--font-funnel-sans), ui-sans-serif, sans-serif;
+  --color-htp-blue: #7a94fd;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Black under everything: it is what shows past the sheet's rounded bottom
+   corners and behind the footer the sheet uncovers. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #000;
+}
+
+/* ---------------------------------------------------------------------------
+   Page layout.
+--------------------------------------------------------------------------- */
+
+.page-sheet {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 0 0 36px 36px;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  padding-inline: 20px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+}
+
+@layer components {
+  /* Small sentence-case label over a heading; blue on white and black, black
+     on the blue block. */
+  .section-label {
+    margin: 0;
+    color: var(--color-htp-blue);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.8vw, 68px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-inline: 48px;
+  }
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero.
+
+   A blue light field: one huge radial gradient, lit from the top centre and
+   deepening to navy at the corners, sized so its edge never enters the
+   frame. It fades up on load and swells a little as the hero is scrolled,
+   with film grain over it so the gradient has texture instead of banding. (The Dia glow is saved for the footer.)
+
+   Where scroll-driven animations exist, the section gets a runway: the stage
+   pins while the frame is clipped into the rounded page card. It is all clip-path and transform on the section's view timeline,
+   so it runs on the compositor: no layout, no JS per frame, no text reflow.
+--------------------------------------------------------------------------- */
+
+.scroll-hero {
+  --hero-inset-x: max(48px, 9vw);
+  --hero-inset-y: max(56px, 11svh);
+  --hero-radius: 40px;
+  position: relative;
+  height: 100svh;
+  /* The page wrapper is a flex column; opt out of shrinking so the runway
+     keeps its full height. */
+  flex: none;
+  view-timeline: --hero;
+}
+
+.scroll-hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.hero-frame {
+  position: relative;
+  display: grid;
+  height: 100%;
+  /* clip-path rather than border-radius + overflow: the blurred glow sits on
+     its own compositor layer, which a rounded overflow clip lets escape. */
+  clip-path: inset(0 round 0);
+  background: #000;
+  color: #fff;
+  isolation: isolate;
+  place-items: center;
+}
+
+.hero-orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -2;
+  width: max(130vw, 175svh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 18%,
+    #c6d2fe 0%, #7a94fd 20%, #3b4c8f 46%, #141c3a 68%, #05070f 86%, transparent 100%);
+  translate: -50% -50%;
+  animation: orb-grow 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+/* `scale` for the entrance, `transform` for the scroll: separate properties,
+   so the two animations compose instead of fighting. */
+@keyframes orb-grow {
+  from {
+    scale: 1.12;
+    opacity: 0;
+  }
+}
+
+@keyframes orb-scroll-grow {
+  to {
+    transform: scale(1.15);
+  }
+}
+
+/* Plain low-opacity noise rather than a blend mode, so the breathing layer
+   under it never forces a per-frame blend. */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb {
+    animation: none;
+  }
+}
+
+@supports (animation-range: contain 0% contain 100%) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-hero {
+      height: 180svh;
+    }
+
+    .hero-frame {
+      animation: hero-contract linear both;
+      animation-timeline: --hero;
+      animation-range: contain 35% contain 100%;
+    }
+
+    .hero-orb {
+      animation:
+        orb-grow 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both,
+        orb-scroll-grow linear both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, contain 0% contain 100%;
+    }
+  }
+}
+
+@keyframes hero-contract {
+  to {
+    clip-path: inset(var(--hero-inset-y) var(--hero-inset-x) round var(--hero-radius));
+  }
+}
+
+.hero-copy {
+  display: flex;
+  width: min(820px, calc(100% - 48px));
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+.hero-title {
+  max-width: 11em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.2vw, 80px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (max-width: 680px) {
+  .scroll-hero {
+    --hero-inset-x: 20px;
+    --hero-inset-y: 9svh;
+    --hero-radius: 28px;
+  }
+
+  .hero-copy {
+    width: calc(100% - 40px);
+    gap: 28px;
+  }
+
+  .hero-title {
+    font-size: clamp(38px, 11vw, 48px);
+  }
+}
+
+@media (max-width: 680px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-range: contain 0% contain 100%) {
+    .scroll-hero {
+      height: 160svh;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Site header.
+
+   Transparent over the hero at the top of the page, gone on the way down, and
+   back on a solid surface on the way up. ScrollHeader sets data-mode; every
+   appearance below follows from it.
+--------------------------------------------------------------------------- */
+
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 100;
+  padding: 12px 20px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  height: 86px;
+  background: transparent;
+  color: #fff;
+  transition: transform 0.22s ease, background-color 0.18s ease, border-color 0.18s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header-inner {
+  display: flex;
+  height: 100%;
+  width: min(1280px, calc(100% - 64px));
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-inline: auto;
+}
+
+.brand {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* The asset is the black wordmark; inverting it is what makes it read white
+   over the hero and lets it turn back on the solid surface. */
+.brand img {
+  display: block;
+  width: 196px;
+  height: auto;
+  filter: invert(1);
+}
+
+.header-inner nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 15px;
+}
+
+.header-inner nav a {
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-inner nav a:hover {
+  opacity: 1;
+  color: #b4c3ff;
+}
+
+.site-header[data-mode="hidden"] {
+  transform: translateY(-100%);
+}
+
+.site-header[data-mode="visible"],
+.site-header:focus-within:not([data-mode="top"]) {
+  transform: translateY(0);
+  background: #fff;
+  color: #000;
+  border-bottom-color: rgb(0 0 0 / 0.08);
+}
+
+.site-header[data-mode="visible"] .brand img,
+.site-header:focus-within:not([data-mode="top"]) .brand img {
+  filter: none;
+}
+
+.site-header[data-mode="visible"] nav a:hover,
+.site-header:focus-within:not([data-mode="top"]) nav a:hover {
+  color: #536bd1;
+}
+
+/* Keep the overlay transparent throughout the hero, including upward scroll. */
+.site-header[data-hero-visible="true"],
+.site-header[data-hero-visible="true"]:focus-within {
+  background: transparent;
+  color: #fff;
+  border-bottom-color: transparent;
+}
+
+.site-header[data-hero-visible="true"] .brand img {
+  filter: invert(1);
+}
+
+.site-header[data-hero-visible="true"] nav a:hover {
+  color: #b4c3ff;
+}
+
+main section[id] {
+  scroll-margin-top: 104px;
+}
+
+/* Phone header is the wordmark only — the four section links are too
+   small to tap and just add noise over the hero. */
+@media (max-width: 680px) {
+  .site-header {
+    height: 64px;
+  }
+
+  .header-inner {
+    width: calc(100% - 32px);
+    justify-content: center;
+  }
+
+  .brand img {
+    width: 142px;
+  }
+
+  .header-inner nav {
+    display: none;
+  }
+
+  main section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Reduced motion takes the header out of the overlay game entirely. The hero
+   is already inset there, so a transparent header would put white type on the
+   white page above it; in flow on a solid surface it always reads, and nothing
+   slides. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-header,
+  .site-header[data-mode="hidden"],
+  .site-header[data-mode="visible"],
+  .site-header[data-hero-visible="true"],
+  .site-header[data-hero-visible="true"]:focus-within {
+    position: relative;
+    transform: none;
+    background: #fff;
+    color: #080808;
+    border-bottom-color: #e5e5e5;
+    transition: none;
+  }
+
+  .site-header .brand img,
+  .site-header[data-hero-visible="true"] .brand img {
+    filter: none;
+  }
+
+  main section[id] {
+    scroll-margin-top: 24px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Transitions.dev — modal + accordion.
+   Snippets are pasted as shipped so durations stay on the motion tokens.
+--------------------------------------------------------------------------- */
+
+:root {
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --acc-expand: 250ms;
+  --acc-collapse: 250ms;
+  --acc-chevron: 250ms;
+  --acc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal { transition: none !important; }
+}
+
+/* The overlay is not part of the snippet; it fades on the same tokens. */
+.t-modal-scrim {
+  opacity: 0;
+  transition: opacity var(--modal-open-dur) var(--modal-ease);
+}
+.t-modal-scrim.is-open {
+  opacity: 1;
+}
+.t-modal-scrim.is-closing {
+  opacity: 0;
+  transition: opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal-scrim { transition: none !important; }
+}
+
+/* grid-template-rows 0fr → 1fr gives a clean height animation
+   with no JS height measuring; the inner element clips overflow. */
+.t-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--acc-expand) var(--acc-ease);
+}
+.t-acc-panel-inner {
+  overflow: hidden;
+  opacity: 0;
+  filter: blur(2px);
+  transition:
+    opacity var(--acc-collapse) var(--acc-ease),
+    filter var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel-inner {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity var(--acc-expand) var(--acc-ease),
+    filter var(--acc-expand) var(--acc-ease);
+}
+/* Flip the chevron vertically to turn the "v" into a "^".
+   scaleY(-1) about the centre passes through a flat line at
+   the midpoint (same look as a `d:` path morph) but animates
+   in every browser, unlike CSS `d:` morphing (Chromium only).
+   The chevron path is symmetric about the 16x16 viewBox
+   centre, so the flip lands exactly on the "^"; non-scaling
+   -stroke keeps the stroke width constant through the flip. */
+.t-acc-chevron {
+  display: inline-flex;
+  transform: scaleY(1);
+  transform-origin: center;
+  transition: transform var(--acc-chevron) var(--acc-ease);
+}
+.t-acc-chevron path { vector-effect: non-scaling-stroke; }
+.t-acc[data-open="true"] .t-acc-chevron {
+  transform: scaleY(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-acc-panel, .t-acc-panel-inner, .t-acc-chevron {
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Footer.
+
+   Fixed behind the page sheet. The empty .footer-runway after the sheet is
+   the scroll that uncovers it, exactly the footer's height, so the sheet
+   lifts off 1:1 with the finger. The glow and wordmark rise ahead of it on
+   the runway's view timeline, on the compositor: no JS runs per frame.
+--------------------------------------------------------------------------- */
+
+:root {
+  --footer-h: clamp(620px, 100svh, 1000px);
+}
+
+body {
+  timeline-scope: --footer-pull;
+}
+
+.footer-runway {
+  height: var(--footer-h);
+  view-timeline: --footer-pull;
+}
+
+.site-footer {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 0;
+  display: flex;
+  height: var(--footer-h);
+  flex-direction: column;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  isolation: isolate;
+}
+
+.site-footer a:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+/* Dia's gradient (DiaGlow): overlapping columns share one bottom-to-top
+   ramp and are blurred together into a mountain. The ramp is squeezed into
+   each column's own height, so the colour bands follow the ridge. Only the
+   layer's transform ever animates, so the blur is rasterised once. */
+.dia-glow {
+  /* Brightest at the foot, cooling to black at the ridge, so the light
+     source sits on the bottom edge. */
+  --glow-ramp: #dfe6ff 0%, #c6d2fe 16%, #9fb2fe 32%, #7a94fd 48%, #3b4c8f 68%,
+    #10162a 86%, #000 100%;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+}
+
+.dia-glow span {
+  flex: 1 1 0;
+  margin-inline: -0.6%;
+  background: linear-gradient(to top, var(--glow-ramp));
+}
+
+/* The footer's glow grows out of the bottom edge as the sheet lifts. */
+/* Hangs below the edge so the blur's soft rim falls off-screen instead of
+   leaving a dark band along the bottom. */
+.footer-glow {
+  inset: auto -4% -60px;
+  z-index: -2;
+  height: min(78%, calc(100% - 220px));
+  filter: blur(16px);
+}
+
+.footer-inner {
+  display: flex;
+  width: calc(100% - 40px);
+  max-width: 1120px;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 auto;
+  padding-top: clamp(96px, 14svh, 150px);
+}
+
+/* The wordmark sits in the brightest part of the glow, in black, as if
+   printed on the light. It surfaces with the glow. */
+.footer-mark {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+}
+
+@media (min-width: 640px) {
+  .footer-inner {
+    width: calc(100% - 96px);
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .footer-mark {
+    bottom: 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-sheet {
+    border-radius: 0 0 24px 24px;
+  }
+
+  .footer-glow {
+    height: min(62%, calc(100% - 330px));
+    filter: blur(10px);
+  }
+}
+
+/* The glow builds across the whole reveal: dark as the sheet starts to
+   lift, climbing, growing and brightening with the scroll, and only full as
+   the footer lands. */
+@supports (animation-range: cover 0% cover 100px) {
+  @media (min-height: 601px) and (prefers-reduced-motion: no-preference) {
+    .footer-glow,
+    .footer-mark {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --footer-pull;
+      animation-range: cover 0% cover var(--footer-h);
+    }
+
+    .footer-glow {
+      animation-name: glow-rise;
+    }
+
+    .footer-mark {
+      animation-name: mark-rise;
+    }
+  }
+}
+
+@keyframes glow-rise {
+  0% { transform: translateY(60%) scaleY(0.1); opacity: 0; }
+  25% { transform: translateY(53%) scaleY(0.2); opacity: 0.11; }
+  50% { transform: translateY(40%) scaleY(0.4); opacity: 0.33; }
+  75% { transform: translateY(22%) scaleY(0.67); opacity: 0.63; }
+  90% { transform: translateY(9%) scaleY(0.87); opacity: 0.85; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes mark-rise {
+  0%, 55% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Too short to pin a whole footer under the sheet: let it scroll normally. */
+@media (max-height: 600px) {
+  .footer-runway {
+    display: none;
+  }
+
+  .site-footer {
+    position: relative;
+    height: auto;
+    min-height: 640px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Programação cards: a door-like lean towards the pointer (TiltCard).
+--------------------------------------------------------------------------- */
+
+.day-card {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Promote the layer up front on mouse devices, so hover does not pay for
+   creating it (and re-rasterising the text) at the moment it starts. */
+@media (hover: hover) and (pointer: fine) {
+  .day-card {
+    will-change: transform;
+  }
+}
+
+/* Tracking the pointer: no transition to chase. */
+.day-card[data-tracking] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-card {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal.
+
+   ScrollEffects arms each [data-reveal] block below the fold and marks it
+   data-revealed the first time it enters; the block then plays a short
+   rise out of a light blur and stays. It is time-based on purpose: a reveal
+   scrubbed by the scroll leaves blocks half-faded wherever the page stops.
+   Side-by-side blocks stagger with data-reveal-step. Large surfaces use
+   data-reveal="plain" (no blur, too heavy on whole cards for phones).
+   `translate`, not `transform`, so it composes with the cards' tilt.
+--------------------------------------------------------------------------- */
+
+[data-reveal-armed] {
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal-armed]:not([data-revealed]) {
+  opacity: 0;
+  translate: 0 20px;
+  filter: blur(4px);
+}
+
+[data-reveal="plain"][data-reveal-armed]:not([data-revealed]) {
+  translate: 0 32px;
+  filter: none;
+}
+
+/* The cards also carry the tilt's transform transition; keep both. */
+.day-card[data-reveal-armed] {
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal-step="1"] {
+  transition-delay: 90ms;
+}
+
+[data-reveal-step="2"] {
+  transition-delay: 180ms;
+}
+
+[data-reveal-step="3"] {
+  transition-delay: 270ms;
+}
