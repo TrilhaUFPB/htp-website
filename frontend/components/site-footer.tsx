@@ -7,7 +7,7 @@ import { DiaGlow } from "@/components/dia-glow";
 import { NotifySignup } from "@/components/notify-signup";
 
 /**
- * The page sheet lifts off this footer like a curtain. Behind it, Dia's
+ * The page sheet lifts off this footer like a curtain, and resists doing so. Behind it, Dia's
  * gradient footer in HTP blues: blurred columns shaped into a mountain that
  * grows out of the bottom edge. --rise (0 → 1) is how much of the footer the
  * sheet has uncovered; the glow's scale is a calc() on it in globals.css.
@@ -17,31 +17,42 @@ export function SiteFooter() {
 
   useEffect(() => {
     const footer = ref.current;
-    const sheet = footer?.previousElementSibling;
+    const sheet = footer?.previousElementSibling as HTMLElement | null;
     if (!footer || !sheet) return;
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
     let current = 0;
+    let runway = 0;
 
-    // Where the scroll says the glow should be: nothing for the first fifth
-    // of the reveal, then an ease-in-out to full as the footer lands.
-    const target = () => {
-      const uncovered = window.innerHeight - sheet.getBoundingClientRect().bottom;
-      const t = Math.min(1, Math.max(0, (uncovered / footer.offsetHeight - 0.2) / 0.8));
-      return t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
+    // The footer is fixed behind the sheet, and the sheet is given extra
+    // runway below it: RESISTANCE times the footer's height of scroll to
+    // uncover it. Over that runway the sheet is held back, so it lifts slower
+    // than the finger and heaviest at first, like pulling something stuck.
+    const RESISTANCE = 1.8;
+    const measure = () => {
+      const pinned = getComputedStyle(footer).position === "fixed" && !motion.matches;
+      runway = pinned ? footer.offsetHeight * RESISTANCE : 0;
+      sheet.style.marginBottom = pinned ? `${runway}px` : "";
+      schedule();
     };
 
-    // The glow chases that target with damping instead of snapping to it, so
-    // a fast flick still plays out as a slow sunrise.
     const update = () => {
       frame = 0;
-      if (motion.matches) {
-        footer.style.setProperty("--rise", "1");
-        return;
+      const height = footer.offsetHeight;
+      let uncovered = height;
+      if (runway) {
+        const end = sheet.offsetTop + sheet.offsetHeight - window.innerHeight;
+        const pulled = Math.min(runway, Math.max(0, window.scrollY - end));
+        uncovered = height * (pulled / runway) ** 1.5;
+        sheet.style.transform = pulled ? `translate3d(0, ${pulled - uncovered}px, 0)` : "";
       }
-      const goal = target();
-      current += (goal - current) * 0.03;
+
+      // The glow follows the reveal closely, with just enough damping to
+      // smooth a flick.
+      const t = Math.min(1, Math.max(0, uncovered / height / 0.85));
+      const goal = motion.matches ? 1 : 1 - (1 - t) ** 3;
+      current += (goal - current) * 0.18;
       if (Math.abs(goal - current) < 0.001) current = goal;
       footer.style.setProperty("--rise", current.toFixed(4));
       if (current !== goal) schedule();
@@ -50,15 +61,17 @@ export function SiteFooter() {
       if (!frame) frame = window.requestAnimationFrame(update);
     };
 
-    update();
+    measure();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    motion.addEventListener("change", schedule);
+    window.addEventListener("resize", measure);
+    motion.addEventListener("change", measure);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      motion.removeEventListener("change", schedule);
+      window.removeEventListener("resize", measure);
+      motion.removeEventListener("change", measure);
+      sheet.style.marginBottom = "";
+      sheet.style.transform = "";
     };
   }, []);
 
