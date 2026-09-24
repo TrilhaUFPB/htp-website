@@ -592,38 +592,6 @@ main section[id] {
     #7a94fd 76%, #1f2a55 88%, #000 100%);
 }
 
-.sunrise {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  z-index: -1;
-  width: 100%;
-  /* Never climb into the copy above it: nothing sits on top of the fan. */
-  height: min(38%, calc(100% - 420px));
-  /* Starts a beat behind the glow, so the light arrives before the rays. */
-  --fan: clamp(0, calc((var(--rise) - 0.2) / 0.8), 1);
-  transform: translateX(-50%) translateY(calc((1 - var(--fan)) * 60%))
-    scale(calc(0.8 + var(--fan) * 0.2));
-  transform-origin: 50% 100%;
-  will-change: transform;
-}
-
-/* With a view-box reference box, 0 0 is the viewBox's own origin — the
-   fan's centre on the bottom edge. */
-.sunrise-band-a,
-.sunrise-band-b {
-  transform-box: view-box;
-  transform-origin: 0 0;
-}
-
-.sunrise-band-a {
-  transform: rotate(calc((1 - var(--fan)) * 10deg));
-}
-
-.sunrise-band-b {
-  transform: rotate(calc((1 - var(--fan)) * -6deg));
-}
-
 .footer-inner {
   display: flex;
   width: calc(100% - 40px);
@@ -634,17 +602,13 @@ main section[id] {
   padding-top: clamp(96px, 14svh, 150px);
 }
 
-/* The wordmark sits on the fan's core, the one solid area in it. */
+/* The ramp starts at black, so the white wordmark reads at the bottom edge. */
 .footer-mark {
   position: absolute;
   left: 50%;
   bottom: 16px;
   transform: translateX(-50%);
   opacity: calc(var(--rise) * 1.4 - 0.4);
-}
-
-.footer-mark img {
-  filter: invert(1);
 }
 
 @media (min-width: 640px) {
@@ -665,10 +629,6 @@ main section[id] {
     border-radius: 0 0 24px 24px;
   }
 
-  .sunrise {
-    height: min(34%, calc(100% - 480px));
-  }
-
   .footer-glow {
     height: min(62%, calc(100% - 330px));
     filter: blur(10px);
@@ -685,7 +645,6 @@ main section[id] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sunrise,
   .footer-glow {
     will-change: auto;
   }

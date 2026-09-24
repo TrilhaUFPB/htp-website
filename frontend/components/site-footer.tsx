@@ -8,9 +8,8 @@ import { NotifySignup } from "@/components/notify-signup";
 /**
  * The page sheet lifts off this footer like a curtain. Behind it, Dia's
  * gradient footer in HTP blues: blurred columns shaped into a mountain that
- * grows out of the bottom edge, with the brand's sunburst, flipped, rising at
- * its foot. --rise (0 → 1) is how much of the footer the sheet has uncovered;
- * every moving part is a calc() on it in globals.css.
+ * grows out of the bottom edge. --rise (0 → 1) is how much of the footer the
+ * sheet has uncovered; the glow's scale is a calc() on it in globals.css.
  */
 export function SiteFooter() {
   const ref = useRef<HTMLElement>(null);
@@ -56,7 +55,6 @@ export function SiteFooter() {
           <span key={i} style={{ height: `${height}%` }} />
         ))}
       </div>
-      <Sunrise />
 
       <div className="footer-inner">
         <div className="flex flex-col items-start gap-6 sm:gap-8">
@@ -105,59 +103,3 @@ const GLOW_COLUMNS = Array.from({ length: 25 }, (_, i) => {
   const x = Math.abs(i - 12) / 12;
   return Math.round((0.98 - 0.44 * x ** 1.2) * 1000) / 10;
 });
-
-const point = (r: number, degrees: number) => {
-  const a = (degrees * Math.PI) / 180;
-  return `${(Math.cos(a) * r).toFixed(2)},${(Math.sin(a) * r).toFixed(2)}`;
-};
-
-// Full circles, cropped to the upper half by the viewBox (y = 0 is the fan's
-// origin), so the counter-rotating bands never open a gap at the horizon.
-const bands = [
-  { inner: 130, outer: 300, count: 72, offset: 0, fill: "url(#sunrise-inner)", className: "sunrise-band-a" },
-  { inner: 300, outer: 760, count: 72, offset: 1.25, fill: "url(#sunrise-outer)", className: "sunrise-band-b" },
-];
-
-function Sunrise() {
-  return (
-    <svg
-      className="sunrise"
-      viewBox="-1000 -620 2000 620"
-      preserveAspectRatio="xMidYMax slice"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <defs>
-        <radialGradient id="sunrise-core" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="112">
-          <stop offset="0" stopColor="#c6d2fe" />
-          <stop offset="1" stopColor="#7a94fd" />
-        </radialGradient>
-        <radialGradient id="sunrise-inner" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="300">
-          <stop offset="0.43" stopColor="#c6d2fe" />
-          <stop offset="1" stopColor="#7a94fd" />
-        </radialGradient>
-        <radialGradient id="sunrise-outer" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="620">
-          <stop offset="0.48" stopColor="#7a94fd" />
-          <stop offset="0.66" stopColor="#3b4c8f" />
-          <stop offset="0.84" stopColor="#10162a" />
-          <stop offset="1" stopColor="#000" />
-        </radialGradient>
-      </defs>
-      {bands.map(({ inner, outer, count, offset, fill, className }) => (
-        <g key={className} className={className} fill={fill}>
-          {Array.from({ length: count }, (_, i) => {
-            const start = (i * 360) / count + offset;
-            const end = start + 180 / count;
-            return (
-              <path
-                key={i}
-                d={`M${point(inner, start)} L${point(outer, start)} A${outer},${outer} 0 0 1 ${point(outer, end)} L${point(inner, end)} A${inner},${inner} 0 0 0 ${point(inner, start)}Z`}
-              />
-            );
-          })}
-        </g>
-      ))}
-      <circle className="sunrise-core" r="112" fill="url(#sunrise-core)" />
-    </svg>
-  );
-}
