@@ -38,7 +38,7 @@ export function Sponsors() {
         rel="noopener noreferrer"
         className="shrink-0 self-start text-[15px] font-medium text-black underline decoration-black/25 underline-offset-[6px] transition-colors hover:decoration-black sm:self-auto"
       >
-        Seja patrocinador
+        Leve sua marca →
       </a>
     </div>
   );

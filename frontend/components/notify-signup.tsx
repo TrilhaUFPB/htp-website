@@ -21,7 +21,7 @@ function readMs(name: string, fallback: number) {
 // Both placements sit on black (the hero stage and the footer), so one light
 // pill serves them; the variant still travels to the API as the signup source.
 const buttonStyle =
-  "inline-flex items-center justify-center rounded-full bg-white px-7 py-[15px] font-display text-[16px] font-medium tracking-[-0.01em] text-black transition-colors hover:bg-htp-blue hover:opacity-100 sm:px-8 sm:py-[17px] sm:text-[17px]";
+  "inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-[15px] font-display text-[16px] font-medium tracking-[-0.01em] text-black transition-colors hover:bg-htp-blue hover:opacity-100 sm:px-8 sm:py-[17px] sm:text-[17px]";
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   const [phase, setPhase] = useState<DialogPhase>("closed");
@@ -133,6 +133,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     <>
       <button type="button" onClick={() => setPhase("entering")} className={buttonStyle}>
         Quero ser avisado
+        {variant === "cta" ? <span aria-hidden="true">→</span> : null}
       </button>
 
       {phase !== "closed" ? createPortal(

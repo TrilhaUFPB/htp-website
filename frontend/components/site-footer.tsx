@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import { NotifySignup } from "@/components/notify-signup";
-import { privacyConfig } from "@/content/privacy";
 
 /**
  * The page sheet lifts off this footer like a curtain. Behind it, Dia's
@@ -62,6 +60,7 @@ export function SiteFooter() {
 
       <div className="footer-inner">
         <div className="flex flex-col items-start gap-6 sm:gap-8">
+          <p className="section-label">Inscrições em breve</p>
           <h2
             id="footer-title"
             className="m-0 font-display text-[clamp(44px,7vw,104px)] font-medium leading-[0.95] tracking-[-0.045em]"
@@ -78,11 +77,12 @@ export function SiteFooter() {
           aria-label="Rodapé"
           className="flex flex-wrap gap-x-8 gap-y-3 text-[15px] text-[#a3a3a3] sm:flex-col sm:items-end sm:gap-3 sm:text-right"
         >
-          <a href="https://www.instagram.com/hackthepath/" target="_blank" rel="noopener noreferrer">
-            Instagram
+          <a href="https://www.hackthepath.com.br" target="_blank" rel="noopener noreferrer">
+            hackthepath.com.br
           </a>
-          <a href={`mailto:${privacyConfig.controllerEmail}`}>Contato</a>
-          <Link href="/privacidade">Privacidade</Link>
+          <a href="https://www.instagram.com/hackthepath/" target="_blank" rel="noopener noreferrer">
+            @hackthepath
+          </a>
         </nav>
       </div>
 

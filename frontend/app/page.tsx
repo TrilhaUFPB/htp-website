@@ -53,6 +53,7 @@ export default function Home() {
             />
           </Link>
           <nav aria-label="Navegação principal">
+            <a href="#patrocinadores">Patrocinadores</a>
             <a href="#evento">Sobre</a>
             <a href="#programacao">Programação</a>
             <a href="#quando">Quando e onde</a>
@@ -77,10 +78,6 @@ export default function Home() {
               <NotifySignup variant="hero" />
             </div>
 
-            <p className="hero-meta">
-              <span>20 e 21 de fevereiro de 2027</span>
-              <span>Cabedelo, Paraíba</span>
-            </p>
           </div>
         </ScrollHero>
 
@@ -91,16 +88,15 @@ export default function Home() {
         {/* SOBRE */}
         <section id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
           <div className="wrap flex flex-col gap-16 sm:gap-28">
-            <h2 className="m-0 max-w-[15ch] font-display text-[clamp(40px,6.4vw,96px)] font-medium leading-[0.98] tracking-[-0.045em] text-balance">
-              Talento existe em todo lugar.{" "}
-              <span className="text-[#a3a3a3]">Oportunidade, não.</span>
+            <h2 className="m-0 font-display text-[clamp(56px,9vw,136px)] font-medium leading-[0.9] tracking-[-0.055em]">
+              Hack The Path<span className="text-htp-blue">.</span>
             </h2>
 
             <div className="grid gap-12 sm:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] sm:gap-16">
               <p className="m-0 max-w-[36ch] text-[19px] leading-[1.55] text-[#3d3d3d] sm:text-[21px]">
                 Dois dias de evento presencial. Hackathon, palestras, talks e conversas com
-                empresas: o ambiente para hackear sua própria trajetória até lugares que antes
-                pareciam impossíveis.
+                empresas, o ambiente ideal para hackear sua própria trajetória até lugares que
+                antes pareciam impossíveis.
               </p>
               <dl className="m-0 grid gap-0">
                 {EVENT_FEATURES.map((feature) => (
@@ -124,7 +120,14 @@ export default function Home() {
         {/* PROGRAMAÇÃO */}
         <section id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap flex flex-col gap-10 sm:gap-14">
-            <h2 className="section-title">Dois dias, duas portas.</h2>
+            <div className="flex flex-col gap-4">
+              <p className="section-label">Programação</p>
+              <h2 className="section-title">
+                Dois dias.
+                <br />
+                Duas portas.
+              </h2>
+            </div>
 
             <div className="grid gap-4 md:grid-cols-2 md:gap-5">
               {scheduleDays.map((day, index) => {
@@ -138,7 +141,7 @@ export default function Home() {
                   >
                     <div className="flex items-baseline justify-between gap-4">
                       <p className="m-0 font-display text-[17px] font-medium tracking-[-0.01em]">
-                        Dia {index + 1}
+                        {day.number}
                       </p>
                       <p className={`m-0 text-[15px] ${isDark ? "text-[#a3a3a3]" : "text-[#5c5c5c]"}`}>
                         {day.date}
@@ -202,19 +205,21 @@ export default function Home() {
         <section id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap">
             <div className="grid gap-14 rounded-[28px] bg-htp-blue p-7 text-black sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
-              <h2 className="m-0 font-display text-[clamp(64px,11vw,168px)] font-medium leading-[0.86] tracking-[-0.06em]">
-                <span className="sr-only">Quando: </span>
-                20–21
-                <br />
-                fev 2027
-              </h2>
+              <div className="flex flex-col gap-4">
+                <p className="section-label text-black">Quando</p>
+                <h2 className="m-0 font-display text-[clamp(64px,11vw,168px)] font-medium leading-[0.86] tracking-[-0.06em]">
+                  20–21
+                  <br />
+                  fev.27
+                </h2>
+              </div>
               <div className="flex flex-col gap-3">
                 <p className="m-0 text-[15px]">Onde</p>
                 <h3 className="m-0 font-display text-[clamp(28px,3vw,40px)] font-medium leading-none tracking-[-0.03em]">
                   Palazzo Cristal
                 </h3>
                 <p className="m-0 max-w-[34ch] text-[16px] leading-[1.55]">
-                  R. Quatrocentos e Noventa e Dois, 2-114, Lot. Progresso, Cabedelo, PB
+                  R. Quatrocentos e Noventa e Dois, 2-114 – Lot. Progresso, Cabedelo – PB
                 </p>
                 <a
                   href="https://maps.google.com/?q=Palazzo+Cristal+Cabedelo"
@@ -222,7 +227,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex self-start rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors hover:bg-white hover:text-black hover:opacity-100"
                 >
-                  Abrir no mapa
+                  Ver no mapa ↗
                 </a>
               </div>
             </div>

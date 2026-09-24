@@ -44,6 +44,15 @@ body {
   max-width: 1120px;
 }
 
+/* Small sentence-case label over a heading; blue on white and black, black
+   on the blue block. */
+.section-label {
+  margin: 0;
+  color: var(--color-htp-blue);
+  font-size: 15px;
+  font-weight: 500;
+}
+
 .section-title {
   margin: 0;
   font-family: var(--font-display);
@@ -184,19 +193,6 @@ a:hover {
   text-wrap: balance;
 }
 
-/* Date and place sit in the frame's bottom corners, where the artwork's mask
-   has already faded to black. */
-.hero-meta {
-  position: absolute;
-  inset: auto 32px 28px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0;
-  color: #a3a3a3;
-  font-size: 15px;
-}
-
 @media (max-width: 680px) {
   /* One short flick, not a desktop-length tunnel. The JS starts the frame
      reveal at mid-run so the rest of the page arrives in that same gesture. */
@@ -230,10 +226,6 @@ a:hover {
     font-size: clamp(38px, 11vw, 48px);
   }
 
-  .hero-meta {
-    inset: auto 20px 22px;
-    font-size: 13px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
