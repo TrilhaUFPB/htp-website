@@ -83,11 +83,11 @@ export function SiteFooter() {
 
       <div className="footer-mark">
         <Image
-          src="/images/logo/png/hack-the-path-03.png"
+          src="/images/logo/svg/hack-the-path-03.svg"
           alt="Hack The Path"
-          width={3128}
-          height={1171}
-          className="h-[20px] w-auto sm:h-[24px]"
+          width={1564}
+          height={585}
+          className="h-[30px] w-auto sm:h-[40px]"
         />
       </div>
     </footer>

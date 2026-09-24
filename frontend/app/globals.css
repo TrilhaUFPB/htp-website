@@ -571,8 +571,10 @@ main section[id] {
    each column's own height, so the colour bands follow the ridge. Only the
    layer's transform ever animates, so the blur is rasterised once. */
 .dia-glow {
-  --glow-ramp: #000 0%, #10162a 14%, #3b4c8f 30%, #7a94fd 48%, #c6d2fe 64%,
-    #7a94fd 76%, #1f2a55 88%, #000 100%;
+  /* Brightest at the foot, cooling to black at the ridge, so the light
+     source sits on the bottom edge. */
+  --glow-ramp: #dfe6ff 0%, #c6d2fe 16%, #9fb2fe 32%, #7a94fd 48%, #3b4c8f 68%,
+    #10162a 86%, #000 100%;
   position: absolute;
   display: flex;
   align-items: flex-end;
@@ -587,8 +589,10 @@ main section[id] {
 }
 
 /* The footer's glow grows out of the bottom edge as the sheet lifts. */
+/* Hangs below the edge so the blur's soft rim falls off-screen instead of
+   leaving a dark band along the bottom. */
 .footer-glow {
-  inset: auto -4% 0;
+  inset: auto -4% -60px;
   z-index: -2;
   height: min(78%, calc(100% - 220px));
   filter: blur(16px);
@@ -606,11 +610,12 @@ main section[id] {
   padding-top: clamp(96px, 14svh, 150px);
 }
 
-/* The ramp starts at black, so the white wordmark reads at the bottom edge. */
+/* The wordmark sits in the brightest part of the glow, in black, as if
+   printed on the light. It surfaces with the glow. */
 .footer-mark {
   position: absolute;
   left: 50%;
-  bottom: 16px;
+  bottom: 22px;
   transform: translateX(-50%);
   opacity: calc(var(--rise) * 1.4 - 0.4);
 }
@@ -624,7 +629,7 @@ main section[id] {
   }
 
   .footer-mark {
-    bottom: 24px;
+    bottom: 32px;
   }
 }
 
