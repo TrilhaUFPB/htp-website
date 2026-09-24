@@ -67,6 +67,8 @@ export default function Home() {
         <section className="scroll-hero" aria-labelledby="hero-title">
           <div className="scroll-hero-stage">
             <div className="hero-frame">
+              <div className="hero-aurora" aria-hidden="true" />
+              <div className="hero-grain" aria-hidden="true" />
               <div className="hero-copy">
                 <h1 id="hero-title" className="hero-title">
                   O maior hackathon da história do Nordeste

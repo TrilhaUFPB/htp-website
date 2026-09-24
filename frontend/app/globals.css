@@ -78,7 +78,10 @@ a:hover {
 /* ---------------------------------------------------------------------------
    Hero.
 
-   A plain black stage; the glow is saved for the footer.
+   A black stage under an aurora: brand-blue light falling from the top edge
+   and fading out before the title, breathing slowly, with film grain over it
+   so the gradient has texture instead of banding. (The Dia glow is saved for
+   the footer.)
 
    Where scroll-driven animations exist, the section gets a runway: the stage
    pins while the frame is clipped into the rounded page card. It is all clip-path and transform on the section's view timeline,
@@ -114,6 +117,46 @@ a:hover {
   color: #fff;
   isolation: isolate;
   place-items: center;
+}
+
+.hero-aurora {
+  position: absolute;
+  inset: -20%;
+  z-index: -2;
+  background: radial-gradient(60% 45% at 50% 0%,
+    #c6d2fe 0%, #7a94fd 22%, #3b4c8f 48%, #10162a 70%, #000 88%);
+  transform-origin: 50% 0;
+  animation: aurora-breathe 14s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-breathe {
+  to {
+    transform: scale(1.12) translateY(-3%);
+  }
+}
+
+/* Plain low-opacity noise rather than a blend mode, so the breathing layer
+   under it never forces a per-frame blend. */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+@media (max-width: 680px) {
+  .hero-aurora {
+    background: radial-gradient(90% 40% at 50% 0%,
+      #c6d2fe 0%, #7a94fd 22%, #3b4c8f 48%, #10162a 70%, #000 88%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora {
+    animation: none;
+  }
 }
 
 @supports (animation-range: contain 0% contain 100%) {
