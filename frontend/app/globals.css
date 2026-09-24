@@ -78,10 +78,10 @@ a:hover {
 /* ---------------------------------------------------------------------------
    Hero.
 
-   A black stage with a gradient orb behind the title: it grows from a point
-   on load, then keeps growing as the hero is scrolled. Lit from the top, dark
-   at the core where the title sits, with film grain over it so the gradient
-   has texture instead of banding. (The Dia glow is saved for the footer.)
+   A blue light field: one huge radial gradient, lit from the top centre and
+   deepening to navy at the corners, sized so its edge never enters the
+   frame. It fades up on load and swells a little as the hero is scrolled,
+   with film grain over it so the gradient has texture instead of banding. (The Dia glow is saved for the footer.)
 
    Where scroll-driven animations exist, the section gets a runway: the stage
    pins while the frame is clipped into the rounded page card. It is all clip-path and transform on the section's view timeline,
@@ -124,12 +124,11 @@ a:hover {
   left: 50%;
   top: 50%;
   z-index: -2;
-  width: min(130vw, 880px);
+  width: max(130vw, 175svh);
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 18%,
     #c6d2fe 0%, #7a94fd 20%, #3b4c8f 46%, #141c3a 68%, #05070f 86%, transparent 100%);
-  filter: blur(24px);
   translate: -50% -50%;
   animation: orb-grow 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
@@ -138,17 +137,14 @@ a:hover {
    so the two animations compose instead of fighting. */
 @keyframes orb-grow {
   from {
-    scale: 0.08;
+    scale: 1.12;
     opacity: 0;
-  }
-  30% {
-    opacity: 1;
   }
 }
 
 @keyframes orb-scroll-grow {
   to {
-    transform: scale(1.7);
+    transform: scale(1.15);
   }
 }
 
