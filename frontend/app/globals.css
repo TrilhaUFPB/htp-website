@@ -574,22 +574,30 @@ main section[id] {
   color: #fff;
 }
 
-/* The Dia-style bloom: a soft blue glow that climbs out of the bottom edge
-   with the scroll, from the brand's light blue at the source to black. It
-   leads; the fan follows inside it. */
+/* Dia's gradient footer: overlapping columns, each carrying the same
+   bottom-to-top ramp, blurred together into one soft mountain. The ramp is
+   squeezed into each column's own height, so the colour bands follow the
+   ridge. The whole layer grows out of the bottom edge with the scroll; only
+   its transform changes, so the blur is rasterised once. */
 .footer-glow {
   position: absolute;
-  inset: auto -20% 0;
+  inset: auto -4% 0;
   z-index: -2;
-  height: 130%;
-  background:
-    radial-gradient(40% 45% at 50% 100%, #c6d2fe 0%, #7a94fd 50%, transparent 100%),
-    radial-gradient(85% 90% at 50% 100%, #7a94fd 0%, #4a5fb3 30%, #1f2a55 55%, #0a0e1b 80%, transparent 100%);
-  filter: blur(40px);
-  opacity: calc(0.25 + var(--rise) * 0.75);
-  transform: translateY(calc((1 - var(--rise)) * 70%)) scaleY(calc(0.55 + var(--rise) * 0.45));
+  display: flex;
+  height: min(78%, calc(100% - 220px));
+  align-items: flex-end;
+  filter: blur(16px);
+  transform: scaleY(var(--rise));
   transform-origin: 50% 100%;
   will-change: transform;
+}
+
+.footer-glow span {
+  flex: 1 1 0;
+  margin-inline: -0.6%;
+  background: linear-gradient(to top,
+    #000 0%, #10162a 14%, #3b4c8f 30%, #7a94fd 48%, #c6d2fe 64%,
+    #7a94fd 76%, #1f2a55 88%, #000 100%);
 }
 
 .sunrise {
@@ -599,7 +607,7 @@ main section[id] {
   z-index: -1;
   width: 100%;
   /* Never climb into the copy above it: nothing sits on top of the fan. */
-  height: min(60%, calc(100% - 360px));
+  height: min(38%, calc(100% - 420px));
   /* Starts a beat behind the glow, so the light arrives before the rays. */
   --fan: clamp(0, calc((var(--rise) - 0.2) / 0.8), 1);
   transform: translateX(-50%) translateY(calc((1 - var(--fan)) * 60%))
@@ -666,7 +674,12 @@ main section[id] {
   }
 
   .sunrise {
-    height: min(46%, calc(100% - 440px));
+    height: min(34%, calc(100% - 480px));
+  }
+
+  .footer-glow {
+    height: min(62%, calc(100% - 330px));
+    filter: blur(10px);
   }
 }
 

@@ -8,10 +8,11 @@ import { NotifySignup } from "@/components/notify-signup";
 import { privacyConfig } from "@/content/privacy";
 
 /**
- * The page sheet lifts off this footer like a curtain, and the HTP fan rises
- * from the bottom edge inside a rising blue glow: the brand's sunburst,
- * flipped so the light source sits below the frame. --rise (0 → 1) is how much of the footer the
- * sheet has uncovered; every moving part is a calc() on it in globals.css.
+ * The page sheet lifts off this footer like a curtain. Behind it, Dia's
+ * gradient footer in HTP blues: blurred columns shaped into a mountain that
+ * grows out of the bottom edge, with the brand's sunburst, flipped, rising at
+ * its foot. --rise (0 → 1) is how much of the footer the sheet has uncovered;
+ * every moving part is a calc() on it in globals.css.
  */
 export function SiteFooter() {
   const ref = useRef<HTMLElement>(null);
@@ -52,7 +53,11 @@ export function SiteFooter() {
 
   return (
     <footer ref={ref} className="site-footer" aria-labelledby="footer-title">
-      <div className="footer-glow" aria-hidden="true" />
+      <div className="footer-glow" aria-hidden="true">
+        {GLOW_COLUMNS.map((height, i) => (
+          <span key={i} style={{ height: `${height}%` }} />
+        ))}
+      </div>
       <Sunrise />
 
       <div className="footer-inner">
@@ -93,6 +98,13 @@ export function SiteFooter() {
     </footer>
   );
 }
+
+// Tallest in the middle, falling off almost linearly to about half at the
+// edges, as in Dia's footer.
+const GLOW_COLUMNS = Array.from({ length: 25 }, (_, i) => {
+  const x = Math.abs(i - 12) / 12;
+  return Math.round((0.98 - 0.44 * x ** 1.2) * 1000) / 10;
+});
 
 const point = (r: number, degrees: number) => {
   const a = (degrees * Math.PI) / 180;
