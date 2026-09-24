@@ -11,7 +11,16 @@ import { useRef } from "react";
  * applied once per frame, and the CSS transition only eases the first lean
  * and the settle, so the card tracks the pointer instead of chasing it.
  */
-export function TiltCard({ className, children }: { className: string; children: React.ReactNode }) {
+export function TiltCard({
+  className,
+  revealStep,
+  children,
+}: {
+  className: string;
+  /** Stagger for the scroll reveal when cards sit side by side. */
+  revealStep?: number;
+  children: React.ReactNode;
+}) {
   const ref = useRef<HTMLElement>(null);
   const box = useRef<DOMRect | null>(null);
   const frame = useRef(0);
@@ -54,6 +63,8 @@ export function TiltCard({ className, children }: { className: string; children:
     <article
       ref={ref}
       className={`tilt-card ${className}`}
+      data-reveal="plain"
+      data-reveal-step={revealStep}
       onPointerEnter={onPointerEnter}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}

@@ -8,9 +8,9 @@ export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="section pb-28 sm:pb-[clamp(140px,14vw,220px)]">
+    <section data-snap id="faq" className="section pb-28 sm:pb-[clamp(140px,14vw,220px)]">
       <div className="wrap grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-        <div className="flex flex-col gap-4 lg:sticky lg:top-28">
+        <div data-reveal className="flex flex-col gap-4 lg:sticky lg:top-28">
           <p className="section-label">Dúvidas</p>
           <h2 className="section-title">
             Perguntas
@@ -26,6 +26,7 @@ export function FaqSection() {
             return (
               <div
                 key={item.question}
+                data-reveal
                 className="t-acc border-t border-black/10 first:border-black last:border-b"
                 data-open={open ? "true" : "false"}
               >

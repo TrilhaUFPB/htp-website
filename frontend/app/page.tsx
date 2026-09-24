@@ -64,7 +64,7 @@ export default function Home() {
       <main id="conteudo" className="page-sheet">
         <ScrollEffects />
 
-        <section className="scroll-hero" aria-labelledby="hero-title">
+        <section data-snap className="scroll-hero" aria-labelledby="hero-title">
           <div className="scroll-hero-stage">
             <div className="hero-frame">
               <div className="hero-orb" aria-hidden="true" />
@@ -79,19 +79,19 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="patrocinadores" className="section pt-14 sm:pt-20">
+        <section data-snap id="patrocinadores" className="section pt-14 sm:pt-20">
           <Sponsors />
         </section>
 
         {/* SOBRE */}
-        <section id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
+        <section data-snap id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
           <div className="wrap flex flex-col gap-16 sm:gap-28">
-            <h2 className="m-0 font-display text-[clamp(56px,9vw,136px)] font-medium leading-[0.9] tracking-[-0.055em]">
+            <h2 data-reveal className="m-0 font-display text-[clamp(56px,9vw,136px)] font-medium leading-[0.9] tracking-[-0.055em]">
               Hack The Path<span className="text-htp-blue">.</span>
             </h2>
 
             <div className="grid gap-12 sm:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] sm:gap-16">
-              <p className="m-0 max-w-[36ch] text-[19px] leading-[1.55] text-[#3d3d3d] sm:text-[21px]">
+              <p data-reveal className="m-0 max-w-[36ch] text-[19px] leading-[1.55] text-[#3d3d3d] sm:text-[21px]">
                 Dois dias de evento presencial. Hackathon, palestras, talks e conversas com
                 empresas, o ambiente ideal para hackear sua própria trajetória até lugares que
                 antes pareciam impossíveis.
@@ -100,6 +100,7 @@ export default function Home() {
                 {EVENT_FEATURES.map((feature) => (
                   <div
                     key={feature.title}
+                    data-reveal
                     className="grid gap-2 border-t border-black/10 py-6 first:border-t-black sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-8"
                   >
                     <dt className="font-display text-[20px] font-medium tracking-[-0.02em]">
@@ -116,9 +117,9 @@ export default function Home() {
         </section>
 
         {/* PROGRAMAÇÃO */}
-        <section id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+        <section data-snap id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap flex flex-col gap-10 sm:gap-14">
-            <div className="flex flex-col gap-4">
+            <div data-reveal className="flex flex-col gap-4">
               <p className="section-label">Programação</p>
               <h2 className="section-title">
                 Dois dias.
@@ -133,6 +134,7 @@ export default function Home() {
                 return (
                   <TiltCard
                     key={day.number}
+                    revealStep={index}
                     className={`day-card flex min-h-[460px] flex-col justify-between gap-10 rounded-[28px] p-7 sm:min-h-[560px] sm:p-10 ${
                       isDark ? "bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
                     }`}
@@ -185,8 +187,13 @@ export default function Home() {
             </div>
 
             <dl className="m-0 grid grid-cols-2 gap-y-10 border-t border-black pt-8 sm:grid-cols-4 sm:pt-10">
-              {stats.map((stat) => (
-                <div key={stat.label} className="flex flex-col-reverse gap-2 pr-4">
+              {stats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  data-reveal
+                  data-reveal-step={index}
+                  className="flex flex-col-reverse gap-2 pr-4"
+                >
                   <dt className="text-[15px] leading-snug text-[#5c5c5c]">{stat.label}</dt>
                   <dd
                     className={`m-0 font-display text-[clamp(44px,5.4vw,80px)] font-medium leading-none tracking-[-0.05em] tabular-nums ${
@@ -204,12 +211,14 @@ export default function Home() {
         </section>
 
         {/* QUANDO E ONDE */}
-        <section id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+        <section data-snap id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap">
             {/* Stacked, the date and the place sit on a diagonal (date top right,
                 place bottom left) so neither leaves the card half empty; side by
                 side from lg up. */}
-            <div className="grid gap-10 rounded-[28px] bg-htp-blue p-7 text-black sm:gap-12 sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
+            <div
+              data-reveal="plain"
+              className="grid gap-10 rounded-[28px] bg-htp-blue p-7 text-black sm:gap-12 sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
               <div className="flex flex-col items-end gap-4 text-right lg:items-start lg:text-left">
                 <p className="section-label text-black">Quando</p>
                 <h2 className="m-0 font-display text-[clamp(64px,11vw,168px)] font-medium leading-[0.86] tracking-[-0.06em]">

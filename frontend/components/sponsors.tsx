@@ -3,7 +3,7 @@ import { sponsors } from "@/content/sponsors";
 
 export function Sponsors() {
   return (
-    <div className="wrap flex flex-col gap-8 border-b border-black/10 pb-14 sm:flex-row sm:items-center sm:justify-between sm:gap-12 sm:pb-20">
+    <div data-reveal className="wrap flex flex-col gap-8 border-b border-black/10 pb-14 sm:flex-row sm:items-center sm:justify-between sm:gap-12 sm:pb-20">
       <p className="m-0 shrink-0 text-[15px] text-[#5c5c5c]">Com o apoio de</p>
 
       <ul className="m-0 flex list-none flex-wrap items-center gap-x-12 gap-y-6 p-0 sm:flex-1 sm:justify-center">
