@@ -84,9 +84,9 @@ a:hover {
 --------------------------------------------------------------------------- */
 
 .scroll-hero {
-  --hero-inset-x: 36px;
-  --hero-inset-y: 44px;
-  --hero-radius: 30px;
+  --hero-inset-x: max(48px, 9vw);
+  --hero-inset-y: max(56px, 11svh);
+  --hero-radius: 40px;
   position: relative;
   height: 100svh;
   /* The page wrapper is a flex column; opt out of shrinking so the runway
@@ -156,9 +156,9 @@ a:hover {
 
 @media (max-width: 680px) {
   .scroll-hero {
-    --hero-inset-x: 10px;
-    --hero-inset-y: 14px;
-    --hero-radius: 22px;
+    --hero-inset-x: 20px;
+    --hero-inset-y: 9svh;
+    --hero-radius: 28px;
   }
 
   .hero-copy {
