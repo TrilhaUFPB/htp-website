@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Funnel_Display, Funnel_Sans } from "next/font/google";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { siteConfig } from "@/content/site";
 import { createEventJsonLd, createSiteMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang={siteConfig.language} className={`${funnelDisplay.variable} ${funnelSans.variable}`}>
       <body className="font-sans antialiased">
+        <SmoothScroll />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

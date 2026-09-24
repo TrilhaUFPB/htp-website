@@ -138,6 +138,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
       {phase !== "closed" ? createPortal(
         <div
+          data-lenis-prevent
           className={`t-modal-scrim fixed inset-0 z-50 flex items-end justify-center bg-black/60 px-4 py-4 backdrop-blur-[2px] sm:items-center sm:px-6${phase === "open" ? " is-open" : ""}${phase === "closing" ? " is-closing" : ""}`}
           onClick={close}
         >
