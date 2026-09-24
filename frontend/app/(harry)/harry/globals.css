@@ -113,6 +113,11 @@ a:hover {
   /* clip-path rather than border-radius + overflow: the blurred glow sits on
      its own compositor layer, which a rounded overflow clip lets escape. */
   clip-path: inset(0 round 0);
+  /* clip-path only hides the oversized orb; it still counts towards the
+     page's scrollable width. overflow: clip trims it from layout too, without
+     making the frame a scroll container (hidden is the fallback). */
+  overflow: hidden;
+  overflow: clip;
   background: #000;
   color: #fff;
   isolation: isolate;
