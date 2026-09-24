@@ -1,17 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Funnel_Display, Funnel_Sans } from "next/font/google";
 import { siteConfig } from "@/content/site";
 import { createEventJsonLd, createSiteMetadata } from "@/lib/seo";
 import "./globals.css";
 
-const googleSansFlex = localFont({
-  src: "./fonts/google-sans-flex/GoogleSansFlex-Latin-wght.woff2",
-  variable: "--font-google-sans-flex",
+const funnelDisplay = Funnel_Display({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-funnel-display",
   display: "swap",
-  // Declaring the variable font's weight range is what lets the browser drive
-  // the wght axis. Without it the @font-face defaults to 400 and the browser
-  // synthesises bold for the heavy headings instead of using the real weights.
-  weight: "1 1000",
+});
+
+const funnelSans = Funnel_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-funnel-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = createSiteMetadata();
@@ -32,7 +34,7 @@ export default function RootLayout({
   const jsonLd = createEventJsonLd();
 
   return (
-    <html lang={siteConfig.language} className={googleSansFlex.variable}>
+    <html lang={siteConfig.language} className={`${funnelDisplay.variable} ${funnelSans.variable}`}>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"

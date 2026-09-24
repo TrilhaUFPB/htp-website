@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-google-sans-flex), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-funnel-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-funnel-display), var(--font-funnel-sans), ui-sans-serif, sans-serif;
   --color-htp-blue: #7a94fd;
 }
 
@@ -9,25 +10,58 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Black under everything: it is what shows past the sheet's rounded bottom
+   corners and behind the footer the sheet uncovers. */
 html,
 body {
   margin: 0;
   padding: 0;
-  background: #fff;
+  background: #000;
   color: #000;
+}
+
+/* ---------------------------------------------------------------------------
+   Page layout.
+--------------------------------------------------------------------------- */
+
+.page-sheet {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 0 0 36px 36px;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  padding-inline: 20px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+}
+
+.section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.8vw, 68px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-inline: 48px;
+  }
 }
 
 a:hover {
   opacity: 0.8;
-}
-
-@keyframes htp-marquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -131,27 +165,36 @@ a:hover {
 
 .hero-copy {
   display: flex;
-  width: min(760px, calc(100% - 48px));
+  width: min(820px, calc(100% - 48px));
   flex-direction: column;
   align-items: center;
-  gap: 34px;
-  padding-top: 62px;
+  gap: 36px;
+  padding-top: 40px;
 }
 
-/* Light weight for the setup, bold for the claim, following the hero this was
-   ported from. */
 .hero-title {
+  max-width: 11em;
   margin: 0;
-  font-size: clamp(34px, 3.8vw, 58px);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.2vw, 80px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
   text-align: center;
   text-wrap: balance;
 }
 
-.hero-title strong {
-  font-weight: 700;
+/* Date and place sit in the frame's bottom corners, where the artwork's mask
+   has already faded to black. */
+.hero-meta {
+  position: absolute;
+  inset: auto 32px 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  color: #a3a3a3;
+  font-size: 15px;
 }
 
 @media (max-width: 680px) {
@@ -178,18 +221,18 @@ a:hover {
   }
 
   .hero-copy {
-    width: min(760px, calc(100% - 32px));
-    gap: 20px;
-    padding-top: 28px;
+    width: calc(100% - 40px);
+    gap: 28px;
+    padding-top: 0;
   }
 
   .hero-title {
-    font-size: clamp(30px, 8vw, 36px);
-    line-height: 1.1;
+    font-size: clamp(38px, 11vw, 48px);
   }
 
-  .hero-title-break {
-    display: block;
+  .hero-meta {
+    inset: auto 20px 22px;
+    font-size: 13px;
   }
 }
 
@@ -275,9 +318,8 @@ a:hover {
 .header-inner nav {
   display: flex;
   align-items: center;
-  gap: 34px;
-  font-size: 14px;
-  font-weight: 500;
+  gap: 32px;
+  font-size: 15px;
 }
 
 .header-inner nav a {
@@ -299,8 +341,8 @@ a:hover {
 .site-header:focus-within:not([data-mode="top"]) {
   transform: translateY(0);
   background: #fff;
-  color: #080808;
-  border-bottom-color: #e5e5e5;
+  color: #000;
+  border-bottom-color: rgb(0 0 0 / 0.08);
 }
 
 .site-header[data-mode="visible"] .brand img,
@@ -388,25 +430,6 @@ main section[id] {
   main section[id] {
     scroll-margin-top: 24px;
   }
-}
-
-/* ---------------------------------------------------------------------------
-   Scroll reveal.
-
-   Sections below the hero fade up into view once. ScrollEffects arms this by
-   adding data-reveal-armed after mount (so content stays visible without JS
-   or under reduced motion) and stamps data-reveal-visible once an element
-   has crossed the IntersectionObserver threshold.
---------------------------------------------------------------------------- */
-
-[data-reveal][data-reveal-armed] {
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-[data-reveal][data-reveal-armed]:not([data-reveal-visible]) {
-  opacity: 0;
-  transform: translateY(28px);
 }
 
 /* ---------------------------------------------------------------------------
@@ -521,6 +544,131 @@ main section[id] {
   }
 }
 
-.t-acc[data-open="true"] .t-acc-head {
-  color: var(--color-htp-blue);
+/* ---------------------------------------------------------------------------
+   Footer.
+
+   Pinned under the page sheet, so scrolling past the FAQ lifts the sheet off
+   it. SiteFooter publishes --rise (0 → 1) as the footer is uncovered; the fan
+   climbs out of the bottom edge, its two bands turn against each other like an
+   iris, and the field behind warms from black towards blue at the same origin,
+   so it reads as a light source rather than a pattern.
+--------------------------------------------------------------------------- */
+
+.site-footer {
+  --rise: 1;
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  height: 100svh;
+  min-height: 620px;
+  max-height: 1000px;
+  flex-direction: column;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  isolation: isolate;
+}
+
+.site-footer a:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+.footer-field {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(120% 70% at 50% 100%, #1b2445 0%, #0a0e1b 45%, #000 75%);
+  opacity: var(--rise);
+}
+
+.sunrise {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: -1;
+  width: 100%;
+  /* Never climb into the copy above it: nothing sits on top of the fan. */
+  height: min(60%, calc(100% - 360px));
+  transform: translateX(-50%) translateY(calc((1 - var(--rise)) * 45%))
+    scale(calc(0.82 + var(--rise) * 0.18));
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+/* With a view-box reference box, 0 0 is the viewBox's own origin — the
+   fan's centre on the bottom edge. */
+.sunrise-band-a,
+.sunrise-band-b {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.sunrise-band-a {
+  transform: rotate(calc((1 - var(--rise)) * 10deg));
+}
+
+.sunrise-band-b {
+  transform: rotate(calc((1 - var(--rise)) * -6deg));
+}
+
+.footer-inner {
+  display: flex;
+  width: calc(100% - 40px);
+  max-width: 1120px;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 auto;
+  padding-top: clamp(96px, 14svh, 150px);
+}
+
+/* The wordmark sits on the fan's core, the one solid area in it. */
+.footer-mark {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  opacity: calc(var(--rise) * 1.4 - 0.4);
+}
+
+.footer-mark img {
+  filter: invert(1);
+}
+
+@media (min-width: 640px) {
+  .footer-inner {
+    width: calc(100% - 96px);
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .footer-mark {
+    bottom: 24px;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-sheet {
+    border-radius: 0 0 24px 24px;
+  }
+
+  .sunrise {
+    height: min(46%, calc(100% - 440px));
+  }
+}
+
+/* Too short to pin a whole footer under the sheet: let it scroll normally. */
+@media (max-height: 600px) {
+  .site-footer {
+    position: relative;
+    height: auto;
+    min-height: 640px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunrise {
+    will-change: auto;
+  }
 }

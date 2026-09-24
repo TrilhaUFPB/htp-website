@@ -3,16 +3,13 @@ import { sponsors } from "@/content/sponsors";
 
 export function Sponsors() {
   return (
-    <div className="flex w-full max-w-[1040px] flex-col items-center gap-7 border-b border-[#e5e5e5] pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:pb-14 lg:text-left">
-      <p className="m-0 shrink-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue sm:text-[14px]">
-        Com o apoio de
-      </p>
+    <div className="wrap flex flex-col gap-8 border-b border-black/10 pb-14 sm:flex-row sm:items-center sm:justify-between sm:gap-12 sm:pb-20">
+      <p className="m-0 shrink-0 text-[15px] text-[#5c5c5c]">Com o apoio de</p>
 
-      <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:gap-14">
+      <ul className="m-0 flex list-none flex-wrap items-center gap-x-12 gap-y-6 p-0 sm:flex-1 sm:justify-center">
         {sponsors.map((sponsor) => (
           <li key={sponsor.name} className="flex">
-            {/* No card this time: the logo sits straight on the page, so the
-                `!` on the opacity is load-bearing: globals.css sets
+            {/* The `!` on the opacity is load-bearing: globals.css sets
                 `a:hover { opacity: .8 }` outside any @layer, and unlayered
                 styles outrank @layer utilities, so only an important
                 declaration keeps the logo at full strength on hover. */}
@@ -21,14 +18,14 @@ export function Sponsors() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${sponsor.name} (abre em nova aba)`}
-              className="flex items-center transition-all duration-200 grayscale hover:grayscale-0 hover:opacity-100!"
+              className="flex items-center opacity-70 grayscale transition-[filter,opacity] duration-200 hover:opacity-100! hover:grayscale-0"
             >
               <Image
                 src={sponsor.logo}
                 alt={sponsor.name}
                 width={sponsor.width}
                 height={sponsor.height}
-                className="h-8 w-auto object-contain sm:h-10"
+                className="h-7 w-auto object-contain sm:h-9"
               />
             </a>
           </li>
@@ -39,9 +36,9 @@ export function Sponsors() {
         href="https://instagram.com/trilhaufpb"
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 whitespace-nowrap border-b-2 border-htp-blue text-sm font-bold text-black transition-colors duration-200 hover:text-htp-blue"
+        className="shrink-0 self-start text-[15px] font-medium text-black underline decoration-black/25 underline-offset-[6px] transition-colors hover:decoration-black sm:self-auto"
       >
-        Leve sua marca →
+        Seja patrocinador
       </a>
     </div>
   );

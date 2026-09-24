@@ -12,7 +12,7 @@ export type ScheduleDay = {
 export const scheduleDays: readonly ScheduleDay[] = [
   {
     number: "01",
-    date: "20 fev",
+    date: "Sábado, 20 fev",
     access: "Aberto a todos",
     title: "Palestras, talks e stands de empresas.",
     description:
@@ -21,7 +21,7 @@ export const scheduleDays: readonly ScheduleDay[] = [
   },
   {
     number: "02",
-    date: "21 fev",
+    date: "Domingo, 21 fev",
     access: "Só selecionados",
     title: "Hackathon, pitches, judges e premiação.",
     description:

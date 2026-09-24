@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Aperture } from "@/components/aperture";
-import { CtaSection } from "@/components/cta";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
 import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
+import { SiteFooter } from "@/components/site-footer";
 import { Sponsors } from "@/components/sponsors";
 import { scheduleDays } from "@/content/schedule";
 import { stats } from "@/content/stats";
@@ -31,7 +31,7 @@ export default function Home() {
   const faqJsonLd = createFaqJsonLd();
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-black">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -41,7 +41,6 @@ export default function Home() {
         Pular para o conteúdo
       </a>
 
-      {/* HEADER */}
       <ScrollHeader>
         <div className="header-inner">
           <Link href="/" aria-label="Hack The Path — início" className="brand">
@@ -54,7 +53,6 @@ export default function Home() {
             />
           </Link>
           <nav aria-label="Navegação principal">
-            <a href="#patrocinadores">Patrocinadores</a>
             <a href="#evento">Sobre</a>
             <a href="#programacao">Programação</a>
             <a href="#quando">Quando e onde</a>
@@ -63,244 +61,178 @@ export default function Home() {
         </div>
       </ScrollHeader>
 
-      <main id="conteudo" className="flex flex-col">
-      <ScrollEffects />
-      {/* HERO */}
-      <ScrollHero>
-        <div className="hero-frame">
-          <div className="hero-art">
-            <Aperture />
-          </div>
+      <main id="conteudo" className="page-sheet">
+        <ScrollEffects />
 
-          <div className="hero-copy">
-            <h1 id="hero-title" className="hero-title">
-              O maior hackathon
-              <br />
-              <strong>
-                da história <span className="hero-title-break">do Nordeste</span>
-              </strong>
-            </h1>
-            <NotifySignup variant="hero" />
-          </div>
-        </div>
-      </ScrollHero>
+        <ScrollHero>
+          <div className="hero-frame">
+            <div className="hero-art">
+              <Aperture />
+            </div>
 
-      {/* SPONSORS */}
-      <section
-        id="patrocinadores"
-        className="flex scroll-mt-14 justify-center bg-white px-5 pt-10 sm:px-14 sm:pt-[70px]"
-      >
-        <Sponsors />
-      </section>
+            <div className="hero-copy">
+              <h1 id="hero-title" className="hero-title">
+                O maior hackathon da história do Nordeste
+              </h1>
+              <NotifySignup variant="hero" />
+            </div>
 
-      {/* ABOUT */}
-      <section
-        id="evento"
-        className="flex justify-center px-5 py-16 sm:px-14 sm:py-[clamp(96px,11vw,170px)]"
-      >
-        <div className="flex w-full max-w-[1040px] flex-col gap-10 sm:gap-24">
-          <div className="grid grid-cols-1 items-center gap-6 sm:grid-cols-[auto_1fr] sm:gap-40">
-            <h2 className="m-0 text-[clamp(48px,7vw,112px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
-              Hack
-              <br />
-              The
-              <br />
-              Path<span className="text-htp-blue">.</span>
-            </h2>
-            <p className="m-0 max-w-[440px] text-[clamp(17px,1.6vw,23px)] leading-[1.5] text-[#333]">
-              Dois dias de evento presencial. Hackathon, palestras, talks e conversas com
-              empresas, o ambiente ideal para hackear sua própria trajetória até lugares que
-              antes pareciam impossíveis.
+            <p className="hero-meta">
+              <span>20 e 21 de fevereiro de 2027</span>
+              <span>Cabedelo, Paraíba</span>
             </p>
           </div>
+        </ScrollHero>
 
-          <div className="grid grid-cols-1 gap-8 border-t border-[#e5e5e5] pt-8 sm:grid-cols-3 sm:gap-12 sm:pt-10">
-            {EVENT_FEATURES.map((feature) => (
-              <div key={feature.title} className="flex flex-col gap-3">
-                <h3 className="m-0 text-[22px] font-extrabold tracking-[-0.02em]">
-                  {feature.title}
-                </h3>
-                <p className="m-0 text-base leading-[1.55] text-[#555]">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <section id="patrocinadores" className="section pt-14 sm:pt-20">
+          <Sponsors />
+        </section>
 
-      {/* PROGRAMAÇÃO */}
-      <section
-        id="programacao"
-        className="flex scroll-mt-14 justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]"
-      >
-        <div className="w-full max-w-[1040px]">
-          <div data-reveal className="flex flex-wrap items-end justify-between gap-6 pb-8 sm:pb-12">
-            <div className="flex flex-col gap-5">
-              <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Programação
+        {/* SOBRE */}
+        <section id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
+          <div className="wrap flex flex-col gap-16 sm:gap-28">
+            <h2 className="m-0 max-w-[15ch] font-display text-[clamp(40px,6.4vw,96px)] font-medium leading-[0.98] tracking-[-0.045em] text-balance">
+              Talento existe em todo lugar.{" "}
+              <span className="text-[#a3a3a3]">Oportunidade, não.</span>
+            </h2>
+
+            <div className="grid gap-12 sm:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] sm:gap-16">
+              <p className="m-0 max-w-[36ch] text-[19px] leading-[1.55] text-[#3d3d3d] sm:text-[21px]">
+                Dois dias de evento presencial. Hackathon, palestras, talks e conversas com
+                empresas: o ambiente para hackear sua própria trajetória até lugares que antes
+                pareciam impossíveis.
               </p>
-              <h2 className="m-0 text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.02] tracking-[-0.03em]">
-                Dois dias.
-                <br />
-                Duas portas.
-              </h2>
+              <dl className="m-0 grid gap-0">
+                {EVENT_FEATURES.map((feature) => (
+                  <div
+                    key={feature.title}
+                    className="grid gap-2 border-t border-black/10 py-6 first:border-t-black sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-8"
+                  >
+                    <dt className="font-display text-[20px] font-medium tracking-[-0.02em]">
+                      {feature.title}
+                    </dt>
+                    <dd className="m-0 text-[16px] leading-[1.55] text-[#5c5c5c]">
+                      {feature.description}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
+        </section>
 
-          <div className="grid gap-4">
-            {scheduleDays.map((day, index) => {
-              const isDark = index === 1;
-              return (
-                <article
-                  key={day.number}
-                  className={`sticky box-border grid min-h-[min(560px,68vh)] grid-cols-[auto_minmax(0,1fr)] gap-6 rounded-[30px] p-6 sm:gap-16 sm:p-12 ${
-                    index === 0 ? "top-[100px]" : "top-[116px]"
-                  } ${
-                    isDark
-                      ? "bg-black text-white shadow-[0_-20px_60px_rgba(0,0,0,0.18)]"
-                      : "border-[1.5px] border-black bg-white"
-                  }`}
-                >
-                  <div
-                    className={`text-[clamp(72px,11vw,168px)] font-black leading-[0.85] tracking-[-0.06em] ${
-                      isDark ? "text-htp-blue" : ""
+        {/* PROGRAMAÇÃO */}
+        <section id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+          <div className="wrap flex flex-col gap-10 sm:gap-14">
+            <h2 className="section-title">Dois dias, duas portas.</h2>
+
+            <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+              {scheduleDays.map((day, index) => {
+                const isDark = index === 1;
+                return (
+                  <article
+                    key={day.number}
+                    className={`flex min-h-[420px] flex-col justify-between gap-12 rounded-[28px] p-7 sm:min-h-[520px] sm:p-10 ${
+                      isDark ? "bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
                     }`}
                   >
-                    {day.number}
-                  </div>
-                  <div className="flex flex-col justify-between gap-8 sm:gap-10">
-                    <div className="flex flex-wrap gap-2.5">
-                      <span
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 text-[13px] font-bold tracking-[0.04em] ${
-                          isDark ? "bg-htp-blue text-black" : "bg-black text-white"
-                        }`}
-                      >
+                    <div className="flex items-baseline justify-between gap-4">
+                      <p className="m-0 font-display text-[17px] font-medium tracking-[-0.01em]">
+                        Dia {index + 1}
+                      </p>
+                      <p className={`m-0 text-[15px] ${isDark ? "text-[#a3a3a3]" : "text-[#5c5c5c]"}`}>
                         {day.date}
-                      </span>
-                      <span
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 text-[13px] font-bold tracking-[0.04em] ${
-                          isDark ? "border-[1.5px] border-white" : "border-[1.5px] border-black"
-                        }`}
-                      >
-                        {day.access}
-                      </span>
+                      </p>
                     </div>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="m-0 max-w-[620px] text-balance text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
+
+                    <div className="flex flex-col gap-5">
+                      <h3 className="m-0 max-w-[16ch] font-display text-[clamp(30px,3.4vw,46px)] font-medium leading-[1.02] tracking-[-0.035em] text-balance">
                         {day.title}
                       </h3>
                       <p
-                        className={`m-0 max-w-[520px] text-[17px] leading-[1.55] ${
-                          isDark ? "text-[#aaa]" : "text-[#555]"
+                        className={`m-0 max-w-[40ch] text-[17px] leading-[1.55] ${
+                          isDark ? "text-[#a3a3a3]" : "text-[#5c5c5c]"
                         }`}
                       >
                         {day.description}
                       </p>
                     </div>
-                    <p className="m-0 text-[14px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                      {day.count ? (
-                        <>
-                          <span data-count={day.count}>0</span> {day.participants}
-                        </>
-                      ) : (
-                        day.participants
-                      )}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
-      {/* NÚMEROS */}
-      <section className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
-        <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
-          {stats.map((stat, index) => (
-            <div
-              key={stat.label}
-              data-reveal={index * 80}
-              className={`flex flex-col gap-3 border-[#e5e5e5] px-4 py-8 sm:border-r sm:px-6 sm:py-10 sm:border-b-0 sm:last:border-r-0 ${
-                index % 2 === 0 ? "border-r" : ""
-              } ${index < 2 ? "border-b" : ""}`}
-            >
-              <span
-                className={`text-[clamp(40px,6vw,88px)] font-black leading-[0.9] tracking-[-0.05em] ${
-                  stat.accent ? "text-htp-blue" : ""
-                }`}
-              >
-                <span data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                  0
-                </span>
-              </span>
-              <span className="text-[15px] font-semibold text-[#555]">{stat.label}</span>
+                    <div
+                      className={`flex flex-wrap items-center justify-between gap-3 border-t pt-5 text-[15px] ${
+                        isDark ? "border-white/15" : "border-black/10"
+                      }`}
+                    >
+                      <span className={isDark ? "text-htp-blue" : ""}>{day.access}</span>
+                      <span className={isDark ? "text-[#a3a3a3]" : "text-[#5c5c5c]"}>
+                        {day.count ? (
+                          <>
+                            <span data-count={day.count}>{day.count}</span> {day.participants}
+                          </>
+                        ) : (
+                          day.participants
+                        )}
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* LOCAL & DATA */}
-      <section
-        id="quando"
-        className="flex scroll-mt-14 justify-center px-5 pb-16 sm:px-14 sm:pb-[140px]"
-      >
-        <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-8 sm:grid-cols-[1.2fr_0.8fr] sm:gap-16">
-          <div className="flex flex-col gap-8 sm:gap-10">
-            <div data-reveal className="flex flex-col gap-5">
-              <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Quando
-              </p>
-              <h2 className="m-0 text-[clamp(56px,9vw,140px)] font-black leading-[0.88] tracking-[-0.06em]">
+            <dl className="m-0 grid grid-cols-2 gap-y-10 border-t border-black pt-8 sm:grid-cols-4 sm:pt-10">
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex flex-col-reverse gap-2 pr-4">
+                  <dt className="text-[15px] leading-snug text-[#5c5c5c]">{stat.label}</dt>
+                  <dd
+                    className={`m-0 font-display text-[clamp(44px,5.4vw,80px)] font-medium leading-none tracking-[-0.05em] tabular-nums ${
+                      stat.accent ? "text-htp-blue" : ""
+                    }`}
+                  >
+                    <span data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>
+                      {`${stat.prefix ?? ""}${stat.count}${stat.suffix ?? ""}`}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* QUANDO E ONDE */}
+        <section id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+          <div className="wrap">
+            <div className="grid gap-14 rounded-[28px] bg-htp-blue p-7 text-black sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
+              <h2 className="m-0 font-display text-[clamp(64px,11vw,168px)] font-medium leading-[0.86] tracking-[-0.06em]">
+                <span className="sr-only">Quando: </span>
                 20–21
                 <br />
-                fev<span className="text-htp-blue">.</span>27
+                fev 2027
               </h2>
-            </div>
-            <div
-              data-reveal={120}
-              className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-5 border-t-[1.5px] border-black pt-6 sm:gap-6 sm:pt-7"
-            >
-              <p className="m-0 pt-1.5 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Onde
-              </p>
-              <div className="flex flex-col gap-2.5">
-                <h3 className="m-0 text-[clamp(26px,3vw,40px)] font-extrabold leading-none tracking-[-0.03em]">
+              <div className="flex flex-col gap-3">
+                <p className="m-0 text-[15px]">Onde</p>
+                <h3 className="m-0 font-display text-[clamp(28px,3vw,40px)] font-medium leading-none tracking-[-0.03em]">
                   Palazzo Cristal
                 </h3>
-                <p className="m-0 max-w-[380px] text-base leading-[1.55] text-[#555]">
-                  R. Quatrocentos e Noventa e Dois, 2-114 – Lot. Progresso, Cabedelo – PB
+                <p className="m-0 max-w-[34ch] text-[16px] leading-[1.55]">
+                  R. Quatrocentos e Noventa e Dois, 2-114, Lot. Progresso, Cabedelo, PB
                 </p>
                 <a
                   href="https://maps.google.com/?q=Palazzo+Cristal+Cabedelo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 self-start border-b-2 border-htp-blue text-sm font-bold text-black transition-colors duration-200 hover:text-htp-blue"
+                  className="mt-3 inline-flex self-start rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors hover:bg-white hover:text-black hover:opacity-100"
                 >
-                  Ver no mapa ↗
+                  Abrir no mapa
                 </a>
               </div>
             </div>
           </div>
-          <div data-reveal={200} className="flex justify-center">
-            <Image
-              src="/images/fan-mono.png"
-              alt=""
-              aria-hidden="true"
-              data-parallax="0.08"
-              width={600}
-              height={600}
-              className="aspect-square w-full max-w-[400px] rounded-[30px] object-cover will-change-transform"
-            />
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FAQ */}
-      <FaqSection />
-
-      {/* CTA + FOOTER */}
-      <CtaSection />
+        <FaqSection />
       </main>
-    </div>
+
+      <SiteFooter />
+    </>
   );
 }
