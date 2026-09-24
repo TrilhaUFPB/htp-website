@@ -683,12 +683,15 @@ main section[id] {
   z-index: -1;
   height: 34%;
   filter: blur(18px);
+  /* A hint, not the footer's full sunrise. */
+  opacity: 0.3;
   transform: scaleY(0);
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* On white the ramp runs from the brand blue into white instead of black. */
 .day-card:not(.day-card-dark) .day-glow {
+  opacity: 0.45;
   --glow-ramp: #fff 0%, #e8edff 14%, #c6d2fe 34%, #a9bafe 50%, #c6d2fe 66%, #eef1ff 84%, #fff 100%;
 }
 
@@ -696,16 +699,6 @@ main section[id] {
   transform: scaleY(1);
 }
 
-/* The glow's bright band lands on the card's foot; its line turns solid so
-   it stays legible there. */
-.day-meta,
-.day-meta span {
-  transition: color 0.3s ease;
-}
-
-.day-card-dark:hover .day-meta span {
-  color: #fff;
-}
 
 @media (hover: none) {
   .day-glow {

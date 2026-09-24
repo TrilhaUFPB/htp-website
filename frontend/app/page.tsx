@@ -170,7 +170,7 @@ export default function Home() {
                     </div>
 
                     <div
-                      className={`day-meta flex flex-wrap items-center justify-between gap-3 border-t pt-5 text-[15px] ${
+                      className={`flex flex-wrap items-center justify-between gap-3 border-t pt-5 text-[15px] ${
                         isDark ? "border-white/15" : "border-black/10"
                       }`}
                     >
