@@ -630,8 +630,9 @@ body {
   }
 }
 
-/* The glow leads the reveal: two-thirds risen when a quarter of the footer
-   shows, full by three quarters, climbing as it grows. */
+/* The glow builds across the whole reveal: dark as the sheet starts to
+   lift, climbing, growing and brightening with the scroll, and only full as
+   the footer lands. */
 @supports (animation-range: cover 0% cover 100px) {
   @media (min-height: 601px) and (prefers-reduced-motion: no-preference) {
     .footer-glow,
@@ -653,18 +654,18 @@ body {
 }
 
 @keyframes glow-rise {
-  0% { transform: translateY(40%) scaleY(0.25); opacity: 0.2; }
-  25% { transform: translateY(14%) scaleY(0.74); opacity: 0.72; }
-  50% { transform: translateY(3%) scaleY(0.95); opacity: 0.94; }
-  75%, 100% { transform: none; opacity: 1; }
+  0% { transform: translateY(60%) scaleY(0.1); opacity: 0; }
+  25% { transform: translateY(53%) scaleY(0.2); opacity: 0.11; }
+  50% { transform: translateY(40%) scaleY(0.4); opacity: 0.33; }
+  75% { transform: translateY(22%) scaleY(0.67); opacity: 0.63; }
+  90% { transform: translateY(9%) scaleY(0.87); opacity: 0.85; }
+  100% { transform: none; opacity: 1; }
 }
 
 @keyframes mark-rise {
-  0%, 12% { opacity: 0; }
-  25% { opacity: 0.5; }
-  50%, 100% { opacity: 1; }
+  0%, 55% { opacity: 0; }
+  100% { opacity: 1; }
 }
-
 
 /* Too short to pin a whole footer under the sheet: let it scroll normally. */
 @media (max-height: 600px) {
