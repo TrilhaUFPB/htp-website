@@ -667,6 +667,10 @@ main section[id] {
   --tilt-y: 0deg;
   position: relative;
   overflow: hidden;
+  /* overflow alone stops clipping the glow while its transform animates on
+     its own compositor layer (the rounded clip only returns once it
+     settles); clip-path holds for the whole animation. */
+  clip-path: inset(0 round 28px);
   isolation: isolate;
   transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
