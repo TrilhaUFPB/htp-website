@@ -738,10 +738,13 @@ body {
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* Measured against the viewport (cover), not the element's own height:
+       a block starts as it enters at the bottom and is only fully there
+       around the middle of the screen, however short it is. */
     [data-reveal] {
       animation: reveal linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 70%;
+      animation-range: cover 0% cover 45%;
     }
 
     [data-reveal="plain"] {
@@ -749,15 +752,15 @@ body {
     }
 
     [data-reveal-step="1"] {
-      animation-range: entry 10% entry 80%;
+      animation-range: cover 5% cover 50%;
     }
 
     [data-reveal-step="2"] {
-      animation-range: entry 20% entry 90%;
+      animation-range: cover 10% cover 55%;
     }
 
     [data-reveal-step="3"] {
-      animation-range: entry 30% entry 100%;
+      animation-range: cover 15% cover 60%;
     }
   }
 }
