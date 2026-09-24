@@ -7,6 +7,7 @@ import { ScrollHeader } from "@/components/scroll-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Sponsors } from "@/components/sponsors";
 import { TiltCard } from "@/components/tilt-card";
+import { TramaWave } from "@/components/trama-wave";
 import { scheduleDays } from "@/content/schedule";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";
@@ -67,8 +68,8 @@ export default function Home() {
         <section className="scroll-hero" aria-labelledby="hero-title">
           <div className="scroll-hero-stage">
             <div className="hero-frame">
-              <div className="hero-orb" aria-hidden="true" />
-              <div className="hero-grain" aria-hidden="true" />
+              <TramaWave />
+              <div className="hero-fade" aria-hidden="true" />
               <div className="hero-copy">
                 <h1 id="hero-title" className="hero-title">
                   O maior hackathon da história do Nordeste
