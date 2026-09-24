@@ -739,12 +739,12 @@ body {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* Measured against the viewport (cover), not the element's own height:
-       a block starts as it enters at the bottom and is only fully there
-       around the middle of the screen, however short it is. */
+       a block starts as it enters at the bottom and is fully there about a
+       quarter of the way up the screen, however short it is. */
     [data-reveal] {
       animation: reveal linear both;
       animation-timeline: view();
-      animation-range: cover 0% cover 45%;
+      animation-range: cover 0% cover 25%;
     }
 
     [data-reveal="plain"] {
@@ -752,15 +752,15 @@ body {
     }
 
     [data-reveal-step="1"] {
-      animation-range: cover 5% cover 50%;
+      animation-range: cover 4% cover 29%;
     }
 
     [data-reveal-step="2"] {
-      animation-range: cover 10% cover 55%;
+      animation-range: cover 8% cover 33%;
     }
 
     [data-reveal-step="3"] {
-      animation-range: cover 15% cover 60%;
+      animation-range: cover 12% cover 37%;
     }
   }
 }
@@ -768,8 +768,8 @@ body {
 @keyframes reveal {
   from {
     opacity: 0;
-    translate: 0 32px;
-    filter: blur(8px);
+    translate: 0 20px;
+    filter: blur(4px);
   }
   to {
     opacity: 1;
@@ -781,8 +781,8 @@ body {
 @keyframes reveal-plain {
   from {
     opacity: 0;
-    translate: 0 48px;
-    scale: 0.97;
+    translate: 0 32px;
+    scale: 0.98;
   }
   to {
     opacity: 1;
