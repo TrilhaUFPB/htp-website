@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DiaGlow } from "@/components/dia-glow";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
@@ -68,8 +67,6 @@ export default function Home() {
         <section className="scroll-hero" aria-labelledby="hero-title">
           <div className="scroll-hero-stage">
             <div className="hero-frame">
-              <DiaGlow className="hero-glow" />
-
               <div className="hero-copy">
                 <h1 id="hero-title" className="hero-title">
                   O maior hackathon da história do Nordeste

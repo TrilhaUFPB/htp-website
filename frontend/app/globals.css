@@ -76,12 +76,10 @@ a:hover {
 /* ---------------------------------------------------------------------------
    Hero.
 
-   A black stage lit from below by the same Dia glow the footer ends on, so
-   the page opens and closes on one horizon. The glow rises once on load.
+   A plain black stage; the glow is saved for the footer.
 
    Where scroll-driven animations exist, the section gets a runway: the stage
-   pins while the frame is clipped into the rounded page card and the light
-   sinks. It is all clip-path and transform on the section's view timeline,
+   pins while the frame is clipped into the rounded page card. It is all clip-path and transform on the section's view timeline,
    so it runs on the compositor: no layout, no JS per frame, no text reflow.
 --------------------------------------------------------------------------- */
 
@@ -116,25 +114,6 @@ a:hover {
   place-items: center;
 }
 
-.hero-glow {
-  inset: auto -4% -60px;
-  z-index: -1;
-  height: 62%;
-  filter: blur(18px);
-  animation: hero-glow-rise 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-
-/* `scale` composes with the scroll-driven `transform`, so the entrance and
-   the scroll never fight over one property. */
-@keyframes hero-glow-rise {
-  from {
-    scale: 1 0;
-  }
-  to {
-    scale: 1 1;
-  }
-}
-
 @supports (animation-range: contain 0% contain 100%) {
   @media (prefers-reduced-motion: no-preference) {
     .scroll-hero {
@@ -146,14 +125,6 @@ a:hover {
       animation-timeline: --hero;
       animation-range: contain 35% contain 100%;
     }
-
-    .hero-glow {
-      animation:
-        hero-glow-rise 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both,
-        hero-glow-sink linear both;
-      animation-timeline: auto, --hero;
-      animation-range: normal, contain 0% contain 100%;
-    }
   }
 }
 
@@ -163,19 +134,12 @@ a:hover {
   }
 }
 
-@keyframes hero-glow-sink {
-  to {
-    transform: scaleY(0.5);
-  }
-}
-
 .hero-copy {
   display: flex;
   width: min(820px, calc(100% - 48px));
   flex-direction: column;
   align-items: center;
   gap: 36px;
-  padding-bottom: 14svh;
 }
 
 .hero-title {
@@ -197,15 +161,9 @@ a:hover {
     --hero-radius: 22px;
   }
 
-  .hero-glow {
-    height: 52%;
-    filter: blur(12px);
-  }
-
   .hero-copy {
     width: calc(100% - 40px);
     gap: 28px;
-    padding-bottom: 18svh;
   }
 
   .hero-title {
@@ -218,12 +176,6 @@ a:hover {
     .scroll-hero {
       height: 160svh;
     }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-glow {
-    animation: none;
   }
 }
 
