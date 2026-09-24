@@ -1,0 +1,526 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-google-sans-flex), ui-sans-serif, system-ui, sans-serif;
+  --color-htp-blue: #7a94fd;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+@keyframes htp-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-driven aperture hero.
+
+   The stage opens full-bleed and black, then contracts into the white page
+   frame after an initial stretch of artwork-only motion. --hero-progress and
+   --hero-motion are
+   published by the ScrollHero client component, so the choreography is a
+   handful of calc() calls rather than a timeline.
+--------------------------------------------------------------------------- */
+
+.scroll-hero {
+  --hero-progress: 0;
+  --hero-motion: 0;
+  --hero-zoom: 1;
+  --hero-rotation: 0deg;
+  --hero-beams: 0;
+  position: relative;
+  height: 526.667svh;
+  /* The page wrapper is a flex column; opt out of shrinking so the runway
+     keeps its full height. */
+  flex: none;
+}
+
+.scroll-hero-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100svh;
+  place-items: center;
+}
+
+.hero-frame {
+  position: relative;
+  display: grid;
+  width: calc(100% - var(--hero-progress) * 72px);
+  height: calc(100svh - var(--hero-progress) * 88px);
+  border-radius: calc(var(--hero-progress) * 30px);
+  background: #000;
+  color: #fff;
+  isolation: isolate;
+  overflow: hidden;
+  place-items: center;
+}
+
+/* Feather the artwork against the frame edges; copy stays crisp.
+
+   The layer is sized to the viewport rather than to the frame, so the frame
+   contracting does not resize it. That keeps the two mask gradients and the
+   blade SVG from being re-resolved on every scroll frame; the frame's
+   overflow crops the few pixels that fall outside it. */
+.hero-art {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  z-index: -1;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent),
+    linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+  mask-composite: intersect;
+  transform: translate(-50%, -50%);
+}
+
+.aperture {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(1600px, 104%);
+  height: max(860px, 104%);
+  max-width: none;
+  transform: translate(-50%, -50%) scale(var(--hero-zoom))
+    rotate(var(--hero-rotation));
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Light rays stay behind the copy and leave the center of the tunnel dark. */
+.hero-art::after {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  pointer-events: none;
+  background: conic-gradient(from 12deg,
+    transparent 0deg 38deg, #a6b3ff80 39deg, #e1e7ff 39.5deg, transparent 41deg,
+    transparent 108deg, #8d9dff99 110deg, transparent 113deg,
+    transparent 180deg, #bdc8ffb3 182deg, transparent 184deg,
+    transparent 233deg, #d7dfff 234deg, transparent 236deg,
+    transparent 299deg, #8d9dff99 301deg, transparent 304deg);
+  mask-image: radial-gradient(ellipse at center, transparent 19%, #000 37%, transparent 68%);
+  opacity: calc(var(--hero-beams) * 0.65);
+  filter: blur(2px);
+  transform: rotate(calc(var(--hero-rotation) + var(--hero-motion) * 11deg)) scale(calc(0.94 + var(--hero-motion) * 0.16));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-art::after { display: none; }
+}
+
+.hero-copy {
+  display: flex;
+  width: min(760px, calc(100% - 48px));
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  padding-top: 62px;
+}
+
+/* Light weight for the setup, bold for the claim, following the hero this was
+   ported from. */
+.hero-title {
+  margin: 0;
+  font-size: clamp(34px, 3.8vw, 58px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hero-title strong {
+  font-weight: 700;
+}
+
+@media (max-width: 680px) {
+  /* One short flick, not a desktop-length tunnel. The JS starts the frame
+     reveal at mid-run so the rest of the page arrives in that same gesture. */
+  .scroll-hero {
+    height: 170svh;
+  }
+
+  .hero-frame {
+    width: calc(100% - var(--hero-progress) * 20px);
+    height: calc(100svh - var(--hero-progress) * 28px);
+    border-radius: calc(var(--hero-progress) * 22px);
+  }
+
+  .aperture {
+    width: 1320px;
+    height: max(980px, 116%);
+  }
+
+  .hero-art {
+    mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent),
+      linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .hero-copy {
+    width: min(760px, calc(100% - 32px));
+    gap: 20px;
+    padding-top: 28px;
+  }
+
+  .hero-title {
+    font-size: clamp(30px, 8vw, 36px);
+    line-height: 1.1;
+  }
+
+  .hero-title-break {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy {
+    padding-top: 0;
+  }
+
+  .scroll-hero {
+    --hero-progress: 1;
+    height: 100svh;
+  }
+
+  .scroll-hero-stage {
+    position: relative;
+  }
+
+  .aperture {
+    transform: translate(-50%, -50%);
+    will-change: auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Site header.
+
+   Transparent over the hero at the top of the page, gone on the way down, and
+   back on a solid surface on the way up. ScrollHeader sets data-mode; every
+   appearance below follows from it.
+--------------------------------------------------------------------------- */
+
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 100;
+  padding: 12px 20px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  height: 86px;
+  background: transparent;
+  color: #fff;
+  transition: transform 0.22s ease, background-color 0.18s ease, border-color 0.18s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header-inner {
+  display: flex;
+  height: 100%;
+  width: min(1280px, calc(100% - 64px));
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-inline: auto;
+}
+
+.brand {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* The asset is the black wordmark; inverting it is what makes it read white
+   over the hero and lets it turn back on the solid surface. */
+.brand img {
+  display: block;
+  width: 196px;
+  height: auto;
+  filter: invert(1);
+}
+
+.header-inner nav {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.header-inner nav a {
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-inner nav a:hover {
+  opacity: 1;
+  color: #b4c3ff;
+}
+
+.site-header[data-mode="hidden"] {
+  transform: translateY(-100%);
+}
+
+.site-header[data-mode="visible"],
+.site-header:focus-within:not([data-mode="top"]) {
+  transform: translateY(0);
+  background: #fff;
+  color: #080808;
+  border-bottom-color: #e5e5e5;
+}
+
+.site-header[data-mode="visible"] .brand img,
+.site-header:focus-within:not([data-mode="top"]) .brand img {
+  filter: none;
+}
+
+.site-header[data-mode="visible"] nav a:hover,
+.site-header:focus-within:not([data-mode="top"]) nav a:hover {
+  color: #536bd1;
+}
+
+/* Keep the overlay transparent throughout the hero, including upward scroll. */
+.site-header[data-hero-visible="true"],
+.site-header[data-hero-visible="true"]:focus-within {
+  background: transparent;
+  color: #fff;
+  border-bottom-color: transparent;
+}
+
+.site-header[data-hero-visible="true"] .brand img {
+  filter: invert(1);
+}
+
+.site-header[data-hero-visible="true"] nav a:hover {
+  color: #b4c3ff;
+}
+
+main section[id] {
+  scroll-margin-top: 104px;
+}
+
+/* Phone header is the wordmark only — the four section links are too
+   small to tap and just add noise over the hero. */
+@media (max-width: 680px) {
+  .site-header {
+    height: 64px;
+  }
+
+  .header-inner {
+    width: calc(100% - 32px);
+    justify-content: center;
+  }
+
+  .brand img {
+    width: 142px;
+  }
+
+  .header-inner nav {
+    display: none;
+  }
+
+  main section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Reduced motion takes the header out of the overlay game entirely. The hero
+   is already inset there, so a transparent header would put white type on the
+   white page above it; in flow on a solid surface it always reads, and nothing
+   slides. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-header,
+  .site-header[data-mode="hidden"],
+  .site-header[data-mode="visible"],
+  .site-header[data-hero-visible="true"],
+  .site-header[data-hero-visible="true"]:focus-within {
+    position: relative;
+    transform: none;
+    background: #fff;
+    color: #080808;
+    border-bottom-color: #e5e5e5;
+    transition: none;
+  }
+
+  .site-header .brand img,
+  .site-header[data-hero-visible="true"] .brand img {
+    filter: none;
+  }
+
+  main section[id] {
+    scroll-margin-top: 24px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal.
+
+   Sections below the hero fade up into view once. ScrollEffects arms this by
+   adding data-reveal-armed after mount (so content stays visible without JS
+   or under reduced motion) and stamps data-reveal-visible once an element
+   has crossed the IntersectionObserver threshold.
+--------------------------------------------------------------------------- */
+
+[data-reveal][data-reveal-armed] {
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal][data-reveal-armed]:not([data-reveal-visible]) {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* ---------------------------------------------------------------------------
+   Transitions.dev — modal + accordion.
+   Snippets are pasted as shipped so durations stay on the motion tokens.
+--------------------------------------------------------------------------- */
+
+:root {
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --acc-expand: 250ms;
+  --acc-collapse: 250ms;
+  --acc-chevron: 250ms;
+  --acc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal { transition: none !important; }
+}
+
+/* The overlay is not part of the snippet; it fades on the same tokens. */
+.t-modal-scrim {
+  opacity: 0;
+  transition: opacity var(--modal-open-dur) var(--modal-ease);
+}
+.t-modal-scrim.is-open {
+  opacity: 1;
+}
+.t-modal-scrim.is-closing {
+  opacity: 0;
+  transition: opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal-scrim { transition: none !important; }
+}
+
+/* grid-template-rows 0fr → 1fr gives a clean height animation
+   with no JS height measuring; the inner element clips overflow. */
+.t-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--acc-expand) var(--acc-ease);
+}
+.t-acc-panel-inner {
+  overflow: hidden;
+  opacity: 0;
+  filter: blur(2px);
+  transition:
+    opacity var(--acc-collapse) var(--acc-ease),
+    filter var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel-inner {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity var(--acc-expand) var(--acc-ease),
+    filter var(--acc-expand) var(--acc-ease);
+}
+/* Flip the chevron vertically to turn the "v" into a "^".
+   scaleY(-1) about the centre passes through a flat line at
+   the midpoint (same look as a `d:` path morph) but animates
+   in every browser, unlike CSS `d:` morphing (Chromium only).
+   The chevron path is symmetric about the 16x16 viewBox
+   centre, so the flip lands exactly on the "^"; non-scaling
+   -stroke keeps the stroke width constant through the flip. */
+.t-acc-chevron {
+  display: inline-flex;
+  transform: scaleY(1);
+  transform-origin: center;
+  transition: transform var(--acc-chevron) var(--acc-ease);
+}
+.t-acc-chevron path { vector-effect: non-scaling-stroke; }
+.t-acc[data-open="true"] .t-acc-chevron {
+  transform: scaleY(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-acc-panel, .t-acc-panel-inner, .t-acc-chevron {
+    transition: none !important;
+  }
+}
+
+.t-acc[data-open="true"] .t-acc-head {
+  color: var(--color-htp-blue);
+}

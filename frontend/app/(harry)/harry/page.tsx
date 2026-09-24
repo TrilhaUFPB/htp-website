@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaqSection } from "@/components/faq";
-import { NotifySignup } from "@/components/notify-signup";
-import { ScrollEffects } from "@/components/scroll-effects";
+import { FaqSection } from "@/components/harry/faq";
+import { NotifySignup } from "@/components/harry/notify-signup";
+import { ScrollEffects } from "@/components/harry/scroll-effects";
 import { ScrollHeader } from "@/components/scroll-header";
-import { SiteFooter } from "@/components/site-footer";
-import { Sponsors } from "@/components/sponsors";
-import { TiltCard } from "@/components/tilt-card";
+import { SiteFooter } from "@/components/harry/site-footer";
+import { Sponsors } from "@/components/harry/sponsors";
+import { TiltCard } from "@/components/harry/tilt-card";
 import { scheduleDays } from "@/content/schedule";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";

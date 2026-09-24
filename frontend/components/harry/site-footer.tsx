@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import { DiaGlow } from "@/components/dia-glow";
-import { NotifySignup } from "@/components/notify-signup";
+import { DiaGlow } from "@/components/harry/dia-glow";
+import { NotifySignup } from "@/components/harry/notify-signup";
 
 /**
  * The page sheet lifts off this footer like a curtain, and resists doing so,

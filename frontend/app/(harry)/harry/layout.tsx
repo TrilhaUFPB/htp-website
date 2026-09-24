@@ -16,7 +16,11 @@ const funnelSans = Funnel_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = createSiteMetadata();
+// The redesign preview duplicates the live page, so it stays out of search.
+export const metadata: Metadata = {
+  ...createSiteMetadata(),
+  robots: { index: false, follow: false },
+};
 
 export const viewport: Viewport = {
   themeColor: [
