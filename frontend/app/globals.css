@@ -44,23 +44,25 @@ body {
   max-width: 1120px;
 }
 
-/* Small sentence-case label over a heading; blue on white and black, black
-   on the blue block. */
-.section-label {
-  margin: 0;
-  color: var(--color-htp-blue);
-  font-size: 15px;
-  font-weight: 500;
-}
+@layer components {
+  /* Small sentence-case label over a heading; blue on white and black, black
+     on the blue block. */
+  .section-label {
+    margin: 0;
+    color: var(--color-htp-blue);
+    font-size: 15px;
+    font-weight: 500;
+  }
 
-.section-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(36px, 4.8vw, 68px);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
+  .section-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.8vw, 68px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
 }
 
 @media (min-width: 640px) {

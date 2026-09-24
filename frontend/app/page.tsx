@@ -204,8 +204,11 @@ export default function Home() {
         {/* QUANDO E ONDE */}
         <section id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap">
-            <div className="grid gap-14 rounded-[28px] bg-htp-blue p-7 text-black sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
-              <div className="flex flex-col gap-4">
+            {/* Stacked, the date and the place sit on a diagonal (date top right,
+                place bottom left) so neither leaves the card half empty; side by
+                side from lg up. */}
+            <div className="grid gap-10 rounded-[28px] bg-htp-blue p-7 text-black sm:gap-12 sm:p-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-10 lg:p-16">
+              <div className="flex flex-col items-end gap-4 text-right lg:items-start lg:text-left">
                 <p className="section-label text-black">Quando</p>
                 <h2 className="m-0 font-display text-[clamp(64px,11vw,168px)] font-medium leading-[0.86] tracking-[-0.06em]">
                   20–21
