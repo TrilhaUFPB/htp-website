@@ -77,38 +77,39 @@ a:hover {
    Hero.
 
    A black stage lit from below by the same Dia glow the footer ends on, so
-   the page opens and closes on one horizon. The glow rises once on load;
-   scrolling then contracts the stage into the white page frame while the
-   light sinks. ScrollHero publishes --hero-progress (frame) and --hero-motion
-   (glow).
+   the page opens and closes on one horizon. The glow rises once on load.
+
+   Where scroll-driven animations exist, the section gets a runway: the stage
+   pins while the frame is clipped into the rounded page card and the light
+   sinks. It is all clip-path and transform on the section's view timeline,
+   so it runs on the compositor: no layout, no JS per frame, no text reflow.
 --------------------------------------------------------------------------- */
 
 .scroll-hero {
-  --hero-progress: 0;
-  --hero-motion: 0;
+  --hero-inset-x: 36px;
+  --hero-inset-y: 44px;
+  --hero-radius: 30px;
   position: relative;
-  height: 180svh;
+  height: 100svh;
   /* The page wrapper is a flex column; opt out of shrinking so the runway
      keeps its full height. */
   flex: none;
+  view-timeline: --hero;
 }
 
 .scroll-hero-stage {
   position: sticky;
   top: 0;
-  display: grid;
   height: 100svh;
-  place-items: center;
 }
 
 .hero-frame {
   position: relative;
   display: grid;
-  width: calc(100% - var(--hero-progress) * 72px);
-  height: calc(100svh - var(--hero-progress) * 88px);
+  height: 100%;
   /* clip-path rather than border-radius + overflow: the blurred glow sits on
      its own compositor layer, which a rounded overflow clip lets escape. */
-  clip-path: inset(0 round calc(var(--hero-progress) * 30px));
+  clip-path: inset(0 round 0);
   background: #000;
   color: #fff;
   isolation: isolate;
@@ -120,9 +121,7 @@ a:hover {
   z-index: -1;
   height: 62%;
   filter: blur(18px);
-  transform: scaleY(calc(1 - var(--hero-motion) * 0.5));
   animation: hero-glow-rise 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-  will-change: transform;
 }
 
 /* `scale` composes with the scroll-driven `transform`, so the entrance and
@@ -133,6 +132,40 @@ a:hover {
   }
   to {
     scale: 1 1;
+  }
+}
+
+@supports (animation-range: contain 0% contain 100%) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-hero {
+      height: 180svh;
+    }
+
+    .hero-frame {
+      animation: hero-contract linear both;
+      animation-timeline: --hero;
+      animation-range: contain 35% contain 100%;
+    }
+
+    .hero-glow {
+      animation:
+        hero-glow-rise 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both,
+        hero-glow-sink linear both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, contain 0% contain 100%;
+    }
+  }
+}
+
+@keyframes hero-contract {
+  to {
+    clip-path: inset(var(--hero-inset-y) var(--hero-inset-x) round var(--hero-radius));
+  }
+}
+
+@keyframes hero-glow-sink {
+  to {
+    transform: scaleY(0.5);
   }
 }
 
@@ -159,13 +192,9 @@ a:hover {
 
 @media (max-width: 680px) {
   .scroll-hero {
-    height: 160svh;
-  }
-
-  .hero-frame {
-    width: calc(100% - var(--hero-progress) * 20px);
-    height: calc(100svh - var(--hero-progress) * 28px);
-    clip-path: inset(0 round calc(var(--hero-progress) * 22px));
+    --hero-inset-x: 10px;
+    --hero-inset-y: 14px;
+    --hero-radius: 22px;
   }
 
   .hero-glow {
@@ -184,20 +213,17 @@ a:hover {
   }
 }
 
+@media (max-width: 680px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-range: contain 0% contain 100%) {
+    .scroll-hero {
+      height: 160svh;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .scroll-hero {
-    --hero-progress: 1;
-    height: 100svh;
-  }
-
-  .scroll-hero-stage {
-    position: relative;
-  }
-
   .hero-glow {
-    transform: none;
     animation: none;
-    will-change: auto;
   }
 }
 
@@ -492,22 +518,36 @@ main section[id] {
 /* ---------------------------------------------------------------------------
    Footer.
 
-   Fixed under the page sheet, so scrolling past the FAQ lifts the sheet off
-   it, against some resistance. SiteFooter publishes --rise (0 → 1) as the
-   footer is uncovered, and the Dia glow grows out of the bottom edge with it.
+   Fixed behind the page sheet. The empty .footer-runway after the sheet is
+   the scroll that uncovers it: by default exactly the footer's height, so the
+   sheet simply scrolls off it.
+
+   Where scroll-driven animations exist, the runway grows to 1.8x and the
+   sheet is held back across it (heaviest at first, like pulling something
+   stuck) while the glow rises ahead of it. Both run on the compositor off the
+   runway's view timeline, so the page scrolls at full speed and nothing
+   re-rasterises: no JS runs per frame.
 --------------------------------------------------------------------------- */
 
-/* Fixed behind the sheet; SiteFooter gives the sheet the runway (a bottom
-   margin) and holds it back while it lifts. */
+:root {
+  --footer-h: clamp(620px, 100svh, 1000px);
+}
+
+body {
+  timeline-scope: --footer-pull;
+}
+
+.footer-runway {
+  height: var(--footer-h);
+  view-timeline: --footer-pull;
+}
+
 .site-footer {
-  --rise: 1;
   position: fixed;
   inset: auto 0 0;
   z-index: 0;
   display: flex;
-  height: 100svh;
-  min-height: 620px;
-  max-height: 1000px;
+  height: var(--footer-h);
   flex-direction: column;
   overflow: hidden;
   background: #000;
@@ -550,10 +590,6 @@ main section[id] {
   z-index: -2;
   height: min(78%, calc(100% - 220px));
   filter: blur(16px);
-  /* Rises and grows together, so the ridge climbs instead of stretching. */
-  transform: translateY(calc((1 - var(--rise)) * 40%)) scaleY(calc(0.25 + var(--rise) * 0.75));
-  opacity: calc(0.2 + var(--rise) * 0.8);
-  will-change: transform, opacity;
 }
 
 .footer-inner {
@@ -573,7 +609,6 @@ main section[id] {
   left: 50%;
   bottom: 22px;
   transform: translateX(-50%);
-  opacity: calc(var(--rise) * 1.4 - 0.4);
 }
 
 @media (min-width: 640px) {
@@ -600,18 +635,70 @@ main section[id] {
   }
 }
 
+/* The runway covers 1.8 footer heights; the sheet's offset at each quarter
+   is what keeps the uncovered part at (progress ^ 1.5) of the footer. The
+   glow and wordmark rise ahead of it, the glow climbing as it grows. */
+@supports (animation-range: cover 0% cover 100px) {
+  @media (min-height: 601px) and (prefers-reduced-motion: no-preference) {
+    .footer-runway {
+      height: calc(var(--footer-h) * 1.8);
+    }
+
+    .page-sheet,
+    .footer-glow,
+    .footer-mark {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --footer-pull;
+      animation-range: cover 0% cover calc(var(--footer-h) * 1.8);
+    }
+
+    .page-sheet {
+      animation-name: sheet-hold;
+    }
+
+    .footer-glow {
+      animation-name: glow-rise;
+    }
+
+    .footer-mark {
+      animation-name: mark-rise;
+    }
+  }
+}
+
+@keyframes sheet-hold {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(calc(var(--footer-h) * 0.325)); }
+  50% { transform: translateY(calc(var(--footer-h) * 0.546)); }
+  75% { transform: translateY(calc(var(--footer-h) * 0.7)); }
+  100% { transform: translateY(calc(var(--footer-h) * 0.8)); }
+}
+
+@keyframes glow-rise {
+  0% { transform: translateY(40%) scaleY(0.25); opacity: 0.2; }
+  25% { transform: translateY(25%) scaleY(0.54); opacity: 0.5; }
+  50% { transform: translateY(8%) scaleY(0.85); opacity: 0.84; }
+  75% { transform: translateY(0.4%) scaleY(0.99); opacity: 0.99; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes mark-rise {
+  0%, 12% { opacity: 0; }
+  50% { opacity: 0.72; }
+  75%, 100% { opacity: 1; }
+}
+
 /* Too short to pin a whole footer under the sheet: let it scroll normally. */
-@media (max-height: 600px), (prefers-reduced-motion: reduce) {
+@media (max-height: 600px) {
+  .footer-runway {
+    display: none;
+  }
+
   .site-footer {
     position: relative;
     height: auto;
     min-height: 640px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .footer-glow {
-    will-change: auto;
   }
 }
 

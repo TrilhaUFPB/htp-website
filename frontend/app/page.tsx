@@ -5,7 +5,6 @@ import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
 import { ScrollHeader } from "@/components/scroll-header";
-import { ScrollHero } from "@/components/scroll-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { Sponsors } from "@/components/sponsors";
 import { TiltCard } from "@/components/tilt-card";
@@ -66,19 +65,20 @@ export default function Home() {
       <main id="conteudo" className="page-sheet">
         <ScrollEffects />
 
-        <ScrollHero>
-          <div className="hero-frame">
-            <DiaGlow className="hero-glow" />
+        <section className="scroll-hero" aria-labelledby="hero-title">
+          <div className="scroll-hero-stage">
+            <div className="hero-frame">
+              <DiaGlow className="hero-glow" />
 
-            <div className="hero-copy">
-              <h1 id="hero-title" className="hero-title">
-                O maior hackathon da história do Nordeste
-              </h1>
-              <NotifySignup variant="hero" />
+              <div className="hero-copy">
+                <h1 id="hero-title" className="hero-title">
+                  O maior hackathon da história do Nordeste
+                </h1>
+                <NotifySignup variant="hero" />
+              </div>
             </div>
-
           </div>
-        </ScrollHero>
+        </section>
 
         <section id="patrocinadores" className="section pt-14 sm:pt-20">
           <Sponsors />
@@ -240,6 +240,7 @@ export default function Home() {
         <FaqSection />
       </main>
 
+      <div className="footer-runway" aria-hidden="true" />
       <SiteFooter />
     </>
   );
