@@ -645,8 +645,17 @@ body {
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.day-card:hover {
-  transition-duration: 0.15s;
+/* Promote the layer up front on mouse devices, so hover does not pay for
+   creating it (and re-rasterising the text) at the moment it starts. */
+@media (hover: hover) and (pointer: fine) {
+  .day-card {
+    will-change: transform;
+  }
+}
+
+/* Tracking the pointer: no transition to chase. */
+.day-card[data-tracking] {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
