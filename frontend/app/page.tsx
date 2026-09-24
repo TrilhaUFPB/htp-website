@@ -64,7 +64,7 @@ export default function Home() {
       <main id="conteudo" className="page-sheet">
         <ScrollEffects />
 
-        <section data-snap className="scroll-hero" aria-labelledby="hero-title">
+        <section className="scroll-hero" aria-labelledby="hero-title">
           <div className="scroll-hero-stage">
             <div className="hero-frame">
               <div className="hero-orb" aria-hidden="true" />
@@ -79,12 +79,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section data-snap id="patrocinadores" className="section pt-14 sm:pt-20">
+        <section id="patrocinadores" className="section pt-14 sm:pt-20">
           <Sponsors />
         </section>
 
         {/* SOBRE */}
-        <section data-snap id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
+        <section id="evento" className="section py-24 sm:py-[clamp(120px,14vw,200px)]">
           <div className="wrap flex flex-col gap-16 sm:gap-28">
             <h2 data-reveal className="m-0 font-display text-[clamp(56px,9vw,136px)] font-medium leading-[0.9] tracking-[-0.055em]">
               Hack The Path<span className="text-htp-blue">.</span>
@@ -117,7 +117,7 @@ export default function Home() {
         </section>
 
         {/* PROGRAMAÇÃO */}
-        <section data-snap id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+        <section id="programacao" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap flex flex-col gap-10 sm:gap-14">
             <div data-reveal className="flex flex-col gap-4">
               <p className="section-label">Programação</p>
@@ -211,7 +211,7 @@ export default function Home() {
         </section>
 
         {/* QUANDO E ONDE */}
-        <section data-snap id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
+        <section id="quando" className="section pb-24 sm:pb-[clamp(120px,12vw,180px)]">
           <div className="wrap">
             {/* Stacked, the date and the place sit on a diagonal (date top right,
                 place bottom left) so neither leaves the card half empty; side by

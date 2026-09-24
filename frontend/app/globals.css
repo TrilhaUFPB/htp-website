@@ -726,90 +726,49 @@ body {
 /* ---------------------------------------------------------------------------
    Scroll reveal.
 
-   Each [data-reveal] block rises out of a light blur as it enters the
-   viewport, scrubbed by its own view timeline, so it runs on the compositor
-   and follows the finger both ways. Blocks stacked on the page cascade by
-   themselves; side-by-side ones get data-reveal-step for a stagger. Large
-   surfaces use data-reveal="plain" (no blur: blurring a whole card each frame
-   is too heavy for phones). `translate` rather than `transform`, so it
-   composes with the cards' tilt. Without scroll-driven animations, or under
-   reduced motion, everything is simply there.
+   ScrollEffects arms each [data-reveal] block below the fold and marks it
+   data-revealed the first time it enters; the block then plays a short
+   rise out of a light blur and stays. It is time-based on purpose: a reveal
+   scrubbed by the scroll leaves blocks half-faded wherever the page stops.
+   Side-by-side blocks stagger with data-reveal-step. Large surfaces use
+   data-reveal="plain" (no blur, too heavy on whole cards for phones).
+   `translate`, not `transform`, so it composes with the cards' tilt.
 --------------------------------------------------------------------------- */
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Measured against the viewport (cover), not the element's own height:
-       a block starts as it enters at the bottom and is fully there about a
-       quarter of the way up the screen, however short it is. */
-    [data-reveal] {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 25%;
-    }
-
-    [data-reveal="plain"] {
-      animation-name: reveal-plain;
-    }
-
-    [data-reveal-step="1"] {
-      animation-range: cover 4% cover 29%;
-    }
-
-    [data-reveal-step="2"] {
-      animation-range: cover 8% cover 33%;
-    }
-
-    [data-reveal-step="3"] {
-      animation-range: cover 12% cover 37%;
-    }
-  }
+[data-reveal-armed] {
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes reveal {
-  from {
-    opacity: 0;
-    translate: 0 20px;
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-    filter: blur(0);
-  }
+[data-reveal-armed]:not([data-revealed]) {
+  opacity: 0;
+  translate: 0 20px;
+  filter: blur(4px);
 }
 
-@keyframes reveal-plain {
-  from {
-    opacity: 0;
-    translate: 0 32px;
-    scale: 0.98;
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-    scale: 1;
-  }
+[data-reveal="plain"][data-reveal-armed]:not([data-revealed]) {
+  translate: 0 32px;
+  filter: none;
 }
 
-/* ---------------------------------------------------------------------------
-   Section snapping on touch.
+/* The cards also carry the tilt's transform transition; keep both. */
+.day-card[data-reveal-armed] {
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-   Phones scroll natively, so they get CSS scroll snap: proximity only, so
-   the page settles on a section start when you stop near one, and sections
-   taller than the screen still scroll freely. Mouse and trackpad get the
-   same stops from Lenis (SmoothScroll), which CSS snap would fight.
---------------------------------------------------------------------------- */
+[data-reveal-step="1"] {
+  transition-delay: 90ms;
+}
 
-@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-snap-type: y proximity;
-  }
+[data-reveal-step="2"] {
+  transition-delay: 180ms;
+}
 
-  [data-snap] {
-    scroll-snap-align: start;
-  }
-
-  .footer-runway {
-    scroll-snap-align: end;
-  }
+[data-reveal-step="3"] {
+  transition-delay: 270ms;
 }

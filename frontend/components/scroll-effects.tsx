@@ -3,13 +3,38 @@
 import { useEffect } from "react";
 
 /**
- * Counts [data-count] numbers up from zero the first time they scroll into
- * view. The server renders the final value, so without JS or under reduced
- * motion the number is simply there.
+ * One-shot scroll effects, shared by the sections below the hero:
+ *
+ * - [data-reveal] blocks play a short reveal the first time they enter and
+ *   then stay put. Time-based, not scrubbed by the scroll, so a block is
+ *   never left half-faded wherever the page happens to stop. The page is
+ *   only armed after mount, so without JS or under reduced motion everything
+ *   is simply there.
+ * - [data-count] numbers count up from zero the first time they are seen.
+ *   The server renders the final value.
  */
 export function ScrollEffects() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const reveals = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    // Anything already on screen at load is shown as is, not hidden then
+    // revealed.
+    const unseen = reveals.filter((el) => el.getBoundingClientRect().top > window.innerHeight);
+    unseen.forEach((el) => el.setAttribute("data-reveal-armed", ""));
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          revealObserver.unobserve(entry.target);
+          entry.target.setAttribute("data-revealed", "");
+        });
+      },
+      // Fire as soon as any of the block is on screen: a visible sliver must
+      // never sit there blank.
+      { threshold: 0 },
+    );
+    unseen.forEach((el) => revealObserver.observe(el));
 
     const runCount = (el: HTMLElement) => {
       const end = Number(el.dataset.count);
@@ -39,7 +64,10 @@ export function ScrollEffects() {
     );
     document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      revealObserver.disconnect();
+    };
   }, []);
 
   return null;
