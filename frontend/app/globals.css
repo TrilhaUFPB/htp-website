@@ -549,8 +549,10 @@ main section[id] {
   z-index: -2;
   height: min(78%, calc(100% - 220px));
   filter: blur(16px);
-  transform: scaleY(var(--rise));
-  will-change: transform;
+  /* Rises and grows together, so the ridge climbs instead of stretching. */
+  transform: translateY(calc((1 - var(--rise)) * 40%)) scaleY(calc(0.25 + var(--rise) * 0.75));
+  opacity: calc(0.2 + var(--rise) * 0.8);
+  will-change: transform, opacity;
 }
 
 .footer-inner {

@@ -22,16 +22,29 @@ export function SiteFooter() {
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
+    let current = 0;
 
+    // Where the scroll says the glow should be: nothing for the first fifth
+    // of the reveal, then an ease-in-out to full as the footer lands.
+    const target = () => {
+      const uncovered = window.innerHeight - sheet.getBoundingClientRect().bottom;
+      const t = Math.min(1, Math.max(0, (uncovered / footer.offsetHeight - 0.2) / 0.8));
+      return t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
+    };
+
+    // The glow chases that target with damping instead of snapping to it, so
+    // a fast flick still plays out as a slow sunrise.
     const update = () => {
       frame = 0;
       if (motion.matches) {
         footer.style.setProperty("--rise", "1");
         return;
       }
-      const uncovered = window.innerHeight - sheet.getBoundingClientRect().bottom;
-      const t = Math.min(1, Math.max(0, uncovered / footer.offsetHeight));
-      footer.style.setProperty("--rise", (t * t * (3 - 2 * t)).toFixed(4));
+      const goal = target();
+      current += (goal - current) * 0.03;
+      if (Math.abs(goal - current) < 0.001) current = goal;
+      footer.style.setProperty("--rise", current.toFixed(4));
+      if (current !== goal) schedule();
     };
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
