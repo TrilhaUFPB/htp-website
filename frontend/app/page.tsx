@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Aperture } from "@/components/aperture";
-import { DiaGlow } from "@/components/dia-glow";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
@@ -138,11 +137,9 @@ export default function Home() {
                   <TiltCard
                     key={day.number}
                     className={`day-card flex min-h-[460px] flex-col justify-between gap-10 rounded-[28px] p-7 sm:min-h-[560px] sm:p-10 ${
-                      isDark ? "day-card-dark bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
+                      isDark ? "bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
                     }`}
                   >
-                    <DiaGlow className="day-glow" />
-
                     <div className="flex items-start justify-between gap-4">
                       <p className="m-0 font-display text-[clamp(64px,8vw,112px)] font-medium leading-[0.85] tracking-[-0.055em]">
                         {day.date}

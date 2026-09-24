@@ -655,23 +655,12 @@ main section[id] {
 }
 
 /* ---------------------------------------------------------------------------
-   Programação cards.
-
-   A door-like lean towards the pointer (TiltCard) and the footer's Dia glow
-   rising from the card's foot on hover. On touch screens there is no hover,
-   so the glow rises as the card scrolls into view instead.
+   Programação cards: a door-like lean towards the pointer (TiltCard).
 --------------------------------------------------------------------------- */
 
 .day-card {
   --tilt-x: 0deg;
   --tilt-y: 0deg;
-  position: relative;
-  overflow: hidden;
-  /* overflow alone stops clipping the glow while its transform animates on
-     its own compositor layer (the rounded clip only returns once it
-     settles); clip-path holds for the whole animation. */
-  clip-path: inset(0 round 28px);
-  isolation: isolate;
   transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -680,61 +669,9 @@ main section[id] {
   transition-duration: 0.15s;
 }
 
-/* Kept low and dark at the foot, so the bright band lands in the empty space
-   above the rule rather than behind the copy. */
-.day-glow {
-  inset: auto -6% 0;
-  z-index: -1;
-  height: 34%;
-  filter: blur(18px);
-  /* A hint, not the footer's full sunrise. */
-  opacity: 0.3;
-  transform: scaleY(0);
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* On white the ramp runs from the brand blue into white instead of black. */
-.day-card:not(.day-card-dark) .day-glow {
-  opacity: 0.45;
-  --glow-ramp: #fff 0%, #e8edff 14%, #c6d2fe 34%, #a9bafe 50%, #c6d2fe 66%, #eef1ff 84%, #fff 100%;
-}
-
-.day-card:hover .day-glow {
-  transform: scaleY(1);
-}
-
-
-@media (hover: none) {
-  .day-glow {
-    transform: scaleY(1);
-  }
-
-  @supports (animation-timeline: view()) {
-    .day-glow {
-      animation: day-glow-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 20% cover 50%;
-    }
-  }
-}
-
-@keyframes day-glow-rise {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .day-card {
     transform: none;
     transition: none;
-  }
-
-  .day-glow {
-    transition: none;
-    animation: none;
   }
 }
