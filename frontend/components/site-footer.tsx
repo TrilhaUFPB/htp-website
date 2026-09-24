@@ -9,8 +9,8 @@ import { privacyConfig } from "@/content/privacy";
 
 /**
  * The page sheet lifts off this footer like a curtain, and the HTP fan rises
- * from the bottom edge as it does: the brand's sunburst, flipped so the light
- * source sits below the frame. --rise (0 → 1) is how much of the footer the
+ * from the bottom edge inside a rising blue glow: the brand's sunburst,
+ * flipped so the light source sits below the frame. --rise (0 → 1) is how much of the footer the
  * sheet has uncovered; every moving part is a calc() on it in globals.css.
  */
 export function SiteFooter() {
@@ -52,7 +52,7 @@ export function SiteFooter() {
 
   return (
     <footer ref={ref} className="site-footer" aria-labelledby="footer-title">
-      <div className="footer-field" aria-hidden="true" />
+      <div className="footer-glow" aria-hidden="true" />
       <Sunrise />
 
       <div className="footer-inner">

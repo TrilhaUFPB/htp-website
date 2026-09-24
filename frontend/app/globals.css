@@ -574,12 +574,22 @@ main section[id] {
   color: #fff;
 }
 
-.footer-field {
+/* The Dia-style bloom: a soft blue glow that climbs out of the bottom edge
+   with the scroll, from the brand's light blue at the source to black. It
+   leads; the fan follows inside it. */
+.footer-glow {
   position: absolute;
-  inset: 0;
+  inset: auto -20% 0;
   z-index: -2;
-  background: radial-gradient(120% 70% at 50% 100%, #1b2445 0%, #0a0e1b 45%, #000 75%);
-  opacity: var(--rise);
+  height: 130%;
+  background:
+    radial-gradient(40% 45% at 50% 100%, #c6d2fe 0%, #7a94fd 50%, transparent 100%),
+    radial-gradient(85% 90% at 50% 100%, #7a94fd 0%, #4a5fb3 30%, #1f2a55 55%, #0a0e1b 80%, transparent 100%);
+  filter: blur(40px);
+  opacity: calc(0.25 + var(--rise) * 0.75);
+  transform: translateY(calc((1 - var(--rise)) * 70%)) scaleY(calc(0.55 + var(--rise) * 0.45));
+  transform-origin: 50% 100%;
+  will-change: transform;
 }
 
 .sunrise {
@@ -590,8 +600,10 @@ main section[id] {
   width: 100%;
   /* Never climb into the copy above it: nothing sits on top of the fan. */
   height: min(60%, calc(100% - 360px));
-  transform: translateX(-50%) translateY(calc((1 - var(--rise)) * 45%))
-    scale(calc(0.82 + var(--rise) * 0.18));
+  /* Starts a beat behind the glow, so the light arrives before the rays. */
+  --fan: clamp(0, calc((var(--rise) - 0.2) / 0.8), 1);
+  transform: translateX(-50%) translateY(calc((1 - var(--fan)) * 60%))
+    scale(calc(0.8 + var(--fan) * 0.2));
   transform-origin: 50% 100%;
   will-change: transform;
 }
@@ -605,11 +617,11 @@ main section[id] {
 }
 
 .sunrise-band-a {
-  transform: rotate(calc((1 - var(--rise)) * 10deg));
+  transform: rotate(calc((1 - var(--fan)) * 10deg));
 }
 
 .sunrise-band-b {
-  transform: rotate(calc((1 - var(--rise)) * -6deg));
+  transform: rotate(calc((1 - var(--fan)) * -6deg));
 }
 
 .footer-inner {
@@ -668,7 +680,8 @@ main section[id] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sunrise {
+  .sunrise,
+  .footer-glow {
     will-change: auto;
   }
 }
