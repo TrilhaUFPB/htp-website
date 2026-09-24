@@ -566,30 +566,34 @@ main section[id] {
   color: #fff;
 }
 
-/* Dia's gradient footer: overlapping columns, each carrying the same
-   bottom-to-top ramp, blurred together into one soft mountain. The ramp is
-   squeezed into each column's own height, so the colour bands follow the
-   ridge. The whole layer grows out of the bottom edge with the scroll; only
-   its transform changes, so the blur is rasterised once. */
-.footer-glow {
+/* Dia's gradient (DiaGlow): overlapping columns share one bottom-to-top
+   ramp and are blurred together into a mountain. The ramp is squeezed into
+   each column's own height, so the colour bands follow the ridge. Only the
+   layer's transform ever animates, so the blur is rasterised once. */
+.dia-glow {
+  --glow-ramp: #000 0%, #10162a 14%, #3b4c8f 30%, #7a94fd 48%, #c6d2fe 64%,
+    #7a94fd 76%, #1f2a55 88%, #000 100%;
   position: absolute;
-  inset: auto -4% 0;
-  z-index: -2;
   display: flex;
-  height: min(78%, calc(100% - 220px));
   align-items: flex-end;
-  filter: blur(16px);
-  transform: scaleY(var(--rise));
+  pointer-events: none;
   transform-origin: 50% 100%;
-  will-change: transform;
 }
 
-.footer-glow span {
+.dia-glow span {
   flex: 1 1 0;
   margin-inline: -0.6%;
-  background: linear-gradient(to top,
-    #000 0%, #10162a 14%, #3b4c8f 30%, #7a94fd 48%, #c6d2fe 64%,
-    #7a94fd 76%, #1f2a55 88%, #000 100%);
+  background: linear-gradient(to top, var(--glow-ramp));
+}
+
+/* The footer's glow grows out of the bottom edge as the sheet lifts. */
+.footer-glow {
+  inset: auto -4% 0;
+  z-index: -2;
+  height: min(78%, calc(100% - 220px));
+  filter: blur(16px);
+  transform: scaleY(var(--rise));
+  will-change: transform;
 }
 
 .footer-inner {
@@ -647,5 +651,93 @@ main section[id] {
 @media (prefers-reduced-motion: reduce) {
   .footer-glow {
     will-change: auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Programação cards.
+
+   A door-like lean towards the pointer (TiltCard) and the footer's Dia glow
+   rising from the card's foot on hover. On touch screens there is no hover,
+   so the glow rises as the card scrolls into view instead.
+--------------------------------------------------------------------------- */
+
+.day-card {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.day-card:hover {
+  transition-duration: 0.15s;
+}
+
+/* Kept low and dark at the foot, so the bright band lands in the empty space
+   above the rule rather than behind the copy. */
+.day-glow {
+  inset: auto -6% 0;
+  z-index: -1;
+  height: 34%;
+  filter: blur(18px);
+  transform: scaleY(0);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* On white the ramp runs from the brand blue into white instead of black. */
+.day-card:not(.day-card-dark) .day-glow {
+  --glow-ramp: #fff 0%, #e8edff 14%, #c6d2fe 34%, #a9bafe 50%, #c6d2fe 66%, #eef1ff 84%, #fff 100%;
+}
+
+.day-card:hover .day-glow {
+  transform: scaleY(1);
+}
+
+/* The glow's bright band lands on the card's foot; its line turns solid so
+   it stays legible there. */
+.day-meta,
+.day-meta span {
+  transition: color 0.3s ease;
+}
+
+.day-card-dark:hover .day-meta span {
+  color: #fff;
+}
+
+@media (hover: none) {
+  .day-glow {
+    transform: scaleY(1);
+  }
+
+  @supports (animation-timeline: view()) {
+    .day-glow {
+      animation: day-glow-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 50%;
+    }
+  }
+}
+
+@keyframes day-glow-rise {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-card {
+    transform: none;
+    transition: none;
+  }
+
+  .day-glow {
+    transition: none;
+    animation: none;
   }
 }

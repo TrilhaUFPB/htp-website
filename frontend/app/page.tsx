@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Aperture } from "@/components/aperture";
+import { DiaGlow } from "@/components/dia-glow";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
@@ -8,6 +9,7 @@ import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { Sponsors } from "@/components/sponsors";
+import { TiltCard } from "@/components/tilt-card";
 import { scheduleDays } from "@/content/schedule";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";
@@ -133,23 +135,29 @@ export default function Home() {
               {scheduleDays.map((day, index) => {
                 const isDark = index === 1;
                 return (
-                  <article
+                  <TiltCard
                     key={day.number}
-                    className={`flex min-h-[420px] flex-col justify-between gap-12 rounded-[28px] p-7 sm:min-h-[520px] sm:p-10 ${
-                      isDark ? "bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
+                    className={`day-card flex min-h-[460px] flex-col justify-between gap-10 rounded-[28px] p-7 sm:min-h-[560px] sm:p-10 ${
+                      isDark ? "day-card-dark bg-black text-white" : "bg-white shadow-[inset_0_0_0_1px_rgba(0,0,0,0.14)]"
                     }`}
                   >
-                    <div className="flex items-baseline justify-between gap-4">
-                      <p className="m-0 font-display text-[17px] font-medium tracking-[-0.01em]">
-                        {day.number}
-                      </p>
-                      <p className={`m-0 text-[15px] ${isDark ? "text-[#a3a3a3]" : "text-[#5c5c5c]"}`}>
+                    <DiaGlow className="day-glow" />
+
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="m-0 font-display text-[clamp(64px,8vw,112px)] font-medium leading-[0.85] tracking-[-0.055em]">
                         {day.date}
+                      </p>
+                      <p
+                        className={`m-0 pt-1 font-display text-[17px] font-medium tracking-[-0.01em] ${
+                          isDark ? "text-htp-blue" : "text-[#5c5c5c]"
+                        }`}
+                      >
+                        {day.number}
                       </p>
                     </div>
 
-                    <div className="flex flex-col gap-5">
-                      <h3 className="m-0 max-w-[16ch] font-display text-[clamp(30px,3.4vw,46px)] font-medium leading-[1.02] tracking-[-0.035em] text-balance">
+                    <div className="flex flex-col gap-4">
+                      <h3 className="m-0 max-w-[18ch] font-display text-[clamp(26px,2.6vw,36px)] font-medium leading-[1.05] tracking-[-0.03em] text-balance">
                         {day.title}
                       </h3>
                       <p
@@ -162,7 +170,7 @@ export default function Home() {
                     </div>
 
                     <div
-                      className={`flex flex-wrap items-center justify-between gap-3 border-t pt-5 text-[15px] ${
+                      className={`day-meta flex flex-wrap items-center justify-between gap-3 border-t pt-5 text-[15px] ${
                         isDark ? "border-white/15" : "border-black/10"
                       }`}
                     >
@@ -177,7 +185,7 @@ export default function Home() {
                         )}
                       </span>
                     </div>
-                  </article>
+                  </TiltCard>
                 );
               })}
             </div>

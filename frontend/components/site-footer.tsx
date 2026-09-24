@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
+import { DiaGlow } from "@/components/dia-glow";
 import { NotifySignup } from "@/components/notify-signup";
 
 /**
@@ -50,11 +51,7 @@ export function SiteFooter() {
 
   return (
     <footer ref={ref} className="site-footer" aria-labelledby="footer-title">
-      <div className="footer-glow" aria-hidden="true">
-        {GLOW_COLUMNS.map((height, i) => (
-          <span key={i} style={{ height: `${height}%` }} />
-        ))}
-      </div>
+      <DiaGlow className="footer-glow" />
 
       <div className="footer-inner">
         <div className="flex flex-col items-start gap-6 sm:gap-8">
@@ -96,10 +93,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-
-// Tallest in the middle, falling off almost linearly to about half at the
-// edges, as in Dia's footer.
-const GLOW_COLUMNS = Array.from({ length: 25 }, (_, i) => {
-  const x = Math.abs(i - 12) / 12;
-  return Math.round((0.98 - 0.44 * x ** 1.2) * 1000) / 10;
-});
