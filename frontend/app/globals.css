@@ -74,23 +74,20 @@ a:hover {
 }
 
 /* ---------------------------------------------------------------------------
-   Scroll-driven aperture hero.
+   Hero.
 
-   The stage opens full-bleed and black, then contracts into the white page
-   frame after an initial stretch of artwork-only motion. --hero-progress and
-   --hero-motion are
-   published by the ScrollHero client component, so the choreography is a
-   handful of calc() calls rather than a timeline.
+   A black stage lit from below by the same Dia glow the footer ends on, so
+   the page opens and closes on one horizon. The glow rises once on load;
+   scrolling then contracts the stage into the white page frame while the
+   light sinks. ScrollHero publishes --hero-progress (frame) and --hero-motion
+   (glow).
 --------------------------------------------------------------------------- */
 
 .scroll-hero {
   --hero-progress: 0;
   --hero-motion: 0;
-  --hero-zoom: 1;
-  --hero-rotation: 0deg;
-  --hero-beams: 0;
   position: relative;
-  height: 526.667svh;
+  height: 180svh;
   /* The page wrapper is a flex column; opt out of shrinking so the runway
      keeps its full height. */
   flex: none;
@@ -109,67 +106,34 @@ a:hover {
   display: grid;
   width: calc(100% - var(--hero-progress) * 72px);
   height: calc(100svh - var(--hero-progress) * 88px);
-  border-radius: calc(var(--hero-progress) * 30px);
+  /* clip-path rather than border-radius + overflow: the blurred glow sits on
+     its own compositor layer, which a rounded overflow clip lets escape. */
+  clip-path: inset(0 round calc(var(--hero-progress) * 30px));
   background: #000;
   color: #fff;
   isolation: isolate;
-  overflow: hidden;
   place-items: center;
 }
 
-/* Feather the artwork against the frame edges; copy stays crisp.
-
-   The layer is sized to the viewport rather than to the frame, so the frame
-   contracting does not resize it. That keeps the two mask gradients and the
-   blade SVG from being re-resolved on every scroll frame; the frame's
-   overflow crops the few pixels that fall outside it. */
-.hero-art {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100vw;
-  height: 100svh;
-  overflow: hidden;
+.hero-glow {
+  inset: auto -4% -60px;
   z-index: -1;
-  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent),
-    linear-gradient(to right, transparent, black 14%, black 86%, transparent);
-  mask-composite: intersect;
-  transform: translate(-50%, -50%);
-}
-
-.aperture {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: max(1600px, 104%);
-  height: max(860px, 104%);
-  max-width: none;
-  transform: translate(-50%, -50%) scale(var(--hero-zoom))
-    rotate(var(--hero-rotation));
-  transform-origin: center;
+  height: 62%;
+  filter: blur(18px);
+  transform: scaleY(calc(1 - var(--hero-motion) * 0.5));
+  animation: hero-glow-rise 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   will-change: transform;
 }
 
-/* Light rays stay behind the copy and leave the center of the tunnel dark. */
-.hero-art::after {
-  content: "";
-  position: absolute;
-  inset: -35%;
-  pointer-events: none;
-  background: conic-gradient(from 12deg,
-    transparent 0deg 38deg, #a6b3ff80 39deg, #e1e7ff 39.5deg, transparent 41deg,
-    transparent 108deg, #8d9dff99 110deg, transparent 113deg,
-    transparent 180deg, #bdc8ffb3 182deg, transparent 184deg,
-    transparent 233deg, #d7dfff 234deg, transparent 236deg,
-    transparent 299deg, #8d9dff99 301deg, transparent 304deg);
-  mask-image: radial-gradient(ellipse at center, transparent 19%, #000 37%, transparent 68%);
-  opacity: calc(var(--hero-beams) * 0.65);
-  filter: blur(2px);
-  transform: rotate(calc(var(--hero-rotation) + var(--hero-motion) * 11deg)) scale(calc(0.94 + var(--hero-motion) * 0.16));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-art::after { display: none; }
+/* `scale` composes with the scroll-driven `transform`, so the entrance and
+   the scroll never fight over one property. */
+@keyframes hero-glow-rise {
+  from {
+    scale: 1 0;
+  }
+  to {
+    scale: 1 1;
+  }
 }
 
 .hero-copy {
@@ -178,7 +142,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   gap: 36px;
-  padding-top: 40px;
+  padding-bottom: 14svh;
 }
 
 .hero-title {
@@ -194,45 +158,33 @@ a:hover {
 }
 
 @media (max-width: 680px) {
-  /* One short flick, not a desktop-length tunnel. The JS starts the frame
-     reveal at mid-run so the rest of the page arrives in that same gesture. */
   .scroll-hero {
-    height: 170svh;
+    height: 160svh;
   }
 
   .hero-frame {
     width: calc(100% - var(--hero-progress) * 20px);
     height: calc(100svh - var(--hero-progress) * 28px);
-    border-radius: calc(var(--hero-progress) * 22px);
+    clip-path: inset(0 round calc(var(--hero-progress) * 22px));
   }
 
-  .aperture {
-    width: 1320px;
-    height: max(980px, 116%);
-  }
-
-  .hero-art {
-    mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent),
-      linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  .hero-glow {
+    height: 52%;
+    filter: blur(12px);
   }
 
   .hero-copy {
     width: calc(100% - 40px);
     gap: 28px;
-    padding-top: 0;
+    padding-bottom: 18svh;
   }
 
   .hero-title {
     font-size: clamp(38px, 11vw, 48px);
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-copy {
-    padding-top: 0;
-  }
-
   .scroll-hero {
     --hero-progress: 1;
     height: 100svh;
@@ -242,8 +194,9 @@ a:hover {
     position: relative;
   }
 
-  .aperture {
-    transform: translate(-50%, -50%);
+  .hero-glow {
+    transform: none;
+    animation: none;
     will-change: auto;
   }
 }

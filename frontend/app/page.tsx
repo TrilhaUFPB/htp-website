@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Aperture } from "@/components/aperture";
+import { DiaGlow } from "@/components/dia-glow";
 import { FaqSection } from "@/components/faq";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
@@ -68,9 +68,7 @@ export default function Home() {
 
         <ScrollHero>
           <div className="hero-frame">
-            <div className="hero-art">
-              <Aperture />
-            </div>
+            <DiaGlow className="hero-glow" />
 
             <div className="hero-copy">
               <h1 id="hero-title" className="hero-title">
