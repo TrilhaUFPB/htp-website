@@ -9,6 +9,13 @@ export type Sponsor = {
 
 export const sponsors: readonly Sponsor[] = [
   {
+    name: "Valor Capital Group",
+    url: "https://valorcapitalgroup.com",
+    logo: "/images/sponsors/valor.png",
+    width: 591,
+    height: 130,
+  },
+  {
     name: "AI Tinkerers",
     url: "https://aitinkerers.org",
     logo: "/images/sponsors/ai-tinkerers.png",
