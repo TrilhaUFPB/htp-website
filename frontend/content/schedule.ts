@@ -27,6 +27,6 @@ export const scheduleDays: readonly ScheduleDay[] = [
     description:
       "Do zero ao pitch final. Staff, mentores e judges ficam com você do começo ao fim.",
     participants: "participantes",
-    count: 120,
+    count: 100,
   },
 ] as const;
