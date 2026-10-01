@@ -3,12 +3,12 @@ import { sponsors } from "@/content/sponsors";
 
 export function Sponsors() {
   return (
-    <div className="flex w-full max-w-[1040px] flex-col items-center gap-7 border-b border-[#e5e5e5] pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:pb-14 lg:text-left">
+    <div className="flex w-full max-w-[1040px] flex-col items-center gap-7 border-b border-[#e5e5e5] pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:pb-14 lg:text-left">
       <p className="m-0 shrink-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue sm:text-[14px]">
         Com o apoio de
       </p>
 
-      <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:gap-14">
+      <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:flex-nowrap lg:gap-8">
         {sponsors.map((sponsor) => (
           <li key={sponsor.name} className="flex">
             {/* No card this time: the logo sits straight on the page, so the
@@ -28,7 +28,8 @@ export function Sponsors() {
                 alt={sponsor.name}
                 width={sponsor.width}
                 height={sponsor.height}
-                className="h-8 w-auto object-contain sm:h-10"
+                style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                className="h-[calc(2rem*var(--logo-scale))] w-auto object-contain sm:h-[calc(2.5rem*var(--logo-scale))] lg:h-[calc(2rem*var(--logo-scale))]"
               />
             </a>
           </li>
