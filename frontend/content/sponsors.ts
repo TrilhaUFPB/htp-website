@@ -5,6 +5,8 @@ export type Sponsor = {
   /** Intrinsic pixel size of the logo file, so next/image can reserve the box. */
   width: number;
   height: number;
+  /** Optical size tweak for logos that read smaller than the rest at equal height. */
+  scale?: number;
 };
 
 export const sponsors: readonly Sponsor[] = [
@@ -14,6 +16,7 @@ export const sponsors: readonly Sponsor[] = [
     logo: "/images/sponsors/valor.png",
     width: 591,
     height: 130,
+    scale: 1.15,
   },
   {
     name: "AI Tinkerers",
@@ -28,5 +31,13 @@ export const sponsors: readonly Sponsor[] = [
     logo: "/images/sponsors/behring.png",
     width: 572,
     height: 168,
+    scale: 1.2,
+  },
+  {
+    name: "NXTP Ventures",
+    url: "https://nxtp.vc",
+    logo: "/images/sponsors/nxtp.png",
+    width: 506,
+    height: 206,
   },
 ] as const;

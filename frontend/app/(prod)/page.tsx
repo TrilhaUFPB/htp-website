@@ -9,6 +9,7 @@ import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
 import { Sponsors } from "@/components/sponsors";
 import { scheduleDays } from "@/content/schedule";
+import { siteConfig } from "@/content/site";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";
 
@@ -265,19 +266,11 @@ export default function Home() {
               </p>
               <div className="flex flex-col gap-2.5">
                 <h3 className="m-0 text-[clamp(26px,3vw,40px)] font-extrabold leading-none tracking-[-0.03em]">
-                  Palazzo Cristal
+                  {siteConfig.event.locationName}
                 </h3>
                 <p className="m-0 max-w-[380px] text-base leading-[1.55] text-[#555]">
-                  R. Quatrocentos e Noventa e Dois, 2-114 – Lot. Progresso, Cabedelo – PB
+                  O local exato será anunciado em breve.
                 </p>
-                <a
-                  href="https://maps.google.com/?q=Palazzo+Cristal+Cabedelo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 self-start border-b-2 border-htp-blue text-sm font-bold text-black transition-colors duration-200 hover:text-htp-blue"
-                >
-                  Ver no mapa ↗
-                </a>
               </div>
             </div>
           </div>

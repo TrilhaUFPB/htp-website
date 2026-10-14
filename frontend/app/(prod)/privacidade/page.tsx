@@ -75,9 +75,19 @@ export default function PrivacyPage() {
             <h2 className="m-0 text-xl font-bold text-black">Dados coletados</h2>
             <p className="m-0">
               Na waitlist, coletamos: endereço de e-mail, origem do formulário
-              (seção principal ou rodapé da página), data do consentimento, versão
-              do texto aceito e informações técnicas do navegador (user-agent). Não
-              armazenamos endereço IP.
+              (seção principal ou chamada final da página), data do consentimento,
+              versão do texto aceito e informações técnicas do navegador
+              (user-agent). Não armazenamos endereço IP.
+            </p>
+          </section>
+
+          <section className="flex flex-col gap-3">
+            <h2 className="m-0 text-xl font-bold text-black">Métricas de uso</h2>
+            <p className="m-0">
+              Medimos visitas e cliques de forma agregada com o PostHog, para saber
+              de onde vêm os visitantes e quantos entram na lista. A medição não usa
+              cookies nem armazenamento no navegador, não registra seu e-mail e não
+              grava a sua sessão. O endereço IP não é guardado junto aos eventos.
             </p>
           </section>
 

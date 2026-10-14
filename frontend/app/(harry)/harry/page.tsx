@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/harry/site-footer";
 import { Sponsors } from "@/components/harry/sponsors";
 import { TiltCard } from "@/components/harry/tilt-card";
 import { scheduleDays } from "@/content/schedule";
+import { siteConfig } from "@/content/site";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";
 
@@ -230,19 +231,11 @@ export default function Home() {
               <div className="flex flex-col gap-3">
                 <p className="m-0 text-[15px]">Onde</p>
                 <h3 className="m-0 font-display text-[clamp(28px,3vw,40px)] font-medium leading-none tracking-[-0.03em]">
-                  Palazzo Cristal
+                  {siteConfig.event.locationName}
                 </h3>
                 <p className="m-0 max-w-[34ch] text-[16px] leading-[1.55]">
-                  R. Quatrocentos e Noventa e Dois, 2-114 – Lot. Progresso, Cabedelo – PB
+                  O local exato será anunciado em breve.
                 </p>
-                <a
-                  href="https://maps.google.com/?q=Palazzo+Cristal+Cabedelo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex self-start rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors hover:bg-white hover:text-black hover:opacity-100"
-                >
-                  Ver no mapa ↗
-                </a>
               </div>
             </div>
           </div>

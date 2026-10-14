@@ -83,13 +83,15 @@ export function createEventJsonLd() {
         "@id": `${siteConfig.url}/#organization`,
         name: siteConfig.publisher,
         url: siteConfig.links.website,
-        sameAs: [siteConfig.links.instagram, siteConfig.links.instagramAlt],
+        logo: new URL(siteConfig.logoPath, siteConfig.url).toString(),
+        sameAs: [siteConfig.links.instagram, siteConfig.links.instagramEvent],
       },
       {
         "@type": "Event",
         "@id": `${siteConfig.url}/#event`,
         name: siteConfig.event.name,
-        description: siteConfig.description,
+        description: siteConfig.event.description,
+        inLanguage: siteConfig.language,
         startDate: siteConfig.event.startDate,
         endDate: siteConfig.event.endDate,
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
@@ -102,7 +104,6 @@ export function createEventJsonLd() {
           name: siteConfig.event.locationName,
           address: {
             "@type": "PostalAddress",
-            streetAddress: siteConfig.event.streetAddress,
             addressLocality: siteConfig.event.addressLocality,
             addressRegion: siteConfig.event.addressRegion,
             addressCountry: siteConfig.event.addressCountry,
@@ -111,9 +112,13 @@ export function createEventJsonLd() {
         organizer: {
           "@id": `${siteConfig.url}/#organization`,
         },
+        audience: {
+          "@type": "EducationalAudience",
+          educationalRole: "student",
+        },
         offers: {
           "@type": "Offer",
-          url: siteConfig.links.luma,
+          url: siteConfig.url,
           availability: "https://schema.org/PreOrder",
           price: "0",
           priceCurrency: "BRL",
