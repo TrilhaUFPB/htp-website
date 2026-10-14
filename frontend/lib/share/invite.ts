@@ -1,7 +1,7 @@
 import { siteConfig } from "@/content/site";
 
 /**
- * The link a waitlist member passes to their team. The UTM tags let analytics
+ * The link a waitlist member passes on to invite others. The UTM tags let analytics
  * tell referred visits apart from the ones that came straight from Instagram.
  */
 export function buildInviteUrl(): string {

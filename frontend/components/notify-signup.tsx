@@ -191,7 +191,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
                   Te avisamos assim que as inscrições abrirem. Enquanto isso, convide
-                  quem você quer no seu time.
+                  mais gente para o Hack The Path.
                 </p>
                 <div className="mt-2 flex flex-col gap-3">
                   <button
