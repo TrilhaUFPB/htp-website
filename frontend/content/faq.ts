@@ -15,6 +15,15 @@ export const faqItems: readonly FaqItem[] = [
       "Qualquer estudante, de qualquer curso ou cidade. O segundo dia é só para quem foi selecionado para o hackathon.",
   },
   {
+    question: "Tem idade mínima?",
+    answer: "Sim. Para participar, você precisa ter 18 anos ou mais.",
+  },
+  {
+    question: "Quando abrem as inscrições?",
+    answer:
+      "Em janeiro de 2027. Entre na lista e avisamos no dia em que abrirem.",
+  },
+  {
     question: "Quanto custa?",
     answer: "Nada. O evento é 100% gratuito.",
   },

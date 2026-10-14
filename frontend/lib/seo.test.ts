@@ -1,7 +1,34 @@
 import { describe, expect, it } from "vitest";
 
 import { faqItems } from "@/content/faq";
-import { createFaqJsonLd } from "@/lib/seo";
+import { siteConfig } from "@/content/site";
+import { createEventJsonLd, createFaqJsonLd } from "@/lib/seo";
+
+function findNode(type: string) {
+  const node = createEventJsonLd()["@graph"].find((entry) => entry["@type"] === type);
+  if (!node) throw new Error(`missing ${type} node`);
+  return node as Record<string, unknown>;
+}
+
+describe("createEventJsonLd", () => {
+  it("sends the offer to the site, where the waitlist lives", () => {
+    const offers = findNode("Event").offers as { url: string; price: string };
+
+    expect(offers.url).toBe(siteConfig.url);
+    expect(offers.price).toBe("0");
+  });
+
+  it("links the organization to the event's own Instagram", () => {
+    const sameAs = findNode("Organization").sameAs as string[];
+
+    expect(sameAs).toContain("https://instagram.com/hackthepath");
+  });
+
+  it("gives the event an absolute logo and image", () => {
+    expect(String(findNode("Organization").logo)).toMatch(/^https?:\/\//);
+    expect(String(findNode("Event").image)).toMatch(/^https?:\/\//);
+  });
+});
 
 describe("createFaqJsonLd", () => {
   it("marks up the page as a schema.org FAQPage", () => {

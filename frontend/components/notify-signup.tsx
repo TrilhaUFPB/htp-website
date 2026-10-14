@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { privacyConfig } from "@/content/privacy";
+import {
+  buildInviteUrl,
+  buildWhatsAppUrl,
+  inviteMessage,
+  type InviteChannel,
+} from "@/lib/share/invite";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
@@ -35,6 +42,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     "idle",
   );
   const [errorMessage, setErrorMessage] = useState("");
+  const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const titleId = useId();
   const descriptionId = useId();
@@ -65,6 +73,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       setEmail("");
       setConsent(false);
       setHoneypot("");
+      setCopied(false);
     }, ms);
 
     return () => window.clearTimeout(id);
@@ -92,6 +101,38 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [phase]);
+
+  const open = () => {
+    posthog.capture("waitlist_opened", { source: variant });
+    setPhase("entering");
+  };
+
+  const trackInvite = (channel: InviteChannel) => {
+    posthog.capture("waitlist_invite_shared", { source: variant, channel });
+  };
+
+  // The native share sheet where the browser has one, the clipboard otherwise.
+  // Some desktop browsers expose navigator.share and then reject the call, so
+  // any failure other than the person dismissing the sheet falls back to copy.
+  const shareInvite = async () => {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ text: inviteMessage, url: buildInviteUrl("native") });
+        trackInvite("native");
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(buildInviteUrl("copy"));
+      setCopied(true);
+      trackInvite("copy");
+    } catch {
+      setCopied(false);
+    }
+  };
 
   const close = () => {
     setPhase((current) =>
@@ -121,6 +162,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
         throw new Error(data.error ?? "Não foi possível enviar. Tente de novo.");
       }
 
+      posthog.capture("waitlist_joined", { source: variant });
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -134,7 +176,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
 
   return (
     <>
-      <button type="button" onClick={() => setPhase("entering")} className={buttonStyles[variant]}>
+      <button type="button" onClick={open} className={buttonStyles[variant]}>
         Quero ser avisado
         {variant === "cta" ? <span aria-hidden="true">→</span> : null}
       </button>
@@ -170,15 +212,37 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   Você está na lista.
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                  Te avisamos assim que as inscrições abrirem.
+                  Te avisamos assim que as inscrições abrirem. Hackathon se faz em time:
+                  chama quem você quer do seu lado.
                 </p>
-                <button
-                  type="button"
-                  onClick={close}
-                  className="mt-2 inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
-                >
-                  Fechar
-                </button>
+                <div className="mt-2 flex flex-col gap-3">
+                  <a
+                    href={buildWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackInvite("whatsapp")}
+                    className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
+                  >
+                    Chamar no WhatsApp
+                  </a>
+                  <button
+                    type="button"
+                    onClick={shareInvite}
+                    className="inline-flex items-center justify-center rounded-full border-[1.5px] border-black bg-white px-8 py-4 text-base font-bold text-black transition-colors hover:border-htp-blue hover:text-htp-blue"
+                  >
+                    {copied ? "Link copiado" : "Compartilhar link"}
+                  </button>
+                  <p aria-live="polite" className="sr-only">
+                    {copied ? "Link copiado para a área de transferência." : ""}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={close}
+                    className="mt-1 self-center text-sm font-semibold text-[#666] underline-offset-4 hover:text-black hover:underline"
+                  >
+                    Fechar
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="flex flex-col gap-5 pt-2">
