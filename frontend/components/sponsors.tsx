@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { sponsors } from "@/content/sponsors";
+import { track } from "@/lib/analytics/events";
 
 export function Sponsors() {
   return (
@@ -21,6 +24,7 @@ export function Sponsors() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${sponsor.name} (abre em nova aba)`}
+              onClick={() => track("sponsor_clicked", { sponsor: sponsor.name })}
               className="flex items-center transition-all duration-200 grayscale hover:grayscale-0 hover:opacity-100!"
             >
               <Image

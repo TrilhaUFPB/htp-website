@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { faqItems } from "@/content/faq";
+import { track } from "@/lib/analytics/events";
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -39,7 +40,13 @@ export function FaqSection() {
                   type="button"
                   className="t-acc-head grid w-full cursor-pointer grid-cols-[36px_minmax(0,1fr)_32px] items-center gap-4 border-0 bg-transparent py-5 text-left font-inherit text-[clamp(17px,1.7vw,21px)] font-bold leading-snug tracking-[-0.01em] text-inherit transition-colors duration-200 hover:text-htp-blue sm:grid-cols-[56px_minmax(0,1fr)_40px] sm:gap-4 sm:py-6"
                   aria-expanded={open}
-                  onClick={() => setOpenIndex(open ? null : index)}
+                  onClick={() => {
+                    // Only openings count: closing says nothing about interest.
+                    if (!open) {
+                      track("faq_opened", { question: item.question, position: index + 1 });
+                    }
+                    setOpenIndex(open ? null : index);
+                  }}
                 >
                   <span className="text-[13px] font-bold tracking-[0.2em] text-htp-blue">
                     {String(index + 1).padStart(2, "0")}

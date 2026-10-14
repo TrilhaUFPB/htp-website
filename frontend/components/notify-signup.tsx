@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import posthog from "posthog-js";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { privacyConfig } from "@/content/privacy";
+import { track, waitlistFailureReason } from "@/lib/analytics/events";
 import { buildInviteUrl } from "@/lib/share/invite";
 
 type NotifySignupProps = {
@@ -98,7 +98,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
   }, [phase]);
 
   const open = () => {
-    posthog.capture("waitlist_opened", { source: variant });
+    track("waitlist_opened", { source: variant });
     setPhase("entering");
   };
 
@@ -106,7 +106,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     try {
       await navigator.clipboard.writeText(buildInviteUrl());
       setCopied(true);
-      posthog.capture("waitlist_invite_copied", { source: variant });
+      track("waitlist_invite_copied", { source: variant });
     } catch {
       setCopied(false);
     }
@@ -122,6 +122,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage("");
+    let responseStatus: number | undefined;
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -135,14 +136,20 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
         }),
       });
 
+      responseStatus = response.status;
+
       if (!response.ok) {
         const data = (await response.json()) as { error?: string };
         throw new Error(data.error ?? "Não foi possível enviar. Tente de novo.");
       }
 
-      posthog.capture("waitlist_joined", { source: variant });
+      track("waitlist_joined", { source: variant });
       setStatus("success");
     } catch (error) {
+      track("waitlist_failed", {
+        source: variant,
+        reason: waitlistFailureReason(responseStatus),
+      });
       setStatus("error");
       setErrorMessage(
         error instanceof Error
