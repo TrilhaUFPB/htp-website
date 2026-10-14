@@ -190,19 +190,16 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   Você está na lista.
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                  Te avisamos assim que as inscrições abrirem.
+                  Te avisamos assim que as inscrições abrirem. Enquanto isso, convide
+                  quem você quer no seu time.
                 </p>
-                <div className="mt-2 flex flex-col gap-3 border-t border-[#e5e5e5] pt-5">
-                  <p className="m-0 text-base font-bold">Convide mais pessoas</p>
-                  <p className="m-0 -mt-1 text-sm leading-relaxed text-[#555]">
-                    Copie o link e mande para quem você quer no seu time.
-                  </p>
+                <div className="mt-2 flex flex-col gap-3">
                   <button
                     type="button"
                     onClick={copyInvite}
-                    className="mt-1 inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
+                    className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
                   >
-                    {copied ? "Link copiado" : "Copiar link"}
+                    {copied ? "Link copiado" : "Copiar link de convite"}
                   </button>
                   <p aria-live="polite" className="sr-only">
                     {copied ? "Link copiado para a área de transferência." : ""}
