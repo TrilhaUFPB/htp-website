@@ -5,12 +5,7 @@ import posthog from "posthog-js";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { privacyConfig } from "@/content/privacy";
-import {
-  buildInviteUrl,
-  buildWhatsAppUrl,
-  inviteMessage,
-  type InviteChannel,
-} from "@/lib/share/invite";
+import { buildInviteUrl } from "@/lib/share/invite";
 
 type NotifySignupProps = {
   variant?: "hero" | "footer" | "cta";
@@ -107,28 +102,11 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
     setPhase("entering");
   };
 
-  const trackInvite = (channel: InviteChannel) => {
-    posthog.capture("waitlist_invite_shared", { source: variant, channel });
-  };
-
-  // The native share sheet where the browser has one, the clipboard otherwise.
-  // Some desktop browsers expose navigator.share and then reject the call, so
-  // any failure other than the person dismissing the sheet falls back to copy.
-  const shareInvite = async () => {
-    if (typeof navigator.share === "function") {
-      try {
-        await navigator.share({ text: inviteMessage, url: buildInviteUrl("native") });
-        trackInvite("native");
-        return;
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-      }
-    }
-
+  const copyInvite = async () => {
     try {
-      await navigator.clipboard.writeText(buildInviteUrl("copy"));
+      await navigator.clipboard.writeText(buildInviteUrl());
       setCopied(true);
-      trackInvite("copy");
+      posthog.capture("waitlist_invite_copied", { source: variant });
     } catch {
       setCopied(false);
     }
@@ -212,25 +190,19 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   Você está na lista.
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                  Te avisamos assim que as inscrições abrirem. Hackathon se faz em time:
-                  chama quem você quer do seu lado.
+                  Te avisamos assim que as inscrições abrirem.
                 </p>
-                <div className="mt-2 flex flex-col gap-3">
-                  <a
-                    href={buildWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackInvite("whatsapp")}
-                    className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
-                  >
-                    Chamar no WhatsApp
-                  </a>
+                <div className="mt-2 flex flex-col gap-3 border-t border-[#e5e5e5] pt-5">
+                  <p className="m-0 text-base font-bold">Convide mais pessoas</p>
+                  <p className="m-0 -mt-1 text-sm leading-relaxed text-[#555]">
+                    Copie o link e mande para quem você quer no seu time.
+                  </p>
                   <button
                     type="button"
-                    onClick={shareInvite}
-                    className="inline-flex items-center justify-center rounded-full border-[1.5px] border-black bg-white px-8 py-4 text-base font-bold text-black transition-colors hover:border-htp-blue hover:text-htp-blue"
+                    onClick={copyInvite}
+                    className="mt-1 inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
                   >
-                    {copied ? "Link copiado" : "Compartilhar link"}
+                    {copied ? "Link copiado" : "Copiar link"}
                   </button>
                   <p aria-live="polite" className="sr-only">
                     {copied ? "Link copiado para a área de transferência." : ""}
