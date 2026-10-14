@@ -7,6 +7,7 @@ import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
 import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
+import { SectionTracker } from "@/components/section-tracker";
 import { Sponsors } from "@/components/sponsors";
 import { scheduleDays } from "@/content/schedule";
 import { siteConfig } from "@/content/site";
@@ -66,6 +67,7 @@ export default function Home() {
 
       <main id="conteudo" className="flex flex-col">
       <ScrollEffects />
+      <SectionTracker />
       {/* HERO */}
       <ScrollHero>
         <div className="hero-frame">
@@ -215,7 +217,7 @@ export default function Home() {
       </section>
 
       {/* NÚMEROS */}
-      <section className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
+      <section id="numeros" className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
         <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
           {stats.map((stat, index) => (
             <div

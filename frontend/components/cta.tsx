@@ -3,7 +3,10 @@ import { NotifySignup } from "@/components/notify-signup";
 
 export function CtaSection() {
   return (
-    <section className="flex flex-col items-center rounded-t-[24px] bg-black px-5 pt-16 text-white sm:rounded-t-[30px] sm:px-14 sm:pt-[clamp(96px,11vw,150px)]">
+    <section
+      id="inscricao"
+      className="flex flex-col items-center rounded-t-[24px] bg-black px-5 pt-16 text-white sm:rounded-t-[30px] sm:px-14 sm:pt-[clamp(96px,11vw,150px)]"
+    >
       <div className="flex w-full max-w-[720px] flex-col items-center gap-6 pb-16 text-center sm:gap-8 sm:pb-[clamp(96px,11vw,150px)]">
         <p
           data-reveal
