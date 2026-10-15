@@ -10,7 +10,6 @@ import { ScrollHero } from "@/components/scroll-hero";
 import { SectionTracker } from "@/components/section-tracker";
 import { Sponsors } from "@/components/sponsors";
 import { scheduleDays } from "@/content/schedule";
-import { siteConfig } from "@/content/site";
 import { stats } from "@/content/stats";
 import { createFaqJsonLd } from "@/lib/seo";
 
@@ -28,6 +27,9 @@ const EVENT_FEATURES = [
     description: "Um evento pensado para mudar a forma como você pensa.",
   },
 ] as const;
+
+const JOAO_PESSOA_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Jo%C3%A3o+Pessoa%2C+Para%C3%ADba%2C+Brasil";
 
 export default function Home() {
   const faqJsonLd = createFaqJsonLd();
@@ -217,8 +219,8 @@ export default function Home() {
       </section>
 
       {/* NÚMEROS */}
-      <section id="numeros" className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
-        <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
+      <section id="numeros" className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-20">
+        <div className="grid w-full max-w-[960px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
           {stats.map((stat, index) => (
             <div
               key={stat.label}
@@ -247,45 +249,68 @@ export default function Home() {
         id="quando"
         className="flex scroll-mt-14 justify-center px-5 pb-16 sm:px-14 sm:pb-[140px]"
       >
-        <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-8 sm:grid-cols-[1.2fr_0.8fr] sm:gap-16">
-          <div className="flex flex-col gap-8 sm:gap-10">
-            <div data-reveal className="flex flex-col gap-5">
-              <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
+        <div className="w-full max-w-[960px]">
+          <div className="grid items-center gap-8 py-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:gap-12 lg:gap-20">
+            <div data-reveal className="flex flex-col items-start">
+              <h2 className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
                 Quando
-              </p>
-              <h2 className="m-0 text-[clamp(56px,9vw,140px)] font-black leading-[0.88] tracking-[-0.06em]">
-                20–21
-                <br />
-                fev<span className="text-htp-blue">.</span>27
               </h2>
-            </div>
-            <div
-              data-reveal={120}
-              className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-5 border-t-[1.5px] border-black pt-6 sm:gap-6 sm:pt-7"
-            >
-              <p className="m-0 pt-1.5 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Onde
+              <p className="m-0 mt-6 text-[clamp(76px,8.5vw,120px)] font-black leading-[0.85] tracking-[-0.07em]">
+                20 – 21
               </p>
-              <div className="flex flex-col gap-2.5">
-                <h3 className="m-0 text-[clamp(26px,3vw,40px)] font-extrabold leading-none tracking-[-0.03em]">
-                  {siteConfig.event.locationName}
-                </h3>
-                <p className="m-0 max-w-[380px] text-base leading-[1.55] text-[#555]">
-                  O local exato será anunciado em breve.
-                </p>
-              </div>
+              <p className="m-0 mt-3 text-[clamp(22px,2.8vw,36px)] font-extrabold leading-none tracking-[-0.04em]">
+                fevereiro de 2027<span className="text-htp-blue">.</span>
+              </p>
             </div>
-          </div>
-          <div data-reveal={200} className="flex justify-center">
             <Image
-              src="/images/fan-mono.png"
+              data-reveal={120}
+              src="/images/calendar-feb-2027.png"
               alt=""
               aria-hidden="true"
-              data-parallax="0.08"
-              width={600}
-              height={600}
-              className="aspect-square w-full max-w-[400px] rounded-[30px] object-cover will-change-transform"
+              width={1920}
+              height={1920}
+              sizes="(max-width: 767px) 100vw, 340px"
+              className="w-full max-w-[340px] justify-self-center rounded-[28px]"
             />
+          </div>
+          <div className="grid items-center gap-4 border-t border-[#dedede] pt-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:gap-12 md:pt-14 lg:gap-20">
+            <div data-reveal className="flex flex-col items-start">
+              <h2 className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
+                Onde
+              </h2>
+              <h3 className="m-0 mt-6 text-[clamp(44px,5vw,68px)] font-extrabold leading-[0.95] tracking-[-0.055em]">
+                Grande<br />João Pessoa<span className="text-htp-blue">.</span>
+              </h3>
+              <p className="m-0 mt-5 max-w-[340px] text-base leading-[1.5] text-[#555]">
+                O endereço do evento será divulgado em breve.
+              </p>
+            </div>
+            <div data-reveal={120} className="relative aspect-[3/2] w-full max-w-[600px]">
+              <a
+                href={JOAO_PESSOA_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver João Pessoa no Google Maps (abre em nova aba)"
+                className="group absolute inset-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                <Image
+                  src="/images/paraiba-map-3d.png"
+                  alt=""
+                  fill
+                  sizes="(max-width: 767px) 100vw, 600px"
+                  className="object-cover"
+                />
+                <span className="absolute left-[87%] top-[55%] flex h-16 w-12 -translate-x-1/2 -translate-y-full items-end justify-center">
+                  <Image
+                    src="/images/map-pin.png"
+                    alt=""
+                    width={132}
+                    height={204}
+                    className="h-[46px] w-[30px] origin-bottom transition-transform duration-200 ease-out group-hover:scale-125 group-focus-visible:scale-125 motion-reduce:transition-none"
+                  />
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
