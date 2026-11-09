@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { siteConfig } from "@/content/site";
+import { LocaleProvider } from "@/lib/i18n/context";
+import { getCopy } from "@/lib/i18n/server";
 import { createEventJsonLd, createSiteMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -14,7 +15,10 @@ const googleSansFlex = localFont({
   weight: "1 1000",
 });
 
-export const metadata: Metadata = createSiteMetadata();
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale } = await getCopy();
+  return createSiteMetadata(undefined, locale);
+}
 
 export const viewport: Viewport = {
   themeColor: [
@@ -24,21 +28,24 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = createEventJsonLd();
+  const { locale, t } = await getCopy();
+  const jsonLd = createEventJsonLd(locale);
 
   return (
-    <html lang={siteConfig.language} className={googleSansFlex.variable}>
+    <html lang={t.htmlLang} className={googleSansFlex.variable}>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        <LocaleProvider locale={locale} t={t}>
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

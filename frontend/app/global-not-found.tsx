@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { siteConfig } from "@/content/site";
+import { getCopy } from "@/lib/i18n/server";
 import "./(prod)/globals.css";
 
 // With two root layouts (the live site and /harry) there is no single layout
@@ -15,34 +15,36 @@ const googleSansFlex = localFont({
   weight: "1 1000",
 });
 
-export const metadata: Metadata = {
-  title: "Página não encontrada",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getCopy();
+  return { title: t.meta.notFoundTitle };
+}
 
-export default function GlobalNotFound() {
+export default async function GlobalNotFound() {
+  const { t } = await getCopy();
+
   return (
-    <html lang={siteConfig.language} className={googleSansFlex.variable}>
+    <html lang={t.htmlLang} className={googleSansFlex.variable}>
       <body className="font-sans antialiased">
         <div className="flex min-h-screen flex-col bg-white text-black">
           <main className="flex flex-1 flex-col items-center justify-center px-8 py-20 text-center sm:px-14">
             <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.2em] text-htp-blue">
-              Erro 404
+              {t.notFound.code}
             </p>
             <h1 className="m-0 mt-8 text-[clamp(72px,14vw,160px)] font-black leading-none tracking-[-0.04em]">
               404
             </h1>
             <h2 className="m-0 mt-8 max-w-[640px] text-[clamp(28px,3.5vw,44px)] font-extrabold leading-[1.08] tracking-[-0.02em]">
-              Caminho não encontrado.
+              {t.notFound.heading}
             </h2>
             <p className="m-0 mt-5 max-w-[420px] text-[clamp(16px,1.4vw,18px)] leading-relaxed text-[#444]">
-              Essa rota não existe ou ainda não foi hackeada. Volte para a página
-              inicial e continue no path.
+              {t.notFound.body}
             </p>
             <Link
               href="/"
               className="mt-10 inline-flex items-center gap-3 rounded-full bg-black px-10 py-[18px] text-[17px] font-bold tracking-[0.02em] text-white transition-colors hover:bg-htp-blue hover:text-black hover:opacity-100"
             >
-              Voltar ao início <span aria-hidden>→</span>
+              {t.notFound.back} <span aria-hidden>→</span>
             </Link>
           </main>
 

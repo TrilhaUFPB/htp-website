@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { faqItems } from "@/content/faq";
+import { copy } from "@/content/copy";
 import { siteConfig } from "@/content/site";
+import type { Locale } from "@/lib/i18n/config";
 
 const ogImageUrl = new URL(siteConfig.ogImage.path, siteConfig.url);
 
-export function createSiteMetadata(overrides?: Metadata): Metadata {
+export function createSiteMetadata(overrides?: Metadata, locale: Locale = "pt"): Metadata {
+  const t = copy[locale];
+
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
-      default: siteConfig.title,
+      default: t.meta.title,
       template: `%s · ${siteConfig.name}`,
     },
-    description: siteConfig.description,
+    description: t.meta.description,
     keywords: [...siteConfig.keywords],
     authors: [...siteConfig.authors],
     creator: siteConfig.creator,
@@ -26,24 +29,24 @@ export function createSiteMetadata(overrides?: Metadata): Metadata {
     },
     openGraph: {
       type: "website",
-      locale: siteConfig.locale,
+      locale: t.ogLocale,
       url: siteConfig.url,
       siteName: siteConfig.name,
-      title: siteConfig.title,
-      description: siteConfig.description,
+      title: t.meta.title,
+      description: t.meta.description,
       images: [
         {
           url: ogImageUrl,
           width: siteConfig.ogImage.width,
           height: siteConfig.ogImage.height,
-          alt: siteConfig.ogImage.alt,
+          alt: t.meta.ogAlt,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: siteConfig.title,
-      description: siteConfig.description,
+      title: t.meta.title,
+      description: t.meta.description,
       site: siteConfig.social.twitter,
       creator: siteConfig.social.twitter,
       images: [ogImageUrl.toString()],
@@ -63,7 +66,9 @@ export function createSiteMetadata(overrides?: Metadata): Metadata {
   };
 }
 
-export function createEventJsonLd() {
+export function createEventJsonLd(locale: Locale = "pt") {
+  const t = copy[locale];
+
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -72,8 +77,8 @@ export function createEventJsonLd() {
         "@id": `${siteConfig.url}/#website`,
         url: siteConfig.url,
         name: siteConfig.name,
-        description: siteConfig.description,
-        inLanguage: siteConfig.language,
+        description: t.meta.description,
+        inLanguage: t.htmlLang,
         publisher: {
           "@id": `${siteConfig.url}/#organization`,
         },
@@ -90,8 +95,8 @@ export function createEventJsonLd() {
         "@type": "Event",
         "@id": `${siteConfig.url}/#event`,
         name: siteConfig.event.name,
-        description: siteConfig.event.description,
-        inLanguage: siteConfig.language,
+        description: t.meta.eventDescription,
+        inLanguage: t.htmlLang,
         startDate: siteConfig.event.startDate,
         endDate: siteConfig.event.endDate,
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
@@ -101,7 +106,7 @@ export function createEventJsonLd() {
         image: new URL(siteConfig.ogImage.path, siteConfig.url).toString(),
         location: {
           "@type": "Place",
-          name: siteConfig.event.locationName,
+          name: t.meta.locationName,
           address: {
             "@type": "PostalAddress",
             addressLocality: siteConfig.event.addressLocality,
@@ -128,12 +133,12 @@ export function createEventJsonLd() {
   };
 }
 
-export function createFaqJsonLd() {
+export function createFaqJsonLd(locale: Locale = "pt") {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "@id": `${siteConfig.url}/#faq`,
-    mainEntity: faqItems.map((item) => ({
+    mainEntity: copy[locale].faq.items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
