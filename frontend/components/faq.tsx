@@ -38,7 +38,7 @@ export function FaqSection({ canonicalQuestions }: { canonicalQuestions: readonl
 
             return (
               <div
-                key={item.question}
+                key={index}
                 data-reveal
                 className="t-acc border-t-[1.5px] border-black last:border-b-[1.5px]"
                 data-open={open ? "true" : "false"}

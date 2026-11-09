@@ -105,8 +105,8 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 gap-8 border-t border-[#e5e5e5] pt-8 sm:grid-cols-3 sm:gap-12 sm:pt-10">
-            {t.about.features.map((feature) => (
-              <div key={feature.title} className="flex flex-col gap-3">
+            {t.about.features.map((feature, index) => (
+              <div key={index} className="flex flex-col gap-3">
                 <h3 className="m-0 text-[22px] font-extrabold tracking-[-0.02em]">
                   {feature.title}
                 </h3>
@@ -208,7 +208,7 @@ export default async function Home() {
         <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
           {t.stats.map((stat, index) => (
             <div
-              key={stat.label}
+              key={index}
               data-reveal={index * 80}
               className={`flex flex-col gap-3 border-[#e5e5e5] px-4 py-8 sm:border-r sm:px-6 sm:py-10 sm:border-b-0 sm:last:border-r-0 ${
                 index % 2 === 0 ? "border-r" : ""
