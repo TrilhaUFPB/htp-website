@@ -9,28 +9,14 @@ import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
 import { SectionTracker } from "@/components/section-tracker";
 import { Sponsors } from "@/components/sponsors";
-import { scheduleDays } from "@/content/schedule";
-import { siteConfig } from "@/content/site";
-import { stats } from "@/content/stats";
+import { LanguageSwitch } from "@/components/language-switch";
+import { copy } from "@/content/copy";
+import { getCopy } from "@/lib/i18n/server";
 import { createFaqJsonLd } from "@/lib/seo";
 
-const EVENT_FEATURES = [
-  {
-    title: "Competição",
-    description: "Projeto real, do zero ao pitch final, exposto a mais de 150 países.",
-  },
-  {
-    title: "Conexão",
-    description: "Mentores, jurados e empresas presentes durante todo o evento.",
-  },
-  {
-    title: "Experiência",
-    description: "Um evento pensado para mudar a forma como você pensa.",
-  },
-] as const;
-
-export default function Home() {
-  const faqJsonLd = createFaqJsonLd();
+export default async function Home() {
+  const { locale, t } = await getCopy();
+  const faqJsonLd = createFaqJsonLd(locale);
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-black">
@@ -40,13 +26,13 @@ export default function Home() {
       />
 
       <a className="skip-link" href="#conteudo">
-        Pular para o conteúdo
+        {t.common.skipToContent}
       </a>
 
       {/* HEADER */}
       <ScrollHeader>
         <div className="header-inner">
-          <Link href="/" aria-label="Hack The Path — início" className="brand">
+          <Link href="/" aria-label={t.common.homeAria} className="brand">
             <Image
               src="/images/logo/svg/hack-the-path-02.svg"
               alt="Hack The Path"
@@ -55,13 +41,16 @@ export default function Home() {
               priority
             />
           </Link>
-          <nav aria-label="Navegação principal">
-            <a href="#patrocinadores">Patrocinadores</a>
-            <a href="#evento">Sobre</a>
-            <a href="#programacao">Programação</a>
-            <a href="#quando">Quando e onde</a>
-            <a href="#faq">Dúvidas</a>
-          </nav>
+          <div className="header-end">
+            <nav aria-label={t.common.navAria}>
+              <a href="#patrocinadores">{t.nav.sponsors}</a>
+              <a href="#evento">{t.nav.about}</a>
+              <a href="#programacao">{t.nav.schedule}</a>
+              <a href="#quando">{t.nav.when}</a>
+              <a href="#faq">{t.nav.faq}</a>
+            </nav>
+            <LanguageSwitch />
+          </div>
         </div>
       </ScrollHeader>
 
@@ -77,10 +66,10 @@ export default function Home() {
 
           <div className="hero-copy">
             <h1 id="hero-title" className="hero-title">
-              O maior hackathon
+              {t.hero.lead}
               <br />
               <strong>
-                da história <span className="hero-title-break">do Nordeste</span>
+                {t.hero.strong} <span className="hero-title-break">{t.hero.strongBreak}</span>
               </strong>
             </h1>
             <NotifySignup variant="hero" />
@@ -111,15 +100,13 @@ export default function Home() {
               Path<span className="text-htp-blue">.</span>
             </h2>
             <p className="m-0 max-w-[440px] text-[clamp(17px,1.6vw,23px)] leading-[1.5] text-[#333]">
-              Dois dias de evento presencial. Hackathon, palestras, talks e conversas com
-              empresas, o ambiente ideal para hackear sua própria trajetória até lugares que
-              antes pareciam impossíveis.
+              {t.about.paragraph}
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-8 border-t border-[#e5e5e5] pt-8 sm:grid-cols-3 sm:gap-12 sm:pt-10">
-            {EVENT_FEATURES.map((feature) => (
-              <div key={feature.title} className="flex flex-col gap-3">
+            {t.about.features.map((feature, index) => (
+              <div key={index} className="flex flex-col gap-3">
                 <h3 className="m-0 text-[22px] font-extrabold tracking-[-0.02em]">
                   {feature.title}
                 </h3>
@@ -139,18 +126,18 @@ export default function Home() {
           <div data-reveal className="flex flex-wrap items-end justify-between gap-6 pb-8 sm:pb-12">
             <div className="flex flex-col gap-5">
               <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Programação
+                {t.schedule.eyebrow}
               </p>
               <h2 className="m-0 text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.02] tracking-[-0.03em]">
-                Dois dias.
+                {t.schedule.headingLine1}
                 <br />
-                Duas portas.
+                {t.schedule.headingLine2}
               </h2>
             </div>
           </div>
 
           <div className="grid gap-4">
-            {scheduleDays.map((day, index) => {
+            {t.schedule.days.map((day, index) => {
               const isDark = index === 1;
               return (
                 <article
@@ -200,7 +187,7 @@ export default function Home() {
                       </p>
                     </div>
                     <p className="m-0 text-[14px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                      {day.count ? (
+                      {day.count > 0 ? (
                         <>
                           <span data-count={day.count}>0</span> {day.participants}
                         </>
@@ -219,9 +206,9 @@ export default function Home() {
       {/* NÚMEROS */}
       <section id="numeros" className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
         <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
-          {stats.map((stat, index) => (
+          {t.stats.map((stat, index) => (
             <div
-              key={stat.label}
+              key={index}
               data-reveal={index * 80}
               className={`flex flex-col gap-3 border-[#e5e5e5] px-4 py-8 sm:border-r sm:px-6 sm:py-10 sm:border-b-0 sm:last:border-r-0 ${
                 index % 2 === 0 ? "border-r" : ""
@@ -251,12 +238,12 @@ export default function Home() {
           <div className="flex flex-col gap-8 sm:gap-10">
             <div data-reveal className="flex flex-col gap-5">
               <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Quando
+                {t.when.eyebrow}
               </p>
               <h2 className="m-0 text-[clamp(56px,9vw,140px)] font-black leading-[0.88] tracking-[-0.06em]">
-                20–21
+                {t.when.dateLine1}
                 <br />
-                fev<span className="text-htp-blue">.</span>27
+                {t.when.dateLine2}<span className="text-htp-blue">.</span>{t.when.dateYear}
               </h2>
             </div>
             <div
@@ -264,14 +251,14 @@ export default function Home() {
               className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-5 border-t-[1.5px] border-black pt-6 sm:gap-6 sm:pt-7"
             >
               <p className="m-0 pt-1.5 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                Onde
+                {t.when.where}
               </p>
               <div className="flex flex-col gap-2.5">
                 <h3 className="m-0 text-[clamp(26px,3vw,40px)] font-extrabold leading-none tracking-[-0.03em]">
-                  {siteConfig.event.locationName}
+                  {t.meta.locationName}
                 </h3>
                 <p className="m-0 max-w-[380px] text-base leading-[1.55] text-[#555]">
-                  O local exato será anunciado em breve.
+                  {t.when.venuePending}
                 </p>
               </div>
             </div>
@@ -291,7 +278,7 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <FaqSection />
+      <FaqSection canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
 
       {/* CTA + FOOTER */}
       <CtaSection />

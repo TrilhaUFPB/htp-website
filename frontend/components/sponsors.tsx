@@ -3,12 +3,15 @@
 import Image from "next/image";
 import { sponsors } from "@/content/sponsors";
 import { track } from "@/lib/analytics/events";
+import { useCopy } from "@/lib/i18n/context";
 
 export function Sponsors() {
+  const { t } = useCopy();
+
   return (
     <div className="flex w-full max-w-[1040px] flex-col items-center gap-7 border-b border-[#e5e5e5] pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:pb-14 lg:text-left">
       <p className="m-0 shrink-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue sm:text-[14px]">
-        Com o apoio de
+        {t.sponsors.label}
       </p>
 
       <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:flex-nowrap lg:gap-8">
@@ -23,7 +26,7 @@ export function Sponsors() {
               href={sponsor.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${sponsor.name} (abre em nova aba)`}
+              aria-label={`${sponsor.name} (${t.sponsors.opensInNewTab})`}
               onClick={() => track("sponsor_clicked", { sponsor: sponsor.name })}
               className="flex items-center transition-all duration-200 grayscale hover:grayscale-0 hover:opacity-100!"
             >
@@ -46,7 +49,7 @@ export function Sponsors() {
         rel="noopener noreferrer"
         className="shrink-0 whitespace-nowrap border-b-2 border-htp-blue text-sm font-bold text-black transition-colors duration-200 hover:text-htp-blue"
       >
-        Leve sua marca →
+        {t.sponsors.cta}
       </a>
     </div>
   );

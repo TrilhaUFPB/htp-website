@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 
-import { privacyConfig } from "@/content/privacy";
 import { track, waitlistFailureReason } from "@/lib/analytics/events";
+import { useCopy } from "@/lib/i18n/context";
 import { buildInviteUrl } from "@/lib/share/invite";
 
 type NotifySignupProps = {
@@ -29,6 +29,7 @@ const buttonStyles = {
 } as const;
 
 export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
+  const { t } = useCopy();
   const [phase, setPhase] = useState<DialogPhase>("closed");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -139,8 +140,8 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
       responseStatus = response.status;
 
       if (!response.ok) {
-        const data = (await response.json()) as { error?: string };
-        throw new Error(data.error ?? "Não foi possível enviar. Tente de novo.");
+        // The API answers in Portuguese; show the visitor's own language.
+        throw new Error(response.status === 400 ? t.signup.errorInvalidEmail : t.signup.errorGeneric);
       }
 
       track("waitlist_joined", { source: variant });
@@ -151,18 +152,14 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
         reason: waitlistFailureReason(responseStatus),
       });
       setStatus("error");
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Não foi possível enviar. Tente de novo.",
-      );
+      setErrorMessage(error instanceof Error ? error.message : t.signup.errorGeneric);
     }
   };
 
   return (
     <>
       <button type="button" onClick={open} className={buttonStyles[variant]}>
-        Quero ser avisado
+        {t.signup.button}
         {variant === "cta" ? <span aria-hidden="true">→</span> : null}
       </button>
 
@@ -182,7 +179,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
             <button
               type="button"
               onClick={close}
-              aria-label="Fechar"
+              aria-label={t.signup.closeAria}
               className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full text-xl leading-none text-[#666] transition-colors hover:bg-[#f2f2f2] hover:text-black"
             >
               ×
@@ -194,11 +191,10 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   id={titleId}
                   className="m-0 text-[clamp(28px,4vw,34px)] font-extrabold leading-[1.05] tracking-[-0.02em]"
                 >
-                  Você está na lista.
+                  {t.signup.successTitle}
                 </p>
                 <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                  Te avisamos assim que as inscrições abrirem. Enquanto isso, convide
-                  mais gente para o Hack The Path.
+                  {t.signup.successBody}
                 </p>
                 <div className="mt-2 flex flex-col gap-3">
                   <button
@@ -206,17 +202,17 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     onClick={copyInvite}
                     className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black"
                   >
-                    {copied ? "Link copiado" : "Copiar link de convite"}
+                    {copied ? t.signup.copied : t.signup.copyInvite}
                   </button>
                   <p aria-live="polite" className="sr-only">
-                    {copied ? "Link copiado para a área de transferência." : ""}
+                    {copied ? t.signup.copiedAnnouncement : ""}
                   </p>
                   <button
                     type="button"
                     onClick={close}
                     className="mt-1 self-center text-sm font-semibold text-[#666] underline-offset-4 hover:text-black hover:underline"
                   >
-                    Fechar
+                    {t.signup.close}
                   </button>
                 </div>
               </div>
@@ -227,10 +223,10 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     id={titleId}
                     className="m-0 text-[clamp(28px,4vw,34px)] font-extrabold leading-[1.05] tracking-[-0.02em]"
                   >
-                    Quero ser avisado
+                    {t.signup.title}
                   </p>
                   <p id={descriptionId} className="m-0 text-base leading-relaxed text-[#444]">
-                    Deixe seu e-mail e avisamos quando as inscrições abrirem.
+                    {t.signup.description}
                   </p>
                 </div>
 
@@ -247,7 +243,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                   />
 
                   <label htmlFor="notify-email" className="sr-only">
-                    E-mail
+                    {t.signup.emailLabel}
                   </label>
                   <input
                     ref={inputRef}
@@ -256,7 +252,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     name="email"
                     required
                     autoComplete="email"
-                    placeholder="seu@email.com"
+                    placeholder={t.signup.emailPlaceholder}
                     maxLength={254}
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
@@ -279,12 +275,12 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                       className="mt-1 h-4 w-4 shrink-0 accent-black"
                     />
                     <span>
-                      {privacyConfig.waitlistConsentLabel}{" "}
+                      {t.signup.consentLabel}{" "}
                       <Link
                         href="/privacidade"
                         className="font-semibold text-black underline decoration-htp-blue underline-offset-4"
                       >
-                        política de privacidade
+                        {t.signup.consentLink}
                       </Link>
                       .
                     </span>
@@ -295,7 +291,7 @@ export function NotifySignup({ variant = "hero" }: NotifySignupProps) {
                     disabled={status === "loading" || !consent}
                     className="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-bold text-white transition-colors hover:bg-htp-blue hover:text-black disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {status === "loading" ? "Enviando..." : "Entrar na lista"}
+                    {status === "loading" ? t.signup.submitting : t.signup.submit}
                   </button>
                 </form>
               </div>

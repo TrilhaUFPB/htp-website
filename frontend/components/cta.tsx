@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { NotifySignup } from "@/components/notify-signup";
+import { getCopy } from "@/lib/i18n/server";
 
-export function CtaSection() {
+export async function CtaSection() {
+  const { t } = await getCopy();
+
   return (
     <section
       id="inscricao"
@@ -12,16 +15,16 @@ export function CtaSection() {
           data-reveal
           className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue"
         >
-          Inscrições em breve
+          {t.cta.eyebrow}
         </p>
         <h2
           data-reveal={80}
           className="m-0 text-[clamp(40px,5.6vw,80px)] font-black leading-[0.98] tracking-[-0.03em]"
         >
-          Aceite o desafio.
+          {t.cta.heading}
         </h2>
         <p data-reveal={160} className="m-0 max-w-[520px] text-[clamp(16px,1.4vw,19px)] leading-relaxed text-[#aaa]">
-          Entre na lista e seja avisado assim que as inscrições abrirem.
+          {t.cta.body}
         </p>
         <div data-reveal={240}>
           <NotifySignup variant="cta" />
@@ -45,7 +48,7 @@ export function CtaSection() {
           rel="noopener noreferrer"
           className="text-[#777]"
         >
-          @hackthepath
+          {t.footer.instagram}
         </a>
       </footer>
     </section>

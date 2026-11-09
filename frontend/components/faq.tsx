@@ -2,10 +2,17 @@
 
 import { useState } from "react";
 
-import { faqItems } from "@/content/faq";
 import { track } from "@/lib/analytics/events";
+import { useCopy } from "@/lib/i18n/context";
 
-export function FaqSection() {
+/**
+ * `canonicalQuestions` are the Portuguese question texts. Analytics always
+ * records those, so one question is one row in the dashboard whichever
+ * language the visitor read it in.
+ */
+export function FaqSection({ canonicalQuestions }: { canonicalQuestions: readonly string[] }) {
+  const { t } = useCopy();
+  const faqItems = t.faq.items;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -16,12 +23,12 @@ export function FaqSection() {
       <div className="grid w-full max-w-[1040px] grid-cols-1 items-start gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-12">
         <div className="flex flex-col gap-6">
           <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.2em] text-htp-blue">
-            Dúvidas
+            {t.faq.eyebrow}
           </p>
           <h2 className="m-0 text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-            Perguntas
+            {t.faq.headingLine1}
             <br />
-            frequentes.
+            {t.faq.headingLine2}
           </h2>
         </div>
 
@@ -31,7 +38,7 @@ export function FaqSection() {
 
             return (
               <div
-                key={item.question}
+                key={index}
                 data-reveal
                 className="t-acc border-t-[1.5px] border-black last:border-b-[1.5px]"
                 data-open={open ? "true" : "false"}
@@ -43,7 +50,7 @@ export function FaqSection() {
                   onClick={() => {
                     // Only openings count: closing says nothing about interest.
                     if (!open) {
-                      track("faq_opened", { question: item.question, position: index + 1 });
+                      track("faq_opened", { question: canonicalQuestions[index] ?? item.question, position: index + 1 });
                     }
                     setOpenIndex(open ? null : index);
                   }}
