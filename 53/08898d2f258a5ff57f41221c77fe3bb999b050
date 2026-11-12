@@ -1,0 +1,24 @@
+frontend/content/copy.test.ts
+  s_6b228e1e69eff1::t_4fd67ae4fe8f49 11
+frontend/app/(prod)/page.tsx
+  s_6b228e1e69eff1::t_32a845f6917dcd 101-105
+  s_6b228e1e69eff1::t_5a56317452a0b6 125
+frontend/components/cta.tsx
+  s_6b228e1e69eff1::t_0d853a52d3a3c8 24,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5308898d2f258a5ff57f41221c77fe3bb999b050",
+  "prompts": {},
+  "sessions": {
+    "s_6b228e1e69eff1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4256531-bfd2-4208-8714-73cf7621d55a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "gabriel <ggoc.carvalho@gmail.com>"
+    }
+  }
+}
