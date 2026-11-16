@@ -10,7 +10,7 @@ const pt = {
   htmlLang: "pt-BR",
   ogLocale: "pt_BR",
   meta: {
-    title: "Hack The Path 2027 — O maior hackathon do Nordeste",
+    title: "Hack The Path — O maior hackathon do Nordeste",
     description:
       "Hackathon gratuito para estudantes, 20 e 21 de fevereiro de 2027, na Grande João Pessoa. Um dia de palestras e empresas, um dia de código. Entre na lista.",
     ogAlt: "Hack The Path — O maior hackathon da história do Nordeste",
@@ -233,7 +233,7 @@ const en: Copy = {
   htmlLang: "en",
   ogLocale: "en_US",
   meta: {
-    title: "Hack The Path 2027 — The biggest hackathon in Northeast Brazil",
+    title: "Hack The Path — The biggest hackathon in Northeast Brazil",
     description:
       "A free hackathon for students, February 20–21, 2027, in Greater João Pessoa, Brazil. One day of talks and companies, one day of code. Join the waitlist.",
     ogAlt: "Hack The Path — The biggest hackathon in the history of Northeast Brazil",

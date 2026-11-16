@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Hack The Path",
   shortName: "HTP",
-  title: "Hack The Path 2027 — O maior hackathon do Nordeste",
+  title: "Hack The Path — O maior hackathon do Nordeste",
   description:
     "Hackathon gratuito para estudantes, 20 e 21 de fevereiro de 2027, na Grande João Pessoa. Um dia de palestras e empresas, um dia de código. Entre na lista.",
   tagline: "O maior hackathon da história do Nordeste",
