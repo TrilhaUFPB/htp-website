@@ -2,7 +2,10 @@ name: Keep Supabase warm
 
 on:
   schedule:
-    - cron: "0 12 */3 * *"
+    # Supabase pauses Free projects with "too few user queries" over a week,
+    # not after 7 days of zero activity; it recommends a few requests a day.
+    # Every 6h gives 4/day, so a single failed run no longer leaves a gap.
+    - cron: "17 */6 * * *"
   workflow_dispatch: {}
 
 jobs:

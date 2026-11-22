@@ -19,17 +19,27 @@ describe("GET /api/cron/keep-warm", () => {
     process.env.CRON_SECRET = CRON_SECRET;
     keepWaitlistWarm.mockReset();
     vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
     delete process.env.CRON_SECRET;
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
+
+  /** Runs the handler to completion, fast-forwarding the retry backoff. */
+  async function callCron(request = cronRequest()) {
+    const pending = GET(request);
+    await vi.runAllTimersAsync();
+    return pending;
+  }
 
   it("writes the keep-warm row when the cron secret matches", async () => {
     keepWaitlistWarm.mockResolvedValue(undefined);
 
-    const response = await GET(cronRequest());
+    const response = await callCron(cronRequest());
 
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({ ok: true });
@@ -37,7 +47,7 @@ describe("GET /api/cron/keep-warm", () => {
   });
 
   it("rejects a request without the cron secret", async () => {
-    const response = await GET(cronRequest("Bearer wrong"));
+    const response = await callCron(cronRequest("Bearer wrong"));
 
     expect(response.status).toBe(401);
     expect(keepWaitlistWarm).not.toHaveBeenCalled();
@@ -46,7 +56,7 @@ describe("GET /api/cron/keep-warm", () => {
   it("reports the failure reason when the keep-warm write throws", async () => {
     keepWaitlistWarm.mockRejectedValue(new Error("Invalid API key"));
 
-    const response = await GET(cronRequest());
+    const response = await callCron(cronRequest());
 
     expect(response.status).toBe(500);
     await expect(response.json()).resolves.toMatchObject({
@@ -61,7 +71,7 @@ describe("GET /api/cron/keep-warm", () => {
       }),
     );
 
-    const response = await GET(cronRequest());
+    const response = await callCron(cronRequest());
 
     const body = (await response.json()) as { reason: string };
 
@@ -77,7 +87,7 @@ describe("GET /api/cron/keep-warm", () => {
       details: null,
     });
 
-    const response = await GET(cronRequest());
+    const response = await callCron(cronRequest());
 
     const body = (await response.json()) as { reason: string };
 
@@ -88,10 +98,54 @@ describe("GET /api/cron/keep-warm", () => {
   it("logs the failure reason so it reaches the Vercel logs", async () => {
     keepWaitlistWarm.mockRejectedValue(new Error("Invalid API key"));
 
-    await GET(cronRequest());
+    await callCron(cronRequest());
 
     expect(console.error).toHaveBeenCalledWith(
       expect.stringContaining("Invalid API key"),
     );
+  });
+
+  it("retries a transient failure and succeeds", async () => {
+    keepWaitlistWarm
+      .mockRejectedValueOnce(new Error("fetch failed"))
+      .mockResolvedValueOnce(undefined);
+
+    const response = await callCron();
+
+    expect(response.status).toBe(200);
+    expect(keepWaitlistWarm).toHaveBeenCalledTimes(2);
+  });
+
+  it("gives up after three attempts", async () => {
+    keepWaitlistWarm.mockRejectedValue(new Error("fetch failed"));
+
+    const response = await callCron();
+
+    expect(response.status).toBe(500);
+    expect(keepWaitlistWarm).toHaveBeenCalledTimes(3);
+  });
+
+  it("does not retry when the cron secret is wrong", async () => {
+    await callCron(cronRequest("Bearer wrong"));
+
+    expect(keepWaitlistWarm).not.toHaveBeenCalled();
+  });
+
+  it("surfaces the network cause postgrest-js puts in details", async () => {
+    keepWaitlistWarm.mockRejectedValue({
+      message: "TypeError: fetch failed",
+      code: "",
+      hint: "",
+      details:
+        "TypeError: fetch failed\n\nCaused by: Error: connect ETIMEDOUT 1.2.3.4:443 (ETIMEDOUT)\n" +
+        "Error: connect ETIMEDOUT\n    at TCPConnectWrap.afterConnect (node:net:1)",
+    });
+
+    const response = await callCron();
+
+    const body = (await response.json()) as { reason: string };
+
+    expect(body.reason).toContain("connect ETIMEDOUT 1.2.3.4:443 (ETIMEDOUT)");
+    expect(body.reason).not.toContain("TCPConnectWrap");
   });
 });
