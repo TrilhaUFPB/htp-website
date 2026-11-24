@@ -14,7 +14,7 @@ export function Sponsors() {
         {t.sponsors.label}
       </p>
 
-      <ul className="m-0 flex list-none flex-col items-center gap-7 p-0 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-12 lg:flex-1 lg:flex-nowrap lg:gap-8">
+      <ul className="m-0 flex list-none flex-row flex-wrap items-center justify-center gap-x-8 gap-y-6 p-0 sm:gap-x-12 sm:gap-y-8 lg:flex-1 lg:gap-x-10 lg:gap-y-6">
         {sponsors.map((sponsor) => (
           <li key={sponsor.name} className="flex">
             {/* No card this time: the logo sits straight on the page, so the
@@ -36,7 +36,7 @@ export function Sponsors() {
                 width={sponsor.width}
                 height={sponsor.height}
                 style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
-                className="h-[calc(2rem*var(--logo-scale))] w-auto object-contain sm:h-[calc(2.5rem*var(--logo-scale))] lg:h-[calc(2rem*var(--logo-scale))]"
+                className="h-[calc(2rem*var(--logo-scale))] w-auto object-contain sm:h-[calc(2.5rem*var(--logo-scale))] lg:h-[calc(2.5rem*var(--logo-scale))]"
               />
             </a>
           </li>

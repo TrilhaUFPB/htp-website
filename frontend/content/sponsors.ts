@@ -40,4 +40,28 @@ export const sponsors: readonly Sponsor[] = [
     width: 506,
     height: 206,
   },
+  {
+    name: "Oracle",
+    url: "https://www.oracle.com/br/",
+    logo: "/images/sponsors/oracle.png",
+    width: 294,
+    height: 38,
+    scale: 0.6,
+  },
+  {
+    name: "iFood",
+    url: "https://www.ifood.com.br",
+    logo: "/images/sponsors/ifood.png",
+    width: 378,
+    height: 200,
+    scale: 1.15,
+  },
+  {
+    name: "Fundação Estudar",
+    url: "https://www.estudar.org.br",
+    logo: "/images/sponsors/fundacao-estudar.png",
+    width: 482,
+    height: 200,
+    scale: 1.25,
+  },
 ] as const;
