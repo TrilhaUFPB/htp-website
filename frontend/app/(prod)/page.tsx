@@ -127,7 +127,7 @@ export default async function Home() {
             <div className={styles.wrap}>
               <HomeSponsors />
               <a
-                href="https://instagram.com/trilhaufpb"
+                href="https://www.instagram.com/hackthepath/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.textLink}
@@ -139,21 +139,7 @@ export default async function Home() {
             </div>
           </section>
 
-          {/* SOBRE */}
-          <section id="evento" className={styles.section}>
-            <div className={styles.wrap}>
-              <SectionHead index="01" label={t.nav.about} />
-              <div className={styles.split}>
-                <h2 data-reveal className={styles.display}>
-                  Hack The Path
-                </h2>
-                <p data-reveal={100} className={styles.lede}>
-                  {t.about.paragraph}
-                </p>
-              </div>
-            </div>
-
-            {/* The mosaic from the manual's graphics page, read as one object. */}
+          {/* The mosaic from the manual's graphics page, read as one object. */}
             <div className={styles.mosaic} aria-hidden="true">
               <div className={styles.tile} style={{ background: "#7a94fd" }}>
                 <Image width={300} height={300} src={`${G}/esfera-preto-azul.svg`} alt="" />
@@ -179,7 +165,21 @@ export default async function Home() {
               </div>
             </div>
 
+          {/* SOBRE */}
+          <section id="evento" className={styles.section}>
             <div className={styles.wrap}>
+              <SectionHead index="01" label={t.nav.about} />
+              <div className={styles.split}>
+                <h2 data-reveal className={styles.display}>
+                  Hack The Path
+                </h2>
+                <p data-reveal={100} className={styles.lede}>
+                  {t.about.paragraph}
+                </p>
+              </div>
+            </div>
+
+              <div className={styles.wrap}>
               <ol className={styles.features}>
                 {t.about.features.map((feature, index) => (
                   <li key={index} data-reveal={index * 80}>

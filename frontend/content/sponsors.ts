@@ -13,6 +13,12 @@ export type Sponsor = {
   scale?: number;
   /** The file has a white ground (opaque or a halo), so it cannot be shown as a silhouette. */
   opaque?: boolean;
+  /**
+   * The organisation's own light version for dark grounds, used at rest
+   * instead of a filter. From htp-repo/slides/parceiros (the same files the
+   * proposals use on black).
+   */
+  onDark?: { src: string; width: number; height: number };
   /** The logo carries its own tones (stripes, a shaded mark), so it is shown in greys, not as a flat silhouette. */
   tones?: boolean;
 };
@@ -31,6 +37,7 @@ export const sponsors: readonly Sponsor[] = [
     name: "NXTP Ventures",
     tier: "sponsor",
     opaque: true,
+    onDark: { src: "/images/sponsors/nxtp-branco.png", width: 1160, height: 265 },
     url: "https://nxtp.vc",
     logo: "/images/sponsors/nxtp.png",
     width: 506,
@@ -68,6 +75,7 @@ export const sponsors: readonly Sponsor[] = [
     name: "AI Tinkerers",
     tier: "supporter",
     opaque: true,
+    onDark: { src: "/images/sponsors/ai-tinkerers-branco.png", width: 1486, height: 265 },
     url: "https://aitinkerers.org",
     logo: "/images/sponsors/ai-tinkerers.png",
     width: 600,
@@ -77,6 +85,7 @@ export const sponsors: readonly Sponsor[] = [
     name: "Fundação Behring",
     tier: "supporter",
     tones: true,
+    onDark: { src: "/images/sponsors/behring-branco.png", width: 1200, height: 344 },
     url: "https://fundacaobehring.org",
     logo: "/images/sponsors/behring.png",
     width: 572,

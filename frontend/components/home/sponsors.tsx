@@ -31,7 +31,8 @@ export function HomeSponsors() {
           </feComponentTransfer>
         </filter>
       </svg>
-      <h2 className={styles.sponsorTitle} data-fill>
+      {/* The title waits for a little more scroll than the black needs. */}
+      <h2 className={styles.sponsorTitle} data-fill data-fill-delay={0.35}>
         <span>{title.light}</span> <strong>{title.bold}</strong>
       </h2>
       {tiers.map(({ tier, label }) => (
@@ -53,16 +54,40 @@ export function HomeSponsors() {
                     onClick={() => track("sponsor_clicked", { sponsor: sponsor.name })}
                     className={styles.logoCell}
                   >
-                    <Image
-                      src={sponsor.logo}
-                      alt={sponsor.name}
-                      width={sponsor.width}
-                      height={sponsor.height}
-                      style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
-                      className={styles.logo}
-                      data-opaque={sponsor.opaque ? "true" : undefined}
-                      data-tones={sponsor.tones ? "true" : undefined}
-                    />
+                    {sponsor.onDark ? (
+                      // Two files: the light one at rest, the original in colour
+                      // on the white hover cell. No filters on either.
+                      <>
+                        <Image
+                          src={sponsor.onDark.src}
+                          alt={sponsor.name}
+                          width={sponsor.onDark.width}
+                          height={sponsor.onDark.height}
+                          style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                          className={`${styles.logo} ${styles.logoDark}`}
+                        />
+                        <Image
+                          src={sponsor.logo}
+                          alt=""
+                          aria-hidden="true"
+                          width={sponsor.width}
+                          height={sponsor.height}
+                          style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                          className={`${styles.logo} ${styles.logoColor}`}
+                        />
+                      </>
+                    ) : (
+                      <Image
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        width={sponsor.width}
+                        height={sponsor.height}
+                        style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                        className={styles.logo}
+                        data-opaque={sponsor.opaque ? "true" : undefined}
+                        data-tones={sponsor.tones ? "true" : undefined}
+                      />
+                    )}
                   </a>
                 </li>
               ))}

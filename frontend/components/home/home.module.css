@@ -233,10 +233,12 @@
 
 /* ---- About ------------------------------------------------------------ */
 
+/* The mosaic stands between sections (after the sponsors), so the sections'
+   own padding is its spacing. */
 .mosaic {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin: var(--space) 0;
+  margin: 0;
 }
 
 .tile {
@@ -290,7 +292,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  margin: 0;
+  margin: clamp(64px, 8vw, 120px) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -1032,6 +1034,36 @@
 .sponsorsSection .logoCell:hover .logo[data-opaque="true"],
 .sponsorsSection .logoCell:hover .logo[data-tones="true"] {
   filter: none;
+}
+
+/* Logos with a light version: swap files on hover instead of filtering. */
+.sponsorsSection .logoCell {
+  position: relative;
+}
+
+.sponsorsSection .logo.logoDark,
+.sponsorsSection .logo.logoColor,
+.sponsorsSection .logoCell:hover .logo.logoDark,
+.sponsorsSection .logoCell:hover .logo.logoColor {
+  filter: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.sponsorsSection .logo.logoColor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: calc(100% - 48px);
+  translate: -50% -50%;
+  opacity: 0;
+}
+
+.sponsorsSection .logoCell:hover .logo.logoDark {
+  opacity: 0;
+}
+
+.sponsorsSection .logoCell:hover .logo.logoColor {
+  opacity: 1;
 }
 
 .sponsorsSection .logoCell:focus-visible {

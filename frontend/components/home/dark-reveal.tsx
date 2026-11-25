@@ -55,8 +55,10 @@ export function DarkReveal({ children }: { children: React.ReactNode }) {
       const rect = canvas.getBoundingClientRect();
       const vh = window.innerHeight;
       // 0 when the band's top enters at the bottom of the screen, 1 when it is
-      // a fifth of the way down.
-      const p = motion.matches ? 1 : Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.8)));
+      // a fifth of the way down. Content can ask to wait for more scroll than
+      // that (a delay past 1), so `reach` keeps counting.
+      const reach = Math.max(0, (vh - rect.top) / (vh * 0.8));
+      const p = motion.matches ? 1 : Math.min(1, reach);
 
       // Content marked data-fill shows only once the black has filled in
       // behind it: a row at height y is fully in when p * 1.5 passes its
@@ -73,8 +75,8 @@ export function DarkReveal({ children }: { children: React.ReactNode }) {
         // Capped at 1.35: the top rows are all in once p * 1.5 passes 1.25, and
         // the ramp must finish by p = 1 or the top of the section never gets
         // past half opacity.
-        const need = Math.min(1.35, fb + 0.5 + delay);
-        const o = motion.matches ? 1 : smooth((p * 1.5 - need) / 0.15);
+        const need = Math.min(1.35, fb + 0.5) + delay;
+        const o = motion.matches ? 1 : smooth((reach * 1.5 - need) / 0.15);
         el.style.opacity = o.toFixed(3);
         el.style.transform = o < 1 ? `translateY(${((1 - o) * 16).toFixed(1)}px)` : "";
       }
