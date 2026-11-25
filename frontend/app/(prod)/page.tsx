@@ -53,6 +53,36 @@ function SectionHead({ index, label }: { index: string; label: string }) {
   );
 }
 
+/** The grafismos mosaic from the manual's graphics page. */
+function MosaicTiles() {
+  return (
+    <>
+        <div className={styles.tile} style={{ background: "#7a94fd" }}>
+          <Image width={300} height={300} src={`${G}/esfera-preto-azul.svg`} alt="" />
+        </div>
+        <div className={`${styles.tile} ${styles.tileGrey}`}>
+          <svg viewBox="0 0 300 300">
+            <polygon points="104.11 68.67 67.35 68.67 67.35 231.33 104.11 231.33 104.11 182.94 150 182.94 150 150 104.11 150 104.11 68.67" />
+            <polygon points="195.89 68.67 195.89 117.06 150 117.06 150 150 195.89 150 195.89 231.33 232.65 231.33 232.65 68.67 195.89 68.67" />
+          </svg>
+        </div>
+        <div className={styles.tile}>
+          <Image width={300} height={300} src={`${G}/seta-azul-branco.svg`} alt="" />
+        </div>
+        <div className={`${styles.tile} ${styles.tileGrey1}`}>
+          <Image width={1567} height={602}
+            className={styles.htpChip}
+            src="/images/logo/svg/htp-bloco-azul-preto.svg"
+            alt=""
+          />
+        </div>
+        <div className={`${styles.tile} ${styles.tileWide}`}>
+          <Image width={300} height={300} src={`${G}/estrela-preto-branco.svg`} alt="" />
+        </div>
+    </>
+  );
+}
+
 export default async function Home() {
   const { locale, t } = await getCopy();
   const faqJsonLd = createFaqJsonLd(locale);
@@ -140,28 +170,16 @@ export default async function Home() {
           </section>
 
           {/* The mosaic from the manual's graphics page, read as one object. */}
+            {/* The mosaic, running left in a loop: two copies side by side,
+                the track slides by one copy's width and starts over. */}
             <div className={styles.mosaic} aria-hidden="true">
-              <div className={styles.tile} style={{ background: "#7a94fd" }}>
-                <Image width={300} height={300} src={`${G}/esfera-preto-azul.svg`} alt="" />
-              </div>
-              <div className={`${styles.tile} ${styles.tileGrey}`}>
-                <svg viewBox="0 0 300 300">
-                  <polygon points="104.11 68.67 67.35 68.67 67.35 231.33 104.11 231.33 104.11 182.94 150 182.94 150 150 104.11 150 104.11 68.67" />
-                  <polygon points="195.89 68.67 195.89 117.06 150 117.06 150 150 195.89 150 195.89 231.33 232.65 231.33 232.65 68.67 195.89 68.67" />
-                </svg>
-              </div>
-              <div className={styles.tile}>
-                <Image width={300} height={300} src={`${G}/seta-azul-branco.svg`} alt="" />
-              </div>
-              <div className={`${styles.tile} ${styles.tileGrey1}`}>
-                <Image width={1567} height={602}
-                  className={styles.htpChip}
-                  src="/images/logo/svg/htp-bloco-azul-preto.svg"
-                  alt=""
-                />
-              </div>
-              <div className={`${styles.tile} ${styles.tileWide}`}>
-                <Image width={300} height={300} src={`${G}/estrela-preto-branco.svg`} alt="" />
+              <div className={styles.mosaicTrack}>
+                <div className={styles.mosaicSet}>
+                  <MosaicTiles />
+                </div>
+                <div className={styles.mosaicSet}>
+                  <MosaicTiles />
+                </div>
               </div>
             </div>
 
