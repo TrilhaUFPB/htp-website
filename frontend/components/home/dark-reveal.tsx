@@ -70,7 +70,11 @@ export function DarkReveal({ children }: { children: React.ReactNode }) {
         const y = (r.top - cell - rect.top) / h;
         const fb = 1 - Math.min(1, Math.max(0, y));
         const delay = Number(el.dataset.fillDelay ?? 0);
-        const o = motion.matches ? 1 : smooth((p * 1.5 - (fb + 0.5) - delay) / 0.15);
+        // Capped at 1.35: the top rows are all in once p * 1.5 passes 1.25, and
+        // the ramp must finish by p = 1 or the top of the section never gets
+        // past half opacity.
+        const need = Math.min(1.35, fb + 0.5 + delay);
+        const o = motion.matches ? 1 : smooth((p * 1.5 - need) / 0.15);
         el.style.opacity = o.toFixed(3);
         el.style.transform = o < 1 ? `translateY(${((1 - o) * 16).toFixed(1)}px)` : "";
       }
