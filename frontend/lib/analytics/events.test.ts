@@ -37,11 +37,10 @@ describe("waitlistFailureReason", () => {
 });
 
 describe("TRACKED_SECTIONS", () => {
-  const sources = [
-    "app/(prod)/page.tsx",
-    "components/faq.tsx",
-    "components/cta.tsx",
-  ].map((path) => readFileSync(join(__dirname, "..", "..", path), "utf8"));
+  // Every landing section id now lives in the page itself.
+  const sources = ["app/(prod)/page.tsx"].map((path) =>
+    readFileSync(join(__dirname, "..", "..", path), "utf8"),
+  );
 
   it("names only ids that exist on the landing page", () => {
     for (const section of TRACKED_SECTIONS) {

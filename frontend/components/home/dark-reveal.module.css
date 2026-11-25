@@ -1,0 +1,20 @@
+/* The squares are the background of the black half's opening screen, not a
+   band before it: the top of the card starts white, the canvas fills it with
+   black squares behind the content, and the content sits where it always
+   does, so the logos arrive as the black arrives under them. */
+.card {
+  --band: 75vh;
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(to bottom, #fff 0, #fff var(--band), #000 var(--band));
+}
+
+.pixels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: calc(var(--band) + 1px);
+}

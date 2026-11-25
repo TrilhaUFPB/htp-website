@@ -1,25 +1,67 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { Aperture } from "@/components/aperture";
-import { CtaSection } from "@/components/cta";
-import { FaqSection } from "@/components/faq";
+import { HomeFaq } from "@/components/home/faq";
+import { Story } from "@/components/home/story";
+import { DarkReveal } from "@/components/home/dark-reveal";
+import { HomeSponsors } from "@/components/home/sponsors";
+import styles from "@/components/home/home.module.css";
+import { LanguageSwitch } from "@/components/language-switch";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
 import { SectionTracker } from "@/components/section-tracker";
-import { Sponsors } from "@/components/sponsors";
-import { LanguageSwitch } from "@/components/language-switch";
 import { copy } from "@/content/copy";
 import { getCopy } from "@/lib/i18n/server";
 import { createFaqJsonLd } from "@/lib/seo";
 
+const G = "/images/brand/grafismos";
+
+// Competição climbs, Conexão is many H's together, Experiência is the sphere.
+const FEATURE_ICONS = [`${G}/seta-preto-azul.svg`, `${G}/trama-azul-preto.svg`, `${G}/esfera-preto-azul.svg`];
+const STAT_TONES = ["blue", "white", "grey", "white"] as const;
+
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+      <path d="M3 2h2V1h1v1h4V1h1v1h2v12H3V2Zm1 4v7h8V6H4Z" />
+    </svg>
+  );
+}
+
+function PersonIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+      <path d="M5 2h6v6H5V2Zm-2 8h10v4H3v-4Z" />
+    </svg>
+  );
+}
+
+// February 2027 starts on a Monday; the event is Saturday 20 and Sunday 21.
+const FEB_2027 = Array.from({ length: 28 }, (_, i) => i + 1);
+const EVENT_DAYS = new Set([20, 21]);
+
+function SectionHead({ index, label }: { index: string; label: string }) {
+  return (
+    <p className={styles.sectionHead}>
+      <span className={styles.chip}>{index}</span>
+      {label}
+    </p>
+  );
+}
+
 export default async function Home() {
   const { locale, t } = await getCopy();
   const faqJsonLd = createFaqJsonLd(locale);
+  const weekdays =
+    locale === "pt" ? ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"] : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const month = locale === "pt" ? "Fevereiro" : "February";
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-black">
+    <div className={`flex min-h-screen flex-col ${styles.page}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -29,7 +71,6 @@ export default async function Home() {
         {t.common.skipToContent}
       </a>
 
-      {/* HEADER */}
       <ScrollHeader>
         <div className="header-inner">
           <Link href="/" aria-label={t.common.homeAria} className="brand">
@@ -55,233 +96,289 @@ export default async function Home() {
       </ScrollHeader>
 
       <main id="conteudo" className="flex flex-col">
-      <ScrollEffects />
-      <SectionTracker />
-      {/* HERO */}
-      <ScrollHero>
-        <div className="hero-frame">
-          <div className="hero-art">
-            <Aperture />
-          </div>
+        <ScrollEffects />
+        <SmoothScroll />
+        <SectionTracker />
 
-          <div className="hero-copy">
-            <h1 id="hero-title" className="hero-title">
-              {t.hero.lead}
-              <br />
-              <strong>
-                {t.hero.strong} <span className="hero-title-break">{t.hero.strongBreak}</span>
-              </strong>
-            </h1>
-            <NotifySignup variant="hero" />
-          </div>
-        </div>
-      </ScrollHero>
-
-      {/* SPONSORS */}
-      <section
-        id="patrocinadores"
-        className="flex scroll-mt-14 justify-center bg-white px-5 pt-10 sm:px-14 sm:pt-[70px]"
-      >
-        <Sponsors />
-      </section>
-
-      {/* ABOUT */}
-      <section
-        id="evento"
-        className="flex justify-center px-5 py-16 sm:px-14 sm:py-[clamp(96px,11vw,170px)]"
-      >
-        <div className="flex w-full max-w-[1040px] flex-col gap-10 sm:gap-24">
-          <div className="grid grid-cols-1 items-center gap-6 sm:grid-cols-[auto_1fr] sm:gap-40">
-            <h2 className="m-0 text-[clamp(48px,7vw,112px)] font-extrabold leading-[0.92] tracking-[-0.045em]">
-              Hack
-              <br />
-              The
-              <br />
-              Path<span className="text-htp-blue">.</span>
-            </h2>
-            <p className="m-0 max-w-[440px] text-[clamp(17px,1.6vw,23px)] leading-[1.5] text-[#333]">
-              {t.about.paragraph}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 border-t border-[#e5e5e5] pt-8 sm:grid-cols-3 sm:gap-12 sm:pt-10">
-            {t.about.features.map((feature, index) => (
-              <div key={index} className="flex flex-col gap-3">
-                <h3 className="m-0 text-[22px] font-extrabold tracking-[-0.02em]">
-                  {feature.title}
-                </h3>
-                <p className="m-0 text-base leading-[1.55] text-[#555]">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROGRAMAÇÃO */}
-      <section
-        id="programacao"
-        className="flex scroll-mt-14 justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]"
-      >
-        <div className="w-full max-w-[1040px]">
-          <div data-reveal className="flex flex-wrap items-end justify-between gap-6 pb-8 sm:pb-12">
-            <div className="flex flex-col gap-5">
-              <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                {t.schedule.eyebrow}
-              </p>
-              <h2 className="m-0 text-[clamp(34px,4.4vw,60px)] font-extrabold leading-[1.02] tracking-[-0.03em]">
-                {t.schedule.headingLine1}
+        <ScrollHero>
+          <div className="hero-frame">
+            <div className="hero-art">
+              <Aperture />
+            </div>
+            <div className="hero-copy">
+              <h1 id="hero-title" className="hero-title">
+                {t.hero.lead}
                 <br />
-                {t.schedule.headingLine2}
-              </h2>
+                <strong>
+                  {t.hero.strong} <span className="hero-title-break">{t.hero.strongBreak}</span>
+                </strong>
+              </h1>
+              <NotifySignup variant="hero" />
             </div>
           </div>
+        </ScrollHero>
 
-          <div className="grid gap-4">
-            {t.schedule.days.map((day, index) => {
-              const isDark = index === 1;
-              return (
-                <article
-                  key={day.number}
-                  className={`sticky box-border grid min-h-[min(560px,68vh)] grid-cols-[auto_minmax(0,1fr)] gap-6 rounded-[30px] p-6 sm:gap-16 sm:p-12 ${
-                    index === 0 ? "top-[100px]" : "top-[116px]"
-                  } ${
-                    isDark
-                      ? "bg-black text-white shadow-[0_-20px_60px_rgba(0,0,0,0.18)]"
-                      : "border-[1.5px] border-black bg-white"
-                  }`}
-                >
-                  <div
-                    className={`text-[clamp(72px,11vw,168px)] font-black leading-[0.85] tracking-[-0.06em] ${
-                      isDark ? "text-htp-blue" : ""
-                    }`}
-                  >
-                    {day.number}
-                  </div>
-                  <div className="flex flex-col justify-between gap-8 sm:gap-10">
-                    <div className="flex flex-wrap gap-2.5">
-                      <span
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 text-[13px] font-bold tracking-[0.04em] ${
-                          isDark ? "bg-htp-blue text-black" : "bg-black text-white"
-                        }`}
-                      >
-                        {day.date}
-                      </span>
-                      <span
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 text-[13px] font-bold tracking-[0.04em] ${
-                          isDark ? "border-[1.5px] border-white" : "border-[1.5px] border-black"
-                        }`}
-                      >
-                        {day.access}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <h3 className="m-0 max-w-[620px] text-balance text-[clamp(26px,3.2vw,46px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
-                        {day.title}
-                      </h3>
-                      <p
-                        className={`m-0 max-w-[520px] text-[17px] leading-[1.55] ${
-                          isDark ? "text-[#aaa]" : "text-[#555]"
-                        }`}
-                      >
-                        {day.description}
-                      </p>
-                    </div>
-                    <p className="m-0 text-[14px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                      {day.count > 0 ? (
-                        <>
-                          <span data-count={day.count}>0</span> {day.participants}
-                        </>
-                      ) : (
-                        day.participants
-                      )}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+        {/* A HISTÓRIA — one system of squares told by scroll */}
+        <Story locale={locale} tone="light" />
 
-      {/* NÚMEROS */}
-      <section id="numeros" className="flex justify-center px-5 pb-16 sm:px-14 sm:pb-[120px]">
-        <div className="grid w-full max-w-[1040px] grid-cols-2 border-y-[1.5px] border-black sm:grid-cols-4">
-          {t.stats.map((stat, index) => (
-            <div
-              key={index}
-              data-reveal={index * 80}
-              className={`flex flex-col gap-3 border-[#e5e5e5] px-4 py-8 sm:border-r sm:px-6 sm:py-10 sm:border-b-0 sm:last:border-r-0 ${
-                index % 2 === 0 ? "border-r" : ""
-              } ${index < 2 ? "border-b" : ""}`}
-            >
-              <span
-                className={`text-[clamp(40px,6vw,88px)] font-black leading-[0.9] tracking-[-0.05em] ${
-                  stat.accent ? "text-htp-blue" : ""
-                }`}
+        <DarkReveal>
+          {/* PATROCÍNIO */}
+          <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
+            <div className={styles.wrap}>
+              <HomeSponsors />
+              <a
+                href="https://instagram.com/trilhaufpb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.textLink}
+                data-fill
               >
-                <span data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                  0
-                </span>
-              </span>
-              <span className="text-[15px] font-semibold text-[#555]">{stat.label}</span>
+                {t.sponsors.cta.replace(/\s*→$/, "")}
+                <span aria-hidden="true">↗</span>
+              </a>
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
 
-      {/* LOCAL & DATA */}
-      <section
-        id="quando"
-        className="flex scroll-mt-14 justify-center px-5 pb-16 sm:px-14 sm:pb-[140px]"
-      >
-        <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-8 sm:grid-cols-[1.2fr_0.8fr] sm:gap-16">
-          <div className="flex flex-col gap-8 sm:gap-10">
-            <div data-reveal className="flex flex-col gap-5">
-              <p className="m-0 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                {t.when.eyebrow}
-              </p>
-              <h2 className="m-0 text-[clamp(56px,9vw,140px)] font-black leading-[0.88] tracking-[-0.06em]">
-                {t.when.dateLine1}
-                <br />
-                {t.when.dateLine2}<span className="text-htp-blue">.</span>{t.when.dateYear}
-              </h2>
-            </div>
-            <div
-              data-reveal={120}
-              className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-5 border-t-[1.5px] border-black pt-6 sm:gap-6 sm:pt-7"
-            >
-              <p className="m-0 pt-1.5 text-[13px] font-bold uppercase tracking-[0.2em] text-htp-blue">
-                {t.when.where}
-              </p>
-              <div className="flex flex-col gap-2.5">
-                <h3 className="m-0 text-[clamp(26px,3vw,40px)] font-extrabold leading-none tracking-[-0.03em]">
-                  {t.meta.locationName}
-                </h3>
-                <p className="m-0 max-w-[380px] text-base leading-[1.55] text-[#555]">
-                  {t.when.venuePending}
+          {/* SOBRE */}
+          <section id="evento" className={styles.section}>
+            <div className={styles.wrap}>
+              <SectionHead index="01" label={t.nav.about} />
+              <div className={styles.split}>
+                <h2 data-reveal className={styles.display}>
+                  Hack The Path
+                </h2>
+                <p data-reveal={100} className={styles.lede}>
+                  {t.about.paragraph}
                 </p>
               </div>
             </div>
-          </div>
-          <div data-reveal={200} className="flex justify-center">
-            <Image
-              src="/images/fan-mono.png"
-              alt=""
-              aria-hidden="true"
-              data-parallax="0.08"
-              width={600}
-              height={600}
-              className="aspect-square w-full max-w-[400px] rounded-[30px] object-cover will-change-transform"
-            />
-          </div>
-        </div>
-      </section>
 
-      {/* FAQ */}
-      <FaqSection canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
+            {/* The mosaic from the manual's graphics page, read as one object. */}
+            <div className={styles.mosaic} aria-hidden="true">
+              <div className={styles.tile} style={{ background: "#7a94fd" }}>
+                <Image width={300} height={300} src={`${G}/esfera-preto-azul.svg`} alt="" />
+              </div>
+              <div className={`${styles.tile} ${styles.tileGrey}`}>
+                <svg viewBox="0 0 300 300">
+                  <polygon points="104.11 68.67 67.35 68.67 67.35 231.33 104.11 231.33 104.11 182.94 150 182.94 150 150 104.11 150 104.11 68.67" />
+                  <polygon points="195.89 68.67 195.89 117.06 150 117.06 150 150 195.89 150 195.89 231.33 232.65 231.33 232.65 68.67 195.89 68.67" />
+                </svg>
+              </div>
+              <div className={styles.tile}>
+                <Image width={300} height={300} src={`${G}/seta-azul-branco.svg`} alt="" />
+              </div>
+              <div className={`${styles.tile} ${styles.tileGrey1}`}>
+                <Image width={1567} height={602}
+                  className={styles.htpChip}
+                  src="/images/logo/svg/htp-bloco-azul-preto.svg"
+                  alt=""
+                />
+              </div>
+              <div className={`${styles.tile} ${styles.tileWide}`}>
+                <Image width={300} height={300} src={`${G}/estrela-preto-branco.svg`} alt="" />
+              </div>
+            </div>
 
-      {/* CTA + FOOTER */}
-      <CtaSection />
+            <div className={styles.wrap}>
+              <ol className={styles.features}>
+                {t.about.features.map((feature, index) => (
+                  <li key={index} data-reveal={index * 80}>
+                    <Image width={300} height={300} className={styles.featureIcon} src={FEATURE_ICONS[index]} alt="" aria-hidden="true" />
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+
+          {/* PROGRAMAÇÃO — the ticket banner from the manual's applications page */}
+          <section id="programacao" className={styles.section}>
+            <div className={styles.wrap}>
+              <SectionHead index="02" label={t.schedule.eyebrow} />
+              <h2 data-reveal className={styles.heading}>
+                {t.schedule.headingLine1}
+                <br />
+                <span className={styles.muted}>{t.schedule.headingLine2}</span>
+              </h2>
+
+              <div className={styles.days}>
+                {t.schedule.days.map((day, index) => (
+                  <article
+                    key={day.number}
+                    data-reveal
+                    className={styles.day}
+                    data-scheme={index === 0 ? "light" : "blue"}
+                  >
+                    <div className={styles.dayCopy}>
+                      <div className={styles.dayTop}>
+                        <span className={styles.dayKicker}>{locale === "pt" ? "Dia" : "Day"}</span>
+                        <span className={styles.dayNumber}>{day.number}</span>
+                      </div>
+                      <h3 className={styles.dayTitle}>{day.title}</h3>
+                      <p className={styles.dayBody}>{day.description}</p>
+                      <ul className={styles.facts}>
+                        <li>
+                          <span className={styles.factIcon} aria-hidden="true">
+                            <CalendarIcon />
+                          </span>
+                          <span className={styles.factText}>{day.date} 2027</span>
+                        </li>
+                        <li>
+                          <span className={styles.factIcon} aria-hidden="true">
+                            <PersonIcon />
+                          </span>
+                          <span className={styles.factText}>
+                            {day.access} ·{" "}
+                            {day.count > 0 ? (
+                              <>
+                                <span data-count={day.count}>0</span> {day.participants}
+                              </>
+                            ) : (
+                              day.participants
+                            )}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className={styles.dayArt} aria-hidden="true">
+                      <Image width={300} height={300} src={index === 0 ? `${G}/caleidoscopio-branco-azul.svg` : `${G}/caleidoscopio-azul-preto.svg`} alt="" />
+                      <Image width={1567} height={602}
+                        className={styles.dayLockup}
+                        src={
+                          index === 0
+                            ? "/images/logo/svg/htp-bloco-azul-preto.svg"
+                            : "/images/logo/svg/htp-bloco-azul-preto.svg"
+                        }
+                        alt=""
+                      />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* NÚMEROS — the mosaic again, carrying numbers */}
+          <section id="numeros" aria-label={locale === "pt" ? "Números" : "Numbers"}>
+            <dl className={styles.statTiles}>
+              {t.stats.map((stat, index) => (
+                <div key={index} className={styles.statTile} data-tone={STAT_TONES[index]}>
+                  <dd>
+                    <span data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>
+                      0
+                    </span>
+                  </dd>
+                  <dt>{stat.label}</dt>
+                </div>
+              ))}
+              <div className={`${styles.statTile} ${styles.statArt}`} aria-hidden="true">
+                <Image width={300} height={300} src={`${G}/colunas-azul-preto.svg`} alt="" />
+              </div>
+              <div className={`${styles.statTile} ${styles.statArt}`} aria-hidden="true">
+                <Image width={300} height={300} src={`${G}/escada-azul-preto.svg`} alt="" />
+              </div>
+            </dl>
+          </section>
+
+          {/* QUANDO E ONDE */}
+          <section id="quando" className={styles.section}>
+            <div className={styles.wrap}>
+              <SectionHead index="03" label={t.nav.when} />
+              <div className={styles.whenGrid}>
+                <div data-reveal className={styles.whenPanel} data-tone="blue">
+                  <p className={styles.panelLabel}>{t.when.eyebrow}</p>
+                  <p className={styles.whenDate}>
+                    {t.when.dateLine1} {t.when.dateLine2}
+                    <br />
+                    2027
+                  </p>
+                  <div className={styles.calendar}>
+                    <p className={styles.calendarMonth}>
+                      {month} <span>2027</span>
+                    </p>
+                    <div className={styles.calendarGrid}>
+                      {weekdays.map((d) => (
+                        <span key={d} className={styles.weekday}>
+                          {d}
+                        </span>
+                      ))}
+                      {FEB_2027.map((d) => (
+                        <span key={d} className={EVENT_DAYS.has(d) ? styles.eventDay : undefined}>
+                          {d}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div data-reveal={120} className={styles.whenPanel} data-tone="grey">
+                  <p className={styles.panelLabel}>{t.when.where}</p>
+                  <p className={styles.whenDate}>{t.meta.locationName}</p>
+                  <p className={styles.whenNote}>{t.when.venuePending}</p>
+                  <dl className={styles.coords}>
+                    <div>
+                      <dt>{locale === "pt" ? "Cidade" : "City"}</dt>
+                      <dd>João Pessoa · PB</dd>
+                    </div>
+                    <div>
+                      <dt>{locale === "pt" ? "Coordenadas" : "Coordinates"}</dt>
+                      <dd>7°07′S 34°52′W</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ */}
+          <section id="faq" className={styles.section}>
+            <div className={`${styles.wrap} ${styles.faqGrid}`}>
+              <div className={styles.faqSide}>
+                <SectionHead index="04" label={t.faq.eyebrow} />
+                <h2 className={styles.heading}>
+                  {t.faq.headingLine1}
+                  <br />
+                  {t.faq.headingLine2}
+                </h2>
+              </div>
+              <HomeFaq canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
+            </div>
+          </section>
+
+          {/* CTA — the manual's cover: copy on black, the leque bleeding off the edge */}
+          <section id="inscricao" className={styles.cta}>
+            <div className={styles.ctaCopy}>
+              <p data-reveal className={styles.panelLabel}>
+                {t.cta.eyebrow}
+              </p>
+              <h2 data-reveal={80} className={styles.ctaHeading}>
+                {t.cta.heading}
+              </h2>
+              <p data-reveal={160} className={styles.ctaBody}>
+                {t.cta.body}
+              </p>
+              <div data-reveal={240}>
+                <NotifySignup variant="cta" />
+              </div>
+            </div>
+            <div className={styles.ctaArt} aria-hidden="true">
+              <Image width={300} height={300} src={`${G}/leque-azul-preto.svg`} alt="" />
+            </div>
+          </section>
+
+          <footer className={styles.footer}>
+            <div className={`${styles.wrap} ${styles.footerRow}`}>
+              <Image width={1564} height={318} src="/images/logo/svg/hack-the-path-01.svg" alt="Hack The Path" className={styles.footerLogo} />
+              <nav className={styles.footerLinks} aria-label="Hack The Path">
+                <a href="https://www.instagram.com/hackthepath/" target="_blank" rel="noopener noreferrer">
+                  {t.footer.instagram}
+                </a>
+                <Link href="/privacidade">{t.meta.privacyTitle}</Link>
+              </nav>
+            </div>
+          </footer>
+        </DarkReveal>
       </main>
     </div>
   );
