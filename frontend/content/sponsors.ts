@@ -11,6 +11,8 @@ export type Sponsor = {
   height: number;
   /** Optical size tweak for logos that read smaller than the rest at equal height. */
   scale?: number;
+  /** The file has an opaque white ground, so it cannot be shown as a silhouette. */
+  opaque?: boolean;
 };
 
 export const sponsors: readonly Sponsor[] = [
@@ -26,6 +28,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "NXTP Ventures",
     tier: "sponsor",
+    opaque: true,
     url: "https://nxtp.vc",
     logo: "/images/sponsors/nxtp.png",
     width: 506,

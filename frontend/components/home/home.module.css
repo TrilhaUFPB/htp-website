@@ -928,18 +928,6 @@
   margin: 0 -1px -1px 0;
 }
 
-.sponsorsSection .logo {
-  filter: grayscale(1) invert(1);
-}
-
-.sponsorsSection .logoCell:hover {
-  background: #0d0d0d;
-}
-
-.sponsorsSection .logoCell:hover .logo {
-  filter: grayscale(1) invert(1) brightness(1.15);
-}
-
 .sponsorsSection .label {
   color: var(--ink-3);
 }
@@ -981,8 +969,8 @@
    white, supporters a size down. */
 
 .sponsorTitle {
-  margin: 0 0 clamp(48px, 6vw, 88px);
-  font-size: clamp(48px, 6.4vw, 104px);
+  margin: 0 0 clamp(40px, 5vw, 72px);
+  font-size: clamp(36px, 4.2vw, 64px);
   line-height: 0.95;
   letter-spacing: -0.035em;
 }
@@ -1016,16 +1004,32 @@
   height: clamp(104px, 10vw, 140px);
 }
 
-/* Pure white: invert the dark logos, then push the greys to white. Logos
-   delivered on a white ground invert to black, so the box disappears. */
+/* At rest every logo is a pure white silhouette. The one file with an
+   opaque white ground (NXTP) is inverted instead, which turns its ground
+   black. On hover the cell turns white and the logo shows in its own colours. */
 .sponsorsSection .logo {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s var(--ease);
+}
+
+.sponsorsSection .logo[data-opaque="true"] {
   filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
 }
 
-.sponsorsSection .logoCell:hover .logo {
-  filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
+.sponsorsSection .logoCell {
+  transition: background-color 0.3s var(--ease);
 }
 
 .sponsorsSection .logoCell:hover {
-  background: #111;
+  background: #fff;
+}
+
+.sponsorsSection .logoCell:hover .logo,
+.sponsorsSection .logoCell:hover .logo[data-opaque="true"] {
+  filter: none;
+}
+
+.sponsorsSection .logoCell:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
 }

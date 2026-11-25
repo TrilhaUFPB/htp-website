@@ -48,6 +48,7 @@ export function HomeSponsors() {
                       height={sponsor.height}
                       style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
                       className={styles.logo}
+                      data-opaque={sponsor.opaque ? "true" : undefined}
                     />
                   </a>
                 </li>
