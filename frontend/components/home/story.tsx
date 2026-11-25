@@ -70,7 +70,10 @@ function smooth(t: number) {
 export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "dark" | "light" }) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [active, setActive] = useState(0);
+  // `chapter` follows the scroll and drives the index; `shown` is the chapter
+  // whose copy is on screen, or -1 between chapters, while the squares move.
+  const [chapter, setChapter] = useState(0);
+  const [shown, setShown] = useState(0);
   const chapters = COPY[locale];
 
   useEffect(() => {
@@ -90,6 +93,7 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
     let raf = 0;
     let visible = false;
     let lastChapter = -1;
+    let lastShown = -2;
 
     const resize = () => {
       dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -109,16 +113,18 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       return { size, cx, cy };
     };
 
-    const formations = (t: number) => {
+    // `swirl` turns the crowd; `turn` walks each team of four round its square.
+    const formations = (t: number, swirl: number, turn: number) => {
       const { size, cx, cy } = frame();
       // Each formation returns, per particle: position, cell size, colour, alpha.
       const scatter = (i: number): Pt => {
         const a = rand(i + 1) * Math.PI * 2;
         const r = Math.sqrt(rand(i + 101)) * size * 0.62;
         const drift = motion.matches ? 0 : 1;
+        const b = a + swirl;
         return {
-          x: cx + Math.cos(a) * r * 1.25 + Math.sin(t * 0.0006 + i) * 6 * drift,
-          y: cy + Math.sin(a) * r + Math.cos(t * 0.0005 + i * 1.7) * 6 * drift,
+          x: cx + Math.cos(b) * r * 1.25 + Math.sin(t * 0.0006 + i) * 6 * drift,
+          y: cy + Math.sin(b) * r + Math.cos(t * 0.0005 + i * 1.7) * 6 * drift,
         };
       };
       const mapCell = size / MAP_SIZE;
@@ -136,14 +142,21 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       });
       // The 100 builders are every other seat, so the selection reads as spread out.
       const teamCell = size / 13;
+      // The four corners of a team, in order round the square.
+      const ring = [[0, 0], [1, 0], [1, 1], [0, 1]];
       const team = (k: number): Pt => {
         const g = Math.floor(k / 4);
-        const m = k % 4;
         const gx = g % 5;
         const gy = Math.floor(g / 5);
+        const step = (k % 4) + turn;
+        const a = ring[Math.floor(step) % 4];
+        const b = ring[(Math.floor(step) + 1) % 4];
+        const f = smooth(step - Math.floor(step));
+        const mx = a[0] + (b[0] - a[0]) * f;
+        const my = a[1] + (b[1] - a[1]) * f;
         return {
-          x: cx - (size * 0.92) / 2 + (gx * 2.6 + (m % 2) + 0.5) * teamCell,
-          y: cy - (size * 0.92) / 2 + (gy * 2.6 + Math.floor(m / 2) + 0.5) * teamCell,
+          x: cx - (size * 0.92) / 2 + (gx * 2.6 + mx + 0.5) * teamCell,
+          y: cy - (size * 0.92) / 2 + (gy * 2.6 + my + 0.5) * teamCell,
         };
       };
       const hCell = size / 13;
@@ -159,34 +172,38 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       const rect = section.getBoundingClientRect();
       const runway = Math.max(1, section.offsetHeight - window.innerHeight);
       const p = Math.min(1, Math.max(0, -rect.top / runway)); // 0 → 1 over the story
-      // Every chapter gets the same share of the scroll. u walks 0 → 6 across
-      // the six chapters; s is the animation clock, held at 0 for the first
-      // half-chapter and at LAST for the last, so the first and last chapters
-      // rest as long as the middle ones instead of half as long.
+      // u walks 0 → 6 across six equal chapters. Inside each chapter the
+      // squares rest from 0.2 to 0.8 and play that chapter's own motion; the
+      // move to the next formation happens across the boundary (0.8 → 1.2),
+      // and the copy is off screen for that whole stretch.
       const u = p * (LAST + 1);
-      const s = Math.min(LAST, Math.max(0, u - 0.5));
-
-      const chapter = Math.min(LAST, Math.floor(u));
-      if (chapter !== lastChapter) {
-        lastChapter = chapter;
-        setActive(chapter);
+      const current = Math.min(LAST, Math.floor(u));
+      const v = u - current;
+      const copyOn = current === LAST ? v >= 0.22 : v >= (current === 0 ? 0.08 : 0.22) && v <= 0.72;
+      const nextShown = copyOn ? current : -1;
+      if (current !== lastChapter) {
+        lastChapter = current;
+        setChapter(current);
+      }
+      if (nextShown !== lastShown) {
+        lastShown = nextShown;
+        setShown(nextShown);
       }
 
-      const f = formations(now);
+      const tr = (i: number) => smooth((u - (i + 0.8)) / 0.4); // chapter i → i + 1
+      const rest = (i: number) => Math.min(1, Math.max(0, (u - i - 0.2) / (i === LAST ? 0.7 : 0.6)));
+      const t1 = tr(0); // idea → crowd
+      const t2 = tr(1); // crowd → Brazil
+      const t3 = tr(2); // Brazil → day-one grid
+      const t4 = tr(3); // grid → teams
+      const t5 = tr(4); // teams → H
+      const [r0, r1, r2, r3, r4, r5] = [0, 1, 2, 3, 4, 5].map(rest);
+      // João Pessoa is labelled while the map rests, and gone before it moves.
+      const spot = smooth((u - 2.15) / 0.1) * (1 - smooth((u - 2.72) / 0.08));
+
+      const f = formations(now, (r1 - 0.5) * 0.7 * (1 - t2), r4 * 3);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-
-      // Local progress for each transition, eased and held at the ends so each
-      // chapter rests a moment before the next one moves. The map chapter
-      // rests longer, so João Pessoa can be read.
-      const seg = (i: number) => smooth((s - i - 0.15) / 0.7);
-      const t1 = seg(0); // idea → crowd
-      const t2 = smooth((s - 1.1) / 0.55); // crowd → Brazil
-      const t3 = smooth((s - 2.35) / 0.6); // Brazil → day-one grid
-      const t4 = seg(3); // grid → teams
-      const t5 = seg(4); // teams → H
-      // João Pessoa lights up once the map is drawn and is gone before it comes apart.
-      const spot = smooth((s - 1.6) / 0.15) * (1 - smooth((s - 2.18) / 0.14));
 
       for (let i = 0; i < N; i++) {
         const builder = i % 2 === 0;
@@ -208,7 +225,8 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
 
         // Size: one large square at the start, then the cell of each formation.
         const startSize = f.size * 0.16;
-        let sz = i === 0 ? startSize + (f.gridCell * 0.62 - startSize) * t1 : f.gridCell * 0.62;
+        // Idea: the square grows while it rests.
+        let sz = i === 0 ? startSize * (1 + r0 * 0.3) + (f.gridCell * 0.62 - startSize * (1 + r0 * 0.3)) * t1 : f.gridCell * 0.62;
         sz += (f.mapCell * 0.78 - sz) * t2;
         if (i === 0) sz *= 1 + spot * 0.35;
         sz += (f.gridCell * 0.72 - sz) * t3;
@@ -223,9 +241,26 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
         // On the map everything is ink and grey, so João Pessoa is the only blue.
         col = mix(col, i % 6 === 0 ? MUTED : INK, t2);
         col = mix(col, i % 3 === 0 ? BLUE : INK, t3);
+        // Map: a blue wave runs across the country towards João Pessoa (the
+        // cells are ordered by distance from it, so i / N is that distance).
+        const onMap = t2 * (1 - t3);
+        if (onMap > 0 && i > 0) {
+          const wave = Math.max(0, 1 - Math.abs(i / N - (1 - r2)) / 0.07);
+          col = mix(col, BLUE, wave * onMap);
+        }
+        // Day one: a blue sweep crosses the 200 seats, column by column.
+        const onGrid = t3 * (1 - t4);
+        if (onGrid > 0) {
+          const sweep = Math.max(0, 1 - Math.abs((i % 20) / 19 - r3 * 1.2 + 0.1) / 0.12);
+          col = mix(col, BLUE, sweep * onGrid);
+          sz *= 1 + sweep * onGrid * 0.25;
+        }
         if (builder) {
           col = mix(col, Math.floor(k / 4) % 2 === 0 ? BLUE : INK, t4);
-          col = mix(col, BLUE, t5);
+          // The H forms in ink and fills with blue from the bottom up as it rests.
+          const row = H_CELLS[Math.min(k, H_CELLS.length - 1)][1];
+          const fill = smooth((r5 * 1.25 - (12 - row) / 12) / 0.15);
+          col = mix(col, mix(INK, BLUE, fill), t5);
         } else {
           col = mix(col, FADE, t4);
           alpha *= 1 - t4;
@@ -238,6 +273,18 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
         ctx.fillRect(pos.x - sz / 2, pos.y - sz / 2, sz, sz);
       }
       ctx.globalAlpha = 1;
+
+      // Idea: outlines ripple out from the square while it rests.
+      if (r0 > 0 && t1 < 1) {
+        const base = f.size * 0.16 * (1 + r0 * 0.3);
+        for (const k of [0, 0.5]) {
+          const ph = (r0 * 2 + k) % 1;
+          const half = (base / 2) * (1 + ph * 1.6);
+          ctx.strokeStyle = `rgba(${BLUE.join(",")},${(1 - ph) * (1 - t1) * 0.8})`;
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(f.cx - half, f.cy - half, half * 2, half * 2);
+        }
+      }
 
       // João Pessoa: a pulsing outline and a label on a leader line above it.
       if (spot > 0.01) {
@@ -301,7 +348,7 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
 
         <div className={styles.copy}>
           {chapters.map((c, i) => (
-            <div key={c.key} className={styles.chapter} data-active={i === active} data-ahead={i > active}>
+            <div key={c.key} className={styles.chapter} data-active={i === shown} data-ahead={i > chapter}>
               <h2 className={styles.title}>{c.title}</h2>
               <p className={styles.body}>{c.body}</p>
             </div>
@@ -310,7 +357,7 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
 
         <ol className={styles.index} aria-hidden="true">
           {chapters.map((c, i) => (
-            <li key={c.key} data-active={i === active} data-done={i < active}>
+            <li key={c.key} data-active={i === chapter} data-done={i < chapter}>
               <span className={styles.indexDash} />
             </li>
           ))}
