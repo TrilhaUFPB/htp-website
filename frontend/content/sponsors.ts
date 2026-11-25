@@ -37,7 +37,9 @@ export const sponsors: readonly Sponsor[] = [
     name: "NXTP Ventures",
     tier: "sponsor",
     opaque: true,
-    onDark: { src: "/images/sponsors/nxtp-branco.png", width: 1160, height: 265 },
+    // NXTP's light file drops "VENTURES"; to keep one lockup in both states the
+    // original is shown inverted at rest, swapped (not re-filtered) on hover.
+    onDark: { src: "/images/sponsors/nxtp.png", width: 506, height: 206 },
     url: "https://nxtp.vc",
     logo: "/images/sponsors/nxtp.png",
     width: 506,

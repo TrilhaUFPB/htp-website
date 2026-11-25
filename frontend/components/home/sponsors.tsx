@@ -65,6 +65,7 @@ export function HomeSponsors() {
                           height={sponsor.onDark.height}
                           style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
                           className={`${styles.logo} ${styles.logoDark}`}
+                          data-opaque={sponsor.opaque && sponsor.onDark.src === sponsor.logo ? "true" : undefined}
                         />
                         <Image
                           src={sponsor.logo}

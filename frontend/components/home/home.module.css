@@ -1049,6 +1049,10 @@
   transition: opacity 0.3s var(--ease);
 }
 
+.sponsorsSection .logo.logoDark[data-opaque="true"] {
+  filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
+}
+
 .sponsorsSection .logo.logoColor {
   position: absolute;
   top: 50%;
