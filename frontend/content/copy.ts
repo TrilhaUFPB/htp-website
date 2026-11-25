@@ -104,6 +104,40 @@ const pt = {
     where: "Onde",
     venuePending: "O local exato será anunciado em breve.",
   },
+  organizer: {
+    eyebrow: "Quem organiza",
+    titleLight: "De estudantes",
+    titleBold: "para estudantes.",
+    body: "O Hack The Path é organizado pelo Trilha, um programa gratuito criado em 2024 por estudantes para aproximar quem está começando de quem já está no mercado: aulas práticas, mentoria individual, palestras e um hackathon ao fim de cada turma.",
+    stats: [
+      { value: "5", label: "turmas" },
+      { value: "86", label: "estudantes formados pelo programa" },
+      { value: "23", label: "ex-alunos que voltaram para organizar" },
+      { value: "13 de 15", label: "da primeira turma conseguiram estágio" },
+    ],
+    link: "Conheça o Trilha",
+    projectsLabel: "Trilhathlon",
+    projectsTitle: "Três semanas, do zero ao pitch.",
+    projectsBody: "Toda turma do Trilha termina num hackathon. Estes foram os vencedores.",
+    projects: [
+      {
+        name: "PixelMind",
+        description: "Edição de vídeo por IA: você sobe o vídeo, diz como quer o resultado, e a edição acontece sozinha.",
+        url: "https://www.youtube.com/watch?v=DHXnobWWJjE",
+      },
+      {
+        name: "ClarIAr",
+        description: "Acessibilidade no Android: descreve as imagens da tela para pessoas com deficiência visual.",
+        url: "https://www.youtube.com/watch?v=0b4k1lVUtO4",
+      },
+      {
+        name: "Praxis",
+        description: "Desafios práticos por trilha de carreira, simulando o dia a dia do mercado, com feedback por IA.",
+        url: "https://www.youtube.com/watch?v=v5YYfLKEvV0",
+      },
+    ],
+    watch: "Ver o pitch",
+  },
   faq: {
     eyebrow: "Dúvidas",
     headingLine1: "Perguntas",
@@ -327,6 +361,40 @@ const en: Copy = {
     dateYear: "27",
     where: "Where",
     venuePending: "The exact venue will be announced soon.",
+  },
+  organizer: {
+    eyebrow: "Who runs it",
+    titleLight: "By students,",
+    titleBold: "for students.",
+    body: "Hack The Path is run by Trilha, a free programme started in 2024 by students to bring newcomers closer to people already working in tech: hands-on classes, one-to-one mentoring, talks and a hackathon at the end of every cohort.",
+    stats: [
+      { value: "5", label: "cohorts" },
+      { value: "86", label: "students through the programme" },
+      { value: "23", label: "alumni who came back to organise" },
+      { value: "13 of 15", label: "of the first cohort landed internships" },
+    ],
+    link: "Meet Trilha",
+    projectsLabel: "Trilhathlon",
+    projectsTitle: "Three weeks, from zero to pitch.",
+    projectsBody: "Every Trilha cohort ends in a hackathon. These were the winners.",
+    projects: [
+      {
+        name: "PixelMind",
+        description: "AI video editing: upload a video, say what you want, and the edit happens on its own.",
+        url: "https://www.youtube.com/watch?v=DHXnobWWJjE",
+      },
+      {
+        name: "ClarIAr",
+        description: "Android accessibility: describes what is on screen for people with visual impairments.",
+        url: "https://www.youtube.com/watch?v=0b4k1lVUtO4",
+      },
+      {
+        name: "Praxis",
+        description: "Hands-on challenges by career path, simulating day-to-day work, with AI feedback.",
+        url: "https://www.youtube.com/watch?v=v5YYfLKEvV0",
+      },
+    ],
+    watch: "Watch the pitch",
   },
   faq: {
     eyebrow: "FAQ",
