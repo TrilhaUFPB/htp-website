@@ -183,8 +183,9 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       const u = p * (LAST + 1);
       const current = Math.min(LAST, Math.floor(u));
       const v = u - current;
-      // The same window in every chapter, first and last included.
-      const copyOn = v >= COPY_IN && v <= COPY_OUT;
+      // The same window in every chapter, except at the ends: the first copy
+      // is there almost as soon as the story arrives, and the last one stays.
+      const copyOn = v >= (current === 0 ? 0.03 : COPY_IN) && (current === LAST || v <= COPY_OUT);
       const nextShown = copyOn ? current : -1;
       if (current !== lastChapter) {
         lastChapter = current;
