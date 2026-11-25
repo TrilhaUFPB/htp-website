@@ -20,38 +20,9 @@ import { createFaqJsonLd } from "@/lib/seo";
 
 const G = "/images/brand/grafismos";
 
-// Competição climbs, Conexão is many H's together, Experiência is the sphere.
-const FEATURE_ICONS = [`${G}/seta-preto-azul.svg`, `${G}/trama-azul-preto.svg`, `${G}/esfera-preto-azul.svg`];
-const STAT_TONES = ["blue", "white", "grey", "white"] as const;
 
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-      <path d="M3 2h2V1h1v1h4V1h1v1h2v12H3V2Zm1 4v7h8V6H4Z" />
-    </svg>
-  );
-}
 
-function PersonIcon() {
-  return (
-    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-      <path d="M5 2h6v6H5V2Zm-2 8h10v4H3v-4Z" />
-    </svg>
-  );
-}
 
-// February 2027 starts on a Monday; the event is Saturday 20 and Sunday 21.
-const FEB_2027 = Array.from({ length: 28 }, (_, i) => i + 1);
-const EVENT_DAYS = new Set([20, 21]);
-
-function SectionHead({ index, label }: { index: string; label: string }) {
-  return (
-    <p className={styles.sectionHead}>
-      <span className={styles.chip}>{index}</span>
-      {label}
-    </p>
-  );
-}
 
 /** The grafismos mosaic from the manual's graphics page. */
 function MosaicTiles() {
@@ -86,9 +57,6 @@ function MosaicTiles() {
 export default async function Home() {
   const { locale, t } = await getCopy();
   const faqJsonLd = createFaqJsonLd(locale);
-  const weekdays =
-    locale === "pt" ? ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"] : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const month = locale === "pt" ? "Fevereiro" : "February";
 
   return (
     <div className={`flex min-h-screen flex-col ${styles.page}`}>
@@ -183,93 +151,44 @@ export default async function Home() {
               </div>
             </div>
 
-          {/* SOBRE */}
+          {/* DOIS DIAS — the event, the two days and their numbers in one place */}
           <section id="evento" className={styles.section}>
-            <div className={styles.wrap}>
-              <SectionHead index="01" label={t.nav.about} />
-              <div className={styles.split}>
-                <h2 data-reveal className={styles.display}>
-                  Hack The Path
+            <div id="programacao" className={styles.wrap}>
+              <div className={styles.daysHead}>
+                <h2 data-reveal className={styles.gesture}>
+                  <span>{t.schedule.headingLine1}</span> <strong>{t.schedule.headingLine2}</strong>
                 </h2>
                 <p data-reveal={100} className={styles.lede}>
                   {t.about.paragraph}
                 </p>
               </div>
-            </div>
 
-              <div className={styles.wrap}>
-              <ol className={styles.features}>
-                {t.about.features.map((feature, index) => (
-                  <li key={index} data-reveal={index * 80}>
-                    <Image width={300} height={300} className={styles.featureIcon} src={FEATURE_ICONS[index]} alt="" aria-hidden="true" />
-                    <h3>{feature.title}</h3>
-                    <p>{feature.description}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
-
-          {/* PROGRAMAÇÃO — the ticket banner from the manual's applications page */}
-          <section id="programacao" className={styles.section}>
-            <div className={styles.wrap}>
-              <SectionHead index="02" label={t.schedule.eyebrow} />
-              <h2 data-reveal className={styles.heading}>
-                {t.schedule.headingLine1}
-                <br />
-                <span className={styles.muted}>{t.schedule.headingLine2}</span>
-              </h2>
-
-              <div className={styles.days}>
+              <div className={styles.doors}>
                 {t.schedule.days.map((day, index) => (
                   <article
                     key={day.number}
-                    data-reveal
-                    className={styles.day}
-                    data-scheme={index === 0 ? "light" : "blue"}
+                    data-reveal={index * 120}
+                    className={styles.door}
+                    data-tone={index === 0 ? "blue" : "white"}
                   >
-                    <div className={styles.dayCopy}>
-                      <div className={styles.dayTop}>
-                        <span className={styles.dayKicker}>{locale === "pt" ? "Dia" : "Day"}</span>
-                        <span className={styles.dayNumber}>{day.number}</span>
-                      </div>
-                      <h3 className={styles.dayTitle}>{day.title}</h3>
-                      <p className={styles.dayBody}>{day.description}</p>
-                      <ul className={styles.facts}>
-                        <li>
-                          <span className={styles.factIcon} aria-hidden="true">
-                            <CalendarIcon />
-                          </span>
-                          <span className={styles.factText}>{day.date} 2027</span>
-                        </li>
-                        <li>
-                          <span className={styles.factIcon} aria-hidden="true">
-                            <PersonIcon />
-                          </span>
-                          <span className={styles.factText}>
-                            {day.access} ·{" "}
-                            {day.count > 0 ? (
-                              <>
-                                <span data-count={day.count}>0</span> {day.participants}
-                              </>
-                            ) : (
-                              day.participants
-                            )}
-                          </span>
-                        </li>
-                      </ul>
+                    <div className={styles.doorTop}>
+                      <span className={styles.boxLabel}>
+                        {locale === "pt" ? "Dia" : "Day"} {day.number}
+                      </span>
+                      <span className={styles.doorAccess}>{day.access}</span>
                     </div>
-                    <div className={styles.dayArt} aria-hidden="true">
-                      <Image width={300} height={300} src={index === 0 ? `${G}/caleidoscopio-branco-azul.svg` : `${G}/caleidoscopio-azul-preto.svg`} alt="" />
-                      <Image width={1567} height={602}
-                        className={styles.dayLockup}
-                        src={
-                          index === 0
-                            ? "/images/logo/svg/htp-bloco-azul-preto.svg"
-                            : "/images/logo/svg/htp-bloco-azul-preto.svg"
-                        }
-                        alt=""
-                      />
+                    <p className={styles.doorDate}>{day.date}</p>
+                    <div className={styles.doorFoot}>
+                      <h3 className={styles.doorTitle}>{day.title}</h3>
+                      <p className={styles.doorCount}>
+                        {day.count > 0 ? (
+                          <>
+                            <span data-count={day.count}>0</span> {day.participants}
+                          </>
+                        ) : (
+                          day.participants
+                        )}
+                      </p>
                     </div>
                   </article>
                 ))}
@@ -277,111 +196,70 @@ export default async function Home() {
             </div>
           </section>
 
-          {/* NÚMEROS — the mosaic again, carrying numbers */}
-          <section id="numeros" aria-label={locale === "pt" ? "Números" : "Numbers"}>
-            <dl className={styles.statTiles}>
-              {t.stats.map((stat, index) => (
-                <div key={index} className={styles.statTile} data-tone={STAT_TONES[index]}>
-                  <dd>
-                    <span data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                      0
-                    </span>
-                  </dd>
-                  <dt>{stat.label}</dt>
-                </div>
-              ))}
-              <div className={`${styles.statTile} ${styles.statArt}`} aria-hidden="true">
-                <Image width={300} height={300} src={`${G}/colunas-azul-preto.svg`} alt="" />
+          {/* QUANDO E ONDE — one line, like the stub of a ticket */}
+          <section id="quando" className={styles.ticketSection}>
+            <dl id="numeros" className={`${styles.wrap} ${styles.ticket}`}>
+              <div>
+                <dt>{t.when.eyebrow}</dt>
+                <dd>
+                  {t.when.dateLine1} {t.when.dateLine2} 20{t.when.dateYear}
+                </dd>
               </div>
-              <div className={`${styles.statTile} ${styles.statArt}`} aria-hidden="true">
-                <Image width={300} height={300} src={`${G}/escada-azul-preto.svg`} alt="" />
+              <div>
+                <dt>{t.when.where}</dt>
+                <dd>{t.meta.locationName}</dd>
+                <dd className={styles.ticketNote}>{t.when.venuePending}</dd>
+              </div>
+              <div>
+                <dt>{locale === "pt" ? "Participantes" : "Participants"}</dt>
+                <dd>
+                  <span data-count={200} data-prefix="+">
+                    +200
+                  </span>{" "}
+                  · 100
+                </dd>
+                <dd className={styles.ticketNote}>
+                  {locale === "pt" ? "Dia 01 · Dia 02" : "Day 01 · Day 02"}
+                </dd>
+              </div>
+              <div>
+                <dt>{locale === "pt" ? "Custo" : "Cost"}</dt>
+                <dd className={styles.ticketBlue}>{t.stats[3].label}</dd>
               </div>
             </dl>
-          </section>
-
-          {/* QUANDO E ONDE */}
-          <section id="quando" className={styles.section}>
-            <div className={styles.wrap}>
-              <SectionHead index="03" label={t.nav.when} />
-              <div className={styles.whenGrid}>
-                <div data-reveal className={styles.whenPanel} data-tone="blue">
-                  <p className={styles.panelLabel}>{t.when.eyebrow}</p>
-                  <p className={styles.whenDate}>
-                    {t.when.dateLine1} {t.when.dateLine2}
-                    <br />
-                    2027
-                  </p>
-                  <div className={styles.calendar}>
-                    <p className={styles.calendarMonth}>
-                      {month} <span>2027</span>
-                    </p>
-                    <div className={styles.calendarGrid}>
-                      {weekdays.map((d) => (
-                        <span key={d} className={styles.weekday}>
-                          {d}
-                        </span>
-                      ))}
-                      {FEB_2027.map((d) => (
-                        <span key={d} className={EVENT_DAYS.has(d) ? styles.eventDay : undefined}>
-                          {d}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div data-reveal={120} className={styles.whenPanel} data-tone="grey">
-                  <p className={styles.panelLabel}>{t.when.where}</p>
-                  <p className={styles.whenDate}>{t.meta.locationName}</p>
-                  <p className={styles.whenNote}>{t.when.venuePending}</p>
-                  <dl className={styles.coords}>
-                    <div>
-                      <dt>{locale === "pt" ? "Cidade" : "City"}</dt>
-                      <dd>João Pessoa · PB</dd>
-                    </div>
-                    <div>
-                      <dt>{locale === "pt" ? "Coordenadas" : "Coordinates"}</dt>
-                      <dd>7°07′S 34°52′W</dd>
-                    </div>
-                  </dl>
-                </div>
-              </div>
-            </div>
           </section>
 
           {/* FAQ */}
           <section id="faq" className={styles.section}>
             <div className={`${styles.wrap} ${styles.faqGrid}`}>
-              <div className={styles.faqSide}>
-                <SectionHead index="04" label={t.faq.eyebrow} />
-                <h2 className={styles.heading}>
-                  {t.faq.headingLine1}
-                  <br />
-                  {t.faq.headingLine2}
-                </h2>
-              </div>
+              <h2 className={`${styles.gesture} ${styles.faqTitle}`}>
+                <span>{t.faq.headingLine1}</span> <strong>{t.faq.headingLine2}</strong>
+              </h2>
               <HomeFaq canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
             </div>
           </section>
 
-          {/* CTA — the manual's cover: copy on black, the leque bleeding off the edge */}
-          <section id="inscricao" className={styles.cta}>
-            <div className={styles.ctaCopy}>
-              <p data-reveal className={styles.panelLabel}>
-                {t.cta.eyebrow}
-              </p>
-              <h2 data-reveal={80} className={styles.ctaHeading}>
-                {t.cta.heading}
-              </h2>
-              <p data-reveal={160} className={styles.ctaBody}>
-                {t.cta.body}
-              </p>
-              <div data-reveal={240}>
-                <NotifySignup variant="cta" />
+          {/* CTA — copy on black beside one quadrant: the arrow, the brand's sign for "next step" */}
+          <section id="inscricao" className={styles.section}>
+            <div className={`${styles.wrap} ${styles.cta}`}>
+              <div className={styles.ctaCopy}>
+                <p data-reveal className={styles.boxLabel}>
+                  {t.cta.eyebrow}
+                </p>
+                <h2 data-reveal={80} className={`${styles.gesture} ${styles.ctaHeading}`}>
+                  <span>{t.cta.heading.split(" ").slice(0, -1).join(" ")}</span>{" "}
+                  <strong>{t.cta.heading.split(" ").slice(-1)}</strong>
+                </h2>
+                <p data-reveal={160} className={styles.ctaBody}>
+                  {t.cta.body}
+                </p>
+                <div data-reveal={240}>
+                  <NotifySignup variant="cta" />
+                </div>
               </div>
-            </div>
-            <div className={styles.ctaArt} aria-hidden="true">
-              <Image width={300} height={300} src={`${G}/leque-azul-preto.svg`} alt="" />
+              <div data-reveal={120} className={styles.ctaTile} aria-hidden="true">
+                <Image width={300} height={300} src={`${G}/seta-preto-azul.svg`} alt="" />
+              </div>
             </div>
           </section>
 

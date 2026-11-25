@@ -14,7 +14,7 @@
   background: #000;
   color: #fff;
   --gutter: clamp(24px, 7vw, 128px);
-  --space: clamp(112px, 14vw, 224px);
+  --space: clamp(88px, 10vw, 160px);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -33,32 +33,6 @@
 
 /* ---- Type ------------------------------------------------------------- */
 
-.sectionHead {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 0 clamp(48px, 6vw, 96px);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.chip {
-  display: inline-flex;
-  min-width: 28px;
-  height: 20px;
-  align-items: center;
-  justify-content: center;
-  padding: 0 6px;
-  box-sizing: border-box;
-  background: var(--blue);
-  color: #000;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
 .label {
   margin: 0;
   font-size: 13px;
@@ -68,27 +42,6 @@
   color: var(--ink-3);
 }
 
-.display {
-  margin: 0;
-  font-size: clamp(56px, 8.4vw, 132px);
-  font-weight: 600;
-  line-height: 0.94;
-  letter-spacing: -0.035em;
-}
-
-.heading {
-  margin: 0;
-  font-size: clamp(40px, 5.2vw, 80px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-}
-
-.muted {
-  color: var(--grey1);
-}
-
 .lede {
   margin: 0;
   max-width: 520px;
@@ -96,20 +49,6 @@
   font-weight: 400;
   line-height: 1.5;
   color: var(--ink-2);
-}
-
-.split {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: end;
-}
-
-@media (min-width: 900px) {
-  .split {
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-  }
 }
 
 .textLink {
@@ -314,418 +253,6 @@
   }
 }
 
-.features {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  margin: clamp(64px, 8vw, 120px) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 760px) {
-  .features {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-  }
-}
-
-.features li {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 20px;
-  border-top: 1.5px solid var(--rule);
-}
-
-.featureIcon {
-  display: block;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 12px;
-}
-
-.features h3 {
-  margin: 8px 0 0;
-  font-size: clamp(24px, 2.2vw, 30px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.features p {
-  margin: 0;
-  max-width: 340px;
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--ink-2);
-}
-
-
-/* ---- Schedule: the ticket banner ------------------------------------- */
-
-.muted {
-  color: var(--grey1);
-}
-
-.days {
-  display: grid;
-  gap: clamp(24px, 3vw, 40px);
-  margin-top: clamp(64px, 8vw, 112px);
-}
-
-.day {
-  display: grid;
-  grid-template-columns: 1fr;
-  overflow: hidden;
-}
-
-@media (min-width: 900px) {
-  .day {
-    grid-template-columns: 1.15fr 1fr;
-    min-height: 520px;
-  }
-}
-
-.day[data-scheme="light"] {
-  background: var(--grey2);
-  color: #000;
-}
-
-.day[data-scheme="blue"] {
-  background: var(--blue);
-  color: #000;
-}
-
-.dayCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: clamp(32px, 5vw, 72px);
-}
-
-.dayTop {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: auto;
-  padding-bottom: clamp(32px, 4vw, 56px);
-}
-
-.dayKicker {
-  padding-top: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.dayNumber {
-  font-size: clamp(88px, 10vw, 150px);
-  font-weight: 600;
-  line-height: 0.8;
-  letter-spacing: -0.06em;
-}
-
-.day[data-scheme="blue"] .dayNumber {
-  color: #000;
-}
-
-.dayTitle {
-  margin: 0;
-  max-width: 480px;
-  font-size: clamp(28px, 3vw, 44px);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-
-.dayBody {
-  margin: 0;
-  max-width: 440px;
-  font-size: 17px;
-  line-height: 1.55;
-  color: #444;
-}
-
-.day[data-scheme="blue"] .dayBody {
-  color: #1a1a1a;
-}
-
-.facts {
-  display: grid;
-  gap: 6px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.facts li {
-  display: flex;
-  align-items: stretch;
-  width: fit-content;
-}
-
-.factIcon {
-  display: flex;
-  width: 30px;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  color: var(--blue);
-}
-
-.day[data-scheme="blue"] .factText {
-  background: #fff;
-}
-
-.factText {
-  display: block;
-  line-height: 30px;
-  padding: 0 10px;
-  background: var(--blue);
-  color: #000;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.dayArt {
-  position: relative;
-  display: flex;
-  min-height: 300px;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.dayArt > img:first-child {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.04);
-  transition: transform 1.2s var(--ease);
-}
-
-.day:hover .dayArt > img:first-child {
-  transform: scale(1.1);
-}
-
-.dayLockup {
-  position: relative;
-  width: 44%;
-  max-width: 220px;
-  height: auto;
-}
-
-/* ---- Numbers: tiles --------------------------------------------------- */
-
-.statTiles {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: 0;
-}
-
-@media (min-width: 900px) {
-  .statTiles {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-.statTile {
-  display: flex;
-  aspect-ratio: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 0;
-  padding: clamp(20px, 2vw, 28px);
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.statTile[data-tone="blue"] { background: var(--blue); color: #000; }
-.statTile[data-tone="black"] { background: #000; color: #fff; }
-.statTile[data-tone="grey"] { background: var(--grey2); color: #000; }
-.statTile[data-tone="white"] { background: #fff; color: #000; }
-.statTile[data-tone="white"] dd { color: var(--blue); }
-
-.statTile dd {
-  margin: 0;
-  font-size: clamp(52px, 4.8vw, 84px);
-  font-weight: 600;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  font-variant-numeric: tabular-nums;
-}
-
-.statTile dt {
-  max-width: 180px;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-.statArt {
-  padding: 0;
-}
-
-.statArt img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Blue, black, grey, columns (on black), white, steps (on black):
-   no two neighbours share a background. */
-/* Two columns on phones: blue|black, columns|grey, white|steps. */
-.statTiles > :nth-child(3) { order: 4; }
-.statTiles > :nth-child(4) { order: 5; }
-.statTiles > :nth-child(5) { order: 3; }
-.statTiles > :nth-child(6) { order: 6; }
-
-@media (min-width: 900px) {
-  .statTiles > :nth-child(3) { order: 3; }
-  .statTiles > :nth-child(5) { order: 4; }
-}
-
-/* ---- When & where: two panels ---------------------------------------- */
-
-.whenGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(24px, 3vw, 40px);
-}
-
-@media (min-width: 900px) {
-  .whenGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.whenPanel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: clamp(32px, 5vw, 72px);
-}
-
-.whenPanel[data-tone="blue"] { background: var(--blue); color: #000; }
-.whenPanel[data-tone="grey"] { background: var(--grey2); color: #000; }
-
-.panelLabel {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--blue);
-}
-
-.whenPanel[data-tone="grey"] .panelLabel,
-.whenPanel[data-tone="blue"] .panelLabel { color: #000; }
-
-.whenDate {
-  margin: 0;
-  font-size: clamp(40px, 4.6vw, 68px);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-}
-
-.whenNote {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.55;
-  color: #444;
-}
-
-.calendar {
-  margin-top: auto;
-  padding-top: 32px;
-  max-width: 420px;
-}
-
-.calendarMonth {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 0 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.calendarMonth span {
-  color: #1a1a1a;
-  font-weight: 500;
-}
-
-.calendarGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
-  text-align: center;
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-  color: #1a1a1a;
-}
-
-.calendarGrid > span {
-  display: flex;
-  height: 34px;
-  align-items: center;
-  justify-content: center;
-}
-
-.calendarGrid > span.weekday {
-  height: 24px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #1a1a1a;
-}
-
-.calendarGrid > span.eventDay {
-  background: #000;
-  color: var(--blue);
-  font-weight: 700;
-}
-
-.coords {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin: auto 0 0;
-  padding-top: 32px;
-}
-
-.coords div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.coords dt {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #6b6b6b;
-}
-
-.coords dd {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
 
 /* ---- FAQ -------------------------------------------------------------- */
 
@@ -741,11 +268,6 @@
     gap: 64px;
   }
 
-  .faqSide {
-    position: sticky;
-    top: 120px;
-    align-self: start;
-  }
 }
 
 .faqList {
@@ -819,68 +341,6 @@
 }
 
 
-/* ---- CTA: the manual's cover ------------------------------------------ */
-
-.cta {
-  display: grid;
-  grid-template-columns: 1fr;
-  background: #000;
-  color: #fff;
-}
-
-@media (min-width: 900px) {
-  .cta {
-    grid-template-columns: 1fr 1fr;
-    min-height: min(760px, 92vh);
-  }
-}
-
-.ctaCopy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 24px;
-  padding: var(--space) var(--gutter);
-}
-
-@media (min-width: 900px) {
-  .ctaCopy {
-    padding-left: max(var(--gutter), calc((100vw - 1200px) / 2 + var(--gutter)));
-  }
-}
-
-.ctaHeading {
-  margin: 0;
-  font-size: clamp(48px, 6.4vw, 104px);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-}
-
-.ctaBody {
-  margin: 0 0 12px;
-  max-width: 420px;
-  font-size: clamp(17px, 1.4vw, 20px);
-  line-height: 1.55;
-  color: #aaa;
-}
-
-.ctaArt {
-  position: relative;
-  min-height: 340px;
-  overflow: hidden;
-}
-
-.ctaArt img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: right center;
-}
-
 /* ---- Footer ----------------------------------------------------------- */
 
 .footer {
@@ -919,7 +379,6 @@
 @media (prefers-reduced-motion: reduce) {
   .logo,
   .logoCell,
-  .dayArt > img:first-child,
   .faqIcon::before,
   .faqIcon::after {
     transition: none;
@@ -966,29 +425,6 @@
   background: #fff;
 }
 
-/* The two rings of the aperture turn against each other on scroll: the inner
-   one back, faster; the outer one forward, slower. --hero-motion is the hero's
-   raw scroll progress (0 → 1), published by ScrollHero. The viewBox is
-   centred on 0,0 and view-box puts the reference box's origin there, so the
-   rotation origin is 0 0, not "center" (which would be 800,400). */
-.page :global(.aperture-band) {
-  transform-box: view-box;
-  transform-origin: 0 0;
-}
-
-.page :global(.aperture-band-0) {
-  transform: rotate(calc(var(--hero-motion) * -24deg));
-}
-
-.page :global(.aperture-band-1) {
-  transform: rotate(calc(var(--hero-motion) * 11deg));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page :global(.aperture-band) {
-    transform: none;
-  }
-}
 
 
 /* ---- Sponsors, louder ---------------------------------------------------
@@ -1098,4 +534,271 @@
 .sponsorsSection .logoCell:focus-visible {
   outline: 2px solid var(--blue);
   outline-offset: -2px;
+}
+
+
+/* ---- Below the mosaic ---------------------------------------------------
+   Four blocks: the two days, a ticket line, the FAQ, the call. Titles use the
+   marcha gesture, a light phrase then a black one; labels are caixa-rótulos. */
+
+.gesture {
+  margin: 0;
+  font-size: clamp(44px, 5.6vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.gesture span {
+  font-weight: 300;
+}
+
+.gesture strong {
+  font-weight: 800;
+}
+
+/* The caixa-rótulo: a solid box, uppercase, tight. */
+.boxLabel {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The two days */
+
+.daysHead {
+  display: grid;
+  gap: 28px;
+  margin-bottom: clamp(48px, 6vw, 88px);
+}
+
+@media (min-width: 900px) {
+  .daysHead {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: end;
+    gap: 64px;
+  }
+}
+
+.doors {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 760px) {
+  .doors {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Rows: label line, date, then the foot pinned to the bottom, so both dates
+   sit at the same height whatever the length of the titles. */
+.door {
+  display: grid;
+  min-height: clamp(380px, 38vw, 520px);
+  grid-template-rows: auto auto 1fr;
+  gap: clamp(32px, 4vw, 56px);
+  padding: clamp(24px, 3vw, 40px);
+  box-sizing: border-box;
+}
+
+.door[data-tone="blue"] {
+  background: var(--blue);
+  color: #000;
+}
+
+.door[data-tone="white"] {
+  background: #fff;
+  color: #000;
+}
+
+.door[data-tone="white"] .boxLabel {
+  background: var(--blue);
+  color: #000;
+}
+
+.doorTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.doorAccess {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.doorDate {
+  margin: 0;
+  font-size: clamp(72px, 9vw, 148px);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+}
+
+.doorFoot {
+  align-self: end;
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1.5px solid #000;
+}
+
+.doorTitle {
+  margin: 0;
+  max-width: 420px;
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.doorCount {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The ticket line */
+
+.ticketSection {
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+
+.ticket {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .ticket {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.ticket > div {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  margin: 0;
+  padding: clamp(24px, 3vw, 40px) clamp(12px, 2vw, 28px);
+  border-left: 1px solid var(--hair);
+}
+
+.ticket > div:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+@media (max-width: 899px) {
+  .ticket > div:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .ticket > div:nth-child(n + 3) {
+    border-top: 1px solid var(--hair);
+  }
+}
+
+.ticket dt {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ticket dd {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.ticket dd.ticketNote {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.ticket dd.ticketBlue {
+  color: var(--blue);
+}
+
+/* FAQ */
+
+.faqTitle {
+  font-size: clamp(36px, 4.2vw, 64px);
+}
+
+/* The call */
+
+.cta {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .cta {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+  }
+}
+
+.ctaCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.ctaCopy .boxLabel {
+  background: var(--blue);
+  color: #000;
+}
+
+.ctaHeading {
+  font-size: clamp(48px, 6.4vw, 104px);
+}
+
+.ctaBody {
+  margin: 0 0 8px;
+  max-width: 420px;
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.ctaTile {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 480px;
+  justify-self: end;
+}
+
+.ctaTile img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
