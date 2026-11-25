@@ -36,9 +36,10 @@ export function Aperture() {
           <stop offset="1" stopColor="#000" />
         </radialGradient>
       </defs>
-      <g>
-        {bands.flatMap(({ inner, outer, offset }, band) =>
-          Array.from({ length: 40 }, (_, i) => {
+      {bands.map(({ inner, outer, offset }, band) => (
+        // One group per ring, so a page can turn the rings independently.
+        <g key={band} className={`aperture-band aperture-band-${band}`}>
+          {Array.from({ length: 40 }, (_, i) => {
             const start = i * 9 + offset;
             const end = start + 4.15;
             return (
@@ -48,9 +49,9 @@ export function Aperture() {
                 d={`M${point(inner, start)} L${point(outer, start)} A${outer},${outer} 0 0 1 ${point(outer, end)} L${point(inner, end)} A${inner},${inner} 0 0 0 ${point(inner, start)}Z`}
               />
             );
-          }),
-        )}
-      </g>
+          })}
+        </g>
+      ))}
     </svg>
   );
 }

@@ -101,6 +101,9 @@ a:hover {
   width: max(1600px, 104%);
   height: max(860px, 104%);
   max-width: none;
+  /* Outer blades reach r=890, past the ±800 viewBox; once rotated, the default
+     clip shows as a straight cut across their ends. */
+  overflow: visible;
   transform: translate(-50%, -50%) scale(var(--hero-zoom))
     rotate(var(--hero-rotation));
   transform-origin: center;
