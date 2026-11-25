@@ -30,17 +30,33 @@ export function HomeSponsors() {
             <feFuncB type="table" tableValues="1 0.55" />
           </feComponentTransfer>
         </filter>
-        {/* Dark parts to white, colour untouched: a mask of the pixels darker
-            than ~35% luminance (inside the logo's own alpha) is filled white
-            and laid over the original. */}
+        {/* Neutral dark parts (the lettering) to white, colour untouched. A
+            pixel counts as lettering when it is both dark (luminance under
+            ~60%) and colourless (the channel differences sum to under ~12%),
+            so navy or deep green in a mark stays as it is. */}
         <filter id="logo-text" colorInterpolationFilters="sRGB">
-          <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
-          <feComponentTransfer in="lum" result="darkMask">
-            <feFuncA type="discrete" tableValues="1 1 1 0 0 0 0 0 0 0" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 0 0 0" result="rg" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0" result="gr" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1 -1 0 0" result="gb" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 -1 1 0 0" result="bg" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 0 0" result="rb" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0" result="br" />
+          <feComposite in="rg" in2="gr" operator="arithmetic" k2="1" k3="1" result="c1" />
+          <feComposite in="gb" in2="bg" operator="arithmetic" k2="1" k3="1" result="c2" />
+          <feComposite in="rb" in2="br" operator="arithmetic" k2="1" k3="1" result="c3" />
+          <feComposite in="c1" in2="c2" operator="arithmetic" k2="1" k3="1" result="c12" />
+          <feComposite in="c12" in2="c3" operator="arithmetic" k2="1" k3="1" result="chroma" />
+          <feComponentTransfer in="chroma" result="neutral">
+            <feFuncA type="discrete" tableValues="1 0 0 0 0 0 0 0" />
           </feComponentTransfer>
-          <feComposite in="darkMask" in2="SourceAlpha" operator="in" result="darkInLogo" />
+          <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
+          <feComponentTransfer in="lum" result="dark">
+            <feFuncA type="discrete" tableValues="1 1 1 1 1 1 0 0 0 0" />
+          </feComponentTransfer>
+          <feComposite in="neutral" in2="dark" operator="in" result="neutralDark" />
+          <feComposite in="neutralDark" in2="SourceAlpha" operator="in" result="lettering" />
           <feFlood floodColor="#fff" result="white" />
-          <feComposite in="white" in2="darkInLogo" operator="in" result="whiteText" />
+          <feComposite in="white" in2="lettering" operator="in" result="whiteText" />
           <feMerge>
             <feMergeNode in="SourceGraphic" />
             <feMergeNode in="whiteText" />
