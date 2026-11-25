@@ -54,41 +54,29 @@ export function HomeSponsors() {
                     onClick={() => track("sponsor_clicked", { sponsor: sponsor.name })}
                     className={styles.logoCell}
                   >
-                    {sponsor.onDark ? (
-                      // Two files: the light one at rest, the original in colour
-                      // on the white hover cell. No filters on either.
-                      <>
-                        <Image
-                          src={sponsor.onDark.src}
-                          alt={sponsor.name}
-                          width={sponsor.onDark.width}
-                          height={sponsor.onDark.height}
-                          style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
-                          className={`${styles.logo} ${styles.logoDark}`}
-                          data-opaque={sponsor.opaque && sponsor.onDark.src === sponsor.logo ? "true" : undefined}
-                        />
-                        <Image
-                          src={sponsor.logo}
-                          alt=""
-                          aria-hidden="true"
-                          width={sponsor.width}
-                          height={sponsor.height}
-                          style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
-                          className={`${styles.logo} ${styles.logoColor}`}
-                        />
-                      </>
-                    ) : (
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        width={sponsor.width}
-                        height={sponsor.height}
-                        style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
-                        className={styles.logo}
-                        data-opaque={sponsor.opaque ? "true" : undefined}
-                        data-tones={sponsor.tones ? "true" : undefined}
-                      />
-                    )}
+                    {/* Two images: the logo at rest (white or greys) and the same
+                        logo in colour, crossfaded on hover over the black cell. */}
+                    <Image
+                      src={sponsor.onDark?.src ?? sponsor.logo}
+                      alt={sponsor.name}
+                      width={sponsor.onDark?.width ?? sponsor.width}
+                      height={sponsor.onDark?.height ?? sponsor.height}
+                      style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                      className={`${styles.logo} ${styles.logoRest}`}
+                      data-rest={
+                        sponsor.onDark ? "file" : sponsor.opaque ? "opaque" : sponsor.tones ? "tones" : "silhouette"
+                      }
+                    />
+                    <Image
+                      src={sponsor.logo}
+                      alt=""
+                      aria-hidden="true"
+                      width={sponsor.width}
+                      height={sponsor.height}
+                      style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                      className={`${styles.logo} ${styles.logoHover}`}
+                      data-hover={sponsor.hover ?? "lift"}
+                    />
                   </a>
                 </li>
               ))}

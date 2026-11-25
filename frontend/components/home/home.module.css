@@ -1006,54 +1006,36 @@
   height: clamp(104px, 10vw, 140px);
 }
 
-/* At rest every logo is a pure white silhouette. The one file with an
-   opaque white ground (NXTP) is inverted instead, which turns its ground
-   black. On hover the cell turns white and the logo shows in its own colours. */
-.sponsorsSection .logo {
-  filter: brightness(0) invert(1);
-  transition: filter 0.3s var(--ease);
-}
-
-.sponsorsSection .logo[data-opaque="true"] {
-  filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
-}
-
-.sponsorsSection .logo[data-tones="true"] {
-  filter: url(#logo-tones);
-}
-
-.sponsorsSection .logoCell {
-  transition: background-color 0.3s var(--ease);
-}
-
-.sponsorsSection .logoCell:hover {
-  background: #fff;
-}
-
-.sponsorsSection .logoCell:hover .logo,
-.sponsorsSection .logoCell:hover .logo[data-opaque="true"],
-.sponsorsSection .logoCell:hover .logo[data-tones="true"] {
-  filter: none;
-}
-
-/* Logos with a light version: swap files on hover instead of filtering. */
+/* Logos, at rest: a white silhouette, or the organisation's own light file,
+   or (for files with a white ground) inverted, or (for logos with their own
+   tones) lifted greys. On hover the same logo crossfades to colour on the
+   black cell: dark-on-light logos have their lightness inverted with the hue
+   kept, logos whose colours read on black show as they are. */
 .sponsorsSection .logoCell {
   position: relative;
 }
 
-.sponsorsSection .logo.logoDark,
-.sponsorsSection .logo.logoColor,
-.sponsorsSection .logoCell:hover .logo.logoDark,
-.sponsorsSection .logoCell:hover .logo.logoColor {
-  filter: none;
-  transition: opacity 0.3s var(--ease);
+.sponsorsSection .logo {
+  transition: opacity 0.35s var(--ease);
 }
 
-.sponsorsSection .logo.logoDark[data-opaque="true"] {
+.sponsorsSection .logoRest[data-rest="silhouette"] {
+  filter: brightness(0) invert(1);
+}
+
+.sponsorsSection .logoRest[data-rest="opaque"] {
   filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
 }
 
-.sponsorsSection .logo.logoColor {
+.sponsorsSection .logoRest[data-rest="tones"] {
+  filter: url(#logo-tones);
+}
+
+.sponsorsSection .logoRest[data-rest="file"] {
+  filter: none;
+}
+
+.sponsorsSection .logoHover {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1062,11 +1044,24 @@
   opacity: 0;
 }
 
-.sponsorsSection .logoCell:hover .logo.logoDark {
+.sponsorsSection .logoHover[data-hover="lift"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.sponsorsSection .logoHover[data-hover="original"] {
+  filter: none;
+}
+
+/* The cell itself stays black on hover; only the logo changes. */
+.sponsorsSection .logoCell:hover {
+  background: transparent;
+}
+
+.sponsorsSection .logoCell:hover .logoRest {
   opacity: 0;
 }
 
-.sponsorsSection .logoCell:hover .logo.logoColor {
+.sponsorsSection .logoCell:hover .logoHover {
   opacity: 1;
 }
 

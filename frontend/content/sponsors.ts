@@ -19,6 +19,13 @@ export type Sponsor = {
    * proposals use on black).
    */
   onDark?: { src: string; width: number; height: number };
+  /**
+   * How the logo shows its colour on hover, on the black cell. "lift" (the
+   * default) inverts lightness but keeps hue, for logos drawn dark on light;
+   * "original" shows the file as is, for logos whose colours already read on
+   * black.
+   */
+  hover?: "lift" | "original";
   /** The logo carries its own tones (stripes, a shaded mark), so it is shown in greys, not as a flat silhouette. */
   tones?: boolean;
 };
@@ -37,9 +44,6 @@ export const sponsors: readonly Sponsor[] = [
     name: "NXTP Ventures",
     tier: "sponsor",
     opaque: true,
-    // NXTP's light file drops "VENTURES"; to keep one lockup in both states the
-    // original is shown inverted at rest, swapped (not re-filtered) on hover.
-    onDark: { src: "/images/sponsors/nxtp.png", width: 506, height: 206 },
     url: "https://nxtp.vc",
     logo: "/images/sponsors/nxtp.png",
     width: 506,
@@ -48,6 +52,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "iFood",
     tier: "sponsor",
+    hover: "original",
     url: "https://www.ifood.com.br",
     logo: "/images/sponsors/ifood.png",
     width: 378,
@@ -57,6 +62,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "Oracle",
     tier: "supporter",
+    hover: "original",
     url: "https://www.oracle.com/br/",
     logo: "/images/sponsors/oracle.png",
     width: 294,
@@ -77,7 +83,6 @@ export const sponsors: readonly Sponsor[] = [
     name: "AI Tinkerers",
     tier: "supporter",
     opaque: true,
-    onDark: { src: "/images/sponsors/ai-tinkerers-branco.png", width: 1486, height: 265 },
     url: "https://aitinkerers.org",
     logo: "/images/sponsors/ai-tinkerers.png",
     width: 600,
