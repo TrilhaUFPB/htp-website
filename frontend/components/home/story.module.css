@@ -1,6 +1,6 @@
 .story {
   position: relative;
-  height: 760vh;
+  height: 1000vh;
   background: #000;
   color: #fff;
 }
@@ -28,18 +28,34 @@
   width: min(520px, calc(100% - 48px));
 }
 
+/* The outgoing chapter blurs out first; the next one waits for it, then
+   comes into focus. The exit has no delay, the entry is delayed by the exit's
+   length, so the two never overlap. */
 .chapter {
   grid-area: 1 / 1;
   opacity: 0;
-  transform: translateY(16px);
+  filter: blur(10px);
+  transform: translateY(-10px);
   transition:
-    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.28s ease-in,
+    filter 0.28s ease-in,
+    transform 0.28s ease-in;
 }
 
 .chapter[data-active="true"] {
   opacity: 1;
+  filter: blur(0);
   transform: none;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+    filter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+/* Entering from below: an inactive chapter that has not been reached yet
+   waits under the line, so the next one rises in while the last one lifts out. */
+.chapter[data-active="false"][data-ahead="true"] {
+  transform: translateY(14px);
 }
 
 .title {
@@ -118,7 +134,7 @@
 
 @media (max-width: 899px) {
   .story {
-    height: 640vh;
+    height: 820vh;
   }
 
   .copy {
@@ -138,7 +154,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .chapter,
+  .chapter[data-active="true"],
   .indexDash {
     transition: none;
+  }
+
+  .chapter {
+    filter: none;
   }
 }

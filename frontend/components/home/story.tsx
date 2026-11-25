@@ -301,7 +301,7 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
 
         <div className={styles.copy}>
           {chapters.map((c, i) => (
-            <div key={c.key} className={styles.chapter} data-active={i === active}>
+            <div key={c.key} className={styles.chapter} data-active={i === active} data-ahead={i > active}>
               <h2 className={styles.title}>{c.title}</h2>
               <p className={styles.body}>{c.body}</p>
             </div>
