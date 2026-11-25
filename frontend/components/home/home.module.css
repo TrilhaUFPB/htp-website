@@ -1045,11 +1045,15 @@
 }
 
 .sponsorsSection .logoHover[data-hover="lift"] {
-  filter: invert(1) hue-rotate(180deg);
+  filter: invert(1) hue-rotate(180deg) saturate(var(--logo-saturate, 1));
 }
 
 .sponsorsSection .logoHover[data-hover="original"] {
   filter: none;
+}
+
+.sponsorsSection .logoHover[data-hover="text"] {
+  filter: url(#logo-text);
 }
 
 /* The cell itself stays black on hover; only the logo changes. */

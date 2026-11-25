@@ -30,6 +30,22 @@ export function HomeSponsors() {
             <feFuncB type="table" tableValues="1 0.55" />
           </feComponentTransfer>
         </filter>
+        {/* Dark parts to white, colour untouched: a mask of the pixels darker
+            than ~35% luminance (inside the logo's own alpha) is filled white
+            and laid over the original. */}
+        <filter id="logo-text" colorInterpolationFilters="sRGB">
+          <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
+          <feComponentTransfer in="lum" result="darkMask">
+            <feFuncA type="discrete" tableValues="1 1 1 0 0 0 0 0 0 0" />
+          </feComponentTransfer>
+          <feComposite in="darkMask" in2="SourceAlpha" operator="in" result="darkInLogo" />
+          <feFlood floodColor="#fff" result="white" />
+          <feComposite in="white" in2="darkInLogo" operator="in" result="whiteText" />
+          <feMerge>
+            <feMergeNode in="SourceGraphic" />
+            <feMergeNode in="whiteText" />
+          </feMerge>
+        </filter>
       </svg>
       {/* The title waits for a little more scroll than the black needs. */}
       <h2 className={styles.sponsorTitle} data-fill data-fill-delay={0.35}>
@@ -73,7 +89,12 @@ export function HomeSponsors() {
                       aria-hidden="true"
                       width={sponsor.width}
                       height={sponsor.height}
-                      style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
+                      style={
+                        {
+                          "--logo-scale": sponsor.scale ?? 1,
+                          "--logo-saturate": sponsor.hoverSaturate ?? 1,
+                        } as React.CSSProperties
+                      }
                       className={`${styles.logo} ${styles.logoHover}`}
                       data-hover={sponsor.hover ?? "lift"}
                     />
