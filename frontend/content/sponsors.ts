@@ -11,8 +11,10 @@ export type Sponsor = {
   height: number;
   /** Optical size tweak for logos that read smaller than the rest at equal height. */
   scale?: number;
-  /** The file has an opaque white ground, so it cannot be shown as a silhouette. */
+  /** The file has a white ground (opaque or a halo), so it cannot be shown as a silhouette. */
   opaque?: boolean;
+  /** The logo carries its own tones (stripes, a shaded mark), so it is shown in greys, not as a flat silhouette. */
+  tones?: boolean;
 };
 
 export const sponsors: readonly Sponsor[] = [
@@ -55,6 +57,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "Fundação Estudar",
     tier: "supporter",
+    tones: true,
     url: "https://www.estudar.org.br",
     logo: "/images/sponsors/fundacao-estudar.png",
     width: 482,
@@ -64,6 +67,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "AI Tinkerers",
     tier: "supporter",
+    opaque: true,
     url: "https://aitinkerers.org",
     logo: "/images/sponsors/ai-tinkerers.png",
     width: 600,
@@ -72,6 +76,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "Fundação Behring",
     tier: "supporter",
+    tones: true,
     url: "https://fundacaobehring.org",
     logo: "/images/sponsors/behring.png",
     width: 572,

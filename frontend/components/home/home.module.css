@@ -1016,6 +1016,10 @@
   filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
 }
 
+.sponsorsSection .logo[data-tones="true"] {
+  filter: url(#logo-tones);
+}
+
 .sponsorsSection .logoCell {
   transition: background-color 0.3s var(--ease);
 }
@@ -1025,7 +1029,8 @@
 }
 
 .sponsorsSection .logoCell:hover .logo,
-.sponsorsSection .logoCell:hover .logo[data-opaque="true"] {
+.sponsorsSection .logoCell:hover .logo[data-opaque="true"],
+.sponsorsSection .logoCell:hover .logo[data-tones="true"] {
   filter: none;
 }
 

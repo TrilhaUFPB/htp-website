@@ -19,6 +19,18 @@ export function HomeSponsors() {
 
   return (
     <div className={styles.sponsorTiers}>
+      {/* Greys for logos with their own tones: desaturate, then invert into a
+          range whose darkest value is 55% white, so nothing sinks into the black. */}
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: "absolute" }}>
+        <filter id="logo-tones" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="saturate" values="0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="1 0.55" />
+            <feFuncG type="table" tableValues="1 0.55" />
+            <feFuncB type="table" tableValues="1 0.55" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
       <h2 className={styles.sponsorTitle} data-fill>
         <span>{title.light}</span> <strong>{title.bold}</strong>
       </h2>
@@ -49,6 +61,7 @@ export function HomeSponsors() {
                       style={{ "--logo-scale": sponsor.scale ?? 1 } as React.CSSProperties}
                       className={styles.logo}
                       data-opaque={sponsor.opaque ? "true" : undefined}
+                      data-tones={sponsor.tones ? "true" : undefined}
                     />
                   </a>
                 </li>
