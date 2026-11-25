@@ -5,9 +5,9 @@ import localFont from "next/font/local";
 import { getCopy } from "@/lib/i18n/server";
 import "./(prod)/globals.css";
 
-// With two root layouts (the live site and /harry) there is no single layout
-// to compose a 404 from, so unmatched URLs render this page on its own: the
-// production 404, with the production styles and font.
+// The root layout lives in the (prod) route group, so there is no layout at
+// the app root to compose a 404 from; unmatched URLs render this page on its
+// own, with the site's styles and font.
 const googleSansFlex = localFont({
   src: "./fonts/google-sans-flex/GoogleSansFlex-Latin-wght.woff2",
   variable: "--font-google-sans-flex",
