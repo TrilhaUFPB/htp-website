@@ -40,7 +40,8 @@ const pt = {
     strongBreak: "do Nordeste",
   },
   sponsors: {
-    label: "Com o apoio de",
+    sponsorsLabel: "Patrocínio",
+    supportersLabel: "Apoio",
     cta: "Leve sua marca →",
     opensInNewTab: "abre em nova aba",
   },
@@ -263,7 +264,8 @@ const en: Copy = {
     strongBreak: "Northeast Brazil",
   },
   sponsors: {
-    label: "Supported by",
+    sponsorsLabel: "Sponsored by",
+    supportersLabel: "Supported by",
     cta: "Put your brand here →",
     opensInNewTab: "opens in a new tab",
   },
