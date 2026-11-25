@@ -803,180 +803,74 @@
   height: 100%;
 }
 
-/* Who runs it */
+/* Who runs it: the blue scheme (blue ground, black type), one sentence set
+   large in the marcha gesture, the Trilha mark sitting in the line. */
 
-.organizerTitle {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-}
-
-.organizerTitle .boxLabel {
+.organizerBand {
+  padding: clamp(72px, 9vw, 136px) 0;
   background: var(--blue);
   color: #000;
 }
 
-.gestureMid {
-  font-size: clamp(40px, 4.8vw, 76px);
+.organizerLine {
+  margin: clamp(24px, 3vw, 40px) 0 0;
+  max-width: 1100px;
+  font-size: clamp(40px, 6vw, 100px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
-.gestureSmall {
-  font-size: clamp(28px, 2.8vw, 44px);
+.organizerLine span {
+  font-weight: 300;
 }
 
-.organizerCopy {
+.organizerLine strong {
+  font-weight: 800;
+}
+
+.organizerName {
+  white-space: nowrap;
+}
+
+/* The mark is cream in its file; here black, one cap-height tall. */
+.organizerMark {
+  display: inline-block;
+  width: auto;
+  height: 0.72em;
+  margin: 0 0.12em 0 0.04em;
+  vertical-align: -0.02em;
+  filter: brightness(0);
+}
+
+.organizerFoot {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-}
-
-.organizerCopy .textLink {
-  margin-top: 0;
-}
-
-.trilhaMark {
-  width: 22px;
-  height: auto;
-  filter: brightness(0) invert(1);
-}
-
-/* The staircase: four blocks on one baseline, each a step taller, in the
-   brand's tones from grey to blue. */
-.stairs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  align-items: end;
-  margin: 0 0 clamp(72px, 9vw, 128px);
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 760px) {
-  .stairs {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.step {
-  display: flex;
-  min-height: calc(clamp(150px, 15vw, 210px) + var(--step) * clamp(36px, 4.5vw, 72px));
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  padding: clamp(16px, 2vw, 24px);
-  box-sizing: border-box;
-  background: var(--grey2);
-  color: #000;
+  gap: 16px 40px;
+  margin-top: clamp(40px, 5vw, 72px);
+  padding-top: 20px;
+  border-top: 1.5px solid #000;
 }
 
-.step:nth-child(2) {
-  background: #fff;
-}
-
-.step:nth-child(3) {
-  background: var(--grey1);
-}
-
-.step:nth-child(4) {
-  background: var(--blue);
-}
-
-.stepValue {
-  font-size: clamp(36px, 4.2vw, 68px);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-}
-
-.stepLabel {
-  max-width: 220px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
-/* Trilhathlon winners */
-
-.projectsHead {
-  display: grid;
-  gap: 16px;
-  justify-items: start;
-  margin-bottom: clamp(28px, 3vw, 40px);
-}
-
-.projectsHead .boxLabel {
-  background: var(--blue);
-  color: #000;
-}
-
-.projectsBody {
+.organizerFoot p {
   margin: 0;
-  font-size: 17px;
-  color: var(--ink-2);
-}
-
-.projects {
-  display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 900px) {
-  .projects {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* The outlined card: 1.5px rule, 24px radius, the one curve in the system;
-   the rule turns blue on hover. */
-.project {
-  display: grid;
-  height: 100%;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 12px;
-  padding: clamp(22px, 2.4vw, 32px);
-  box-sizing: border-box;
-  border: 1.5px solid #fff;
-  border-radius: 24px;
-  color: #fff;
-  transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease);
-}
-
-.project:hover {
-  opacity: 1;
-  border-color: var(--blue);
-  background: #0b0b0b;
-}
-
-.projectIndex {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--blue);
-}
-
-.projectName {
-  font-size: clamp(26px, 2.4vw, 36px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.projectDesc {
-  font-size: 16px;
+  max-width: 560px;
+  font-size: clamp(16px, 1.3vw, 19px);
   line-height: 1.5;
-  color: var(--ink-2);
 }
 
-.projectWatch {
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: 600;
+.organizerFoot a {
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid #000;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
 }
 
-.project:hover .projectWatch {
-  color: var(--blue);
+.organizerFoot a:hover {
+  opacity: 1;
+  color: #fff;
+  border-color: #fff;
 }

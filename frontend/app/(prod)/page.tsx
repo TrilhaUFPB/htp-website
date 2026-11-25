@@ -229,79 +229,33 @@ export default async function Home() {
             </dl>
           </section>
 
-          {/* QUEM ORGANIZA — Trilha: the cycle as a staircase, then what its own
-              hackathons have produced */}
-          <section id="organizacao" className={styles.section}>
+          {/* QUEM ORGANIZA — one sentence set big on a blue band, the Trilha
+              mark sitting in the line like a word */}
+          <section id="organizacao" className={styles.organizerBand}>
             <div className={styles.wrap}>
-              <div className={styles.daysHead}>
-                <div className={styles.organizerTitle}>
-                  <p data-reveal className={styles.boxLabel}>
-                    {t.organizer.eyebrow}
-                  </p>
-                  <h2 data-reveal={80} className={`${styles.gesture} ${styles.gestureMid}`}>
-                    <span>{t.organizer.titleLight}</span> <strong>{t.organizer.titleBold}</strong>
-                  </h2>
-                </div>
-                <div data-reveal={160} className={styles.organizerCopy}>
-                  <p className={styles.lede}>{t.organizer.body}</p>
-                  <a
-                    href="https://www.otrilha.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.textLink}
-                  >
-                    <Image
-                      src="/images/logo/trilha.svg"
-                      alt=""
-                      width={190}
-                      height={133}
-                      className={styles.trilhaMark}
-                    />
-                    {t.organizer.link}
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
+              <p data-reveal className={styles.boxLabel}>
+                {t.organizer.eyebrow}
+              </p>
+              <h2 data-reveal={80} className={styles.organizerLine}>
+                <span>{t.organizer.lead}</span>{" "}
+                <span className={styles.organizerName}>
+                  <Image
+                    src="/images/logo/trilha.svg"
+                    alt=""
+                    width={190}
+                    height={133}
+                    className={styles.organizerMark}
+                  />
+                  <strong>Trilha,</strong>
+                </span>{" "}
+                <span>{t.organizer.titleLight}</span> <strong>{t.organizer.titleBold}</strong>
+              </h2>
+              <div data-reveal={160} className={styles.organizerFoot}>
+                <p>{t.organizer.body}</p>
+                <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer">
+                  {t.organizer.link} <span aria-hidden="true">↗</span>
+                </a>
               </div>
-
-              {/* The numbers climb: each step taller than the last. */}
-              <ol className={styles.stairs}>
-                {t.organizer.stats.map((stat, index) => (
-                  <li
-                    key={stat.label}
-                    data-reveal={index * 110}
-                    className={styles.step}
-                    style={{ "--step": index } as React.CSSProperties}
-                  >
-                    <span className={styles.stepValue}>{stat.value}</span>
-                    <span className={styles.stepLabel}>{stat.label}</span>
-                  </li>
-                ))}
-              </ol>
-
-              <div className={styles.projectsHead}>
-                <p className={styles.boxLabel}>{t.organizer.projectsLabel}</p>
-                <h3 className={`${styles.gesture} ${styles.gestureSmall}`}>{t.organizer.projectsTitle}</h3>
-                <p className={styles.projectsBody}>{t.organizer.projectsBody}</p>
-              </div>
-              <ul className={styles.projects}>
-                {t.organizer.projects.map((project, index) => (
-                  <li key={project.name} data-reveal={index * 90}>
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.project}
-                    >
-                      <span className={styles.projectIndex}>{String(index + 1).padStart(2, "0")}</span>
-                      <span className={styles.projectName}>{project.name}</span>
-                      <span className={styles.projectDesc}>{project.description}</span>
-                      <span className={styles.projectWatch}>
-                        {t.organizer.watch} <span aria-hidden="true">↗</span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </div>
           </section>
 
