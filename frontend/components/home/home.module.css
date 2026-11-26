@@ -63,6 +63,8 @@
 
 .sponsorsSection {
   padding-top: clamp(64px, 8vw, 112px);
+  /* The Trilha signature follows close behind, as part of the same block. */
+  padding-bottom: clamp(24px, 3vw, 40px);
 }
 
 .sponsorTiers {
@@ -653,7 +655,7 @@
 .organizer {
   display: flex;
   justify-content: center;
-  padding: clamp(72px, 8vw, 120px) 0;
+  padding: 0 0 clamp(72px, 8vw, 120px);
 }
 
 .signature {
