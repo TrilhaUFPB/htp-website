@@ -647,9 +647,14 @@
   height: 100%;
 }
 
-/* Who runs it: four quadrants in a row (two by two on phones), the badge
-   and mosaic pattern of the manual. Neighbours never share a ground. Each
-   square enters by a wipe, the brand's entrance for marks. */
+/* Who runs it: four quadrants in one band, edge to edge (two by two on
+   phones), like the mosaic. Neighbours never share a ground and none is black,
+   so the band keeps its edges on the black page. Each square enters by a wipe,
+   the brand's entrance for marks. */
+
+.organizer {
+  padding: var(--space) 0;
+}
 
 .quads {
   display: grid;
@@ -683,6 +688,10 @@
   background: #fff;
 }
 
+.quad[data-tone="grey"] {
+  background: var(--grey2);
+}
+
 .quadArt {
   position: absolute;
   inset: 0;
@@ -695,7 +704,7 @@
   height: auto;
 }
 
-/* The Trilha mark ships in cream; on the white square it is black. */
+/* The Trilha mark ships in cream; on the grey square it is black. */
 .quadTrilha {
   width: 52%;
   height: auto;
@@ -733,7 +742,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 16px 32px;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 .quadsCaption p {

@@ -118,33 +118,31 @@ export default async function Home() {
           </dl>
         </section>
 
-        {/* QUEM ORGANIZA — told in four quadrants, read left to right: Hack
-            The Path, the path climbing, Trilha, the next step. One line under. */}
-        <section id="organizacao" className={styles.section} aria-label={t.organizer.a11y}>
-          <div className={styles.wrap}>
-            <ol className={styles.quads} aria-hidden="true">
-              <li data-reveal className={styles.quad} data-tone="blue">
-                <Image src="/images/logo/svg/hack-the-path-03.svg" alt="" width={1564} height={585} className={styles.quadWordmark} />
-              </li>
-              <li data-reveal={140} className={styles.quad}>
-                <Image src={`${G}/escada-azul-preto.svg`} alt="" width={300} height={300} className={styles.quadArt} />
-              </li>
-              <li data-reveal={280} className={styles.quad} data-tone="white">
-                <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.quadTrilha} />
-              </li>
-              <li data-reveal={420} className={styles.quad}>
-                <Image src={`${G}/seta-preto-azul.svg`} alt="" width={300} height={300} className={styles.quadArt} />
-              </li>
-            </ol>
-            <div className={styles.quadsCaption}>
-              <p>
-                {t.organizer.captionLead} <strong>Trilha</strong>, {t.organizer.captionRest}
-              </p>
-              <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer" className={styles.textLink}>
-                {t.organizer.link}
-                <span aria-hidden="true">↗</span>
-              </a>
-            </div>
+        {/* QUEM ORGANIZA — one band of four quadrants, edge to edge like the
+            mosaic: Hack The Path, the path climbing, Trilha, the next step */}
+        <section id="organizacao" className={styles.organizer} aria-label={t.organizer.a11y}>
+          <ol className={styles.quads} aria-hidden="true">
+            <li data-reveal className={styles.quad} data-tone="blue">
+              <Image src="/images/logo/svg/hack-the-path-03.svg" alt="" width={1564} height={585} className={styles.quadWordmark} />
+            </li>
+            <li data-reveal={140} className={styles.quad} data-tone="white">
+              <Image src={`${G}/escada-azul-branco.svg`} alt="" width={300} height={300} className={styles.quadArt} />
+            </li>
+            <li data-reveal={280} className={styles.quad} data-tone="grey">
+              <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.quadTrilha} />
+            </li>
+            <li data-reveal={420} className={styles.quad} data-tone="blue">
+              <Image src={`${G}/seta-preto-azul.svg`} alt="" width={300} height={300} className={styles.quadArt} />
+            </li>
+          </ol>
+          <div className={`${styles.wrap} ${styles.quadsCaption}`}>
+            <p>
+              {t.organizer.captionLead} <strong>Trilha</strong>
+            </p>
+            <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer" className={styles.textLink}>
+              {t.organizer.link}
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </section>
 

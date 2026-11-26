@@ -107,7 +107,6 @@ const pt = {
   organizer: {
     a11y: "Hack The Path é organizado pelo Trilha",
     captionLead: "Um projeto do",
-    captionRest: "de estudantes para estudantes.",
     link: "Conheça o Trilha",
   },
   faq: {
@@ -337,7 +336,6 @@ const en: Copy = {
   organizer: {
     a11y: "Hack The Path is run by Trilha",
     captionLead: "A project by",
-    captionRest: "by students for students.",
     link: "Meet Trilha",
   },
   faq: {
