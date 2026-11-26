@@ -105,9 +105,8 @@ const pt = {
     venuePending: "O local exato será anunciado em breve.",
   },
   organizer: {
-    a11y: "Hack The Path é organizado pelo Trilha",
-    captionLead: "Um projeto do",
-    link: "Conheça o Trilha",
+    signature: "Um projeto {name}",
+    linkAria: "Conheça o Trilha (abre em nova aba)",
   },
   faq: {
     eyebrow: "Dúvidas",
@@ -334,9 +333,8 @@ const en: Copy = {
     venuePending: "The exact venue will be announced soon.",
   },
   organizer: {
-    a11y: "Hack The Path is run by Trilha",
-    captionLead: "A project by",
-    link: "Meet Trilha",
+    signature: "A {name} project",
+    linkAria: "Meet Trilha (opens in a new tab)",
   },
   faq: {
     eyebrow: "FAQ",

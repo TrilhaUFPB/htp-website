@@ -647,115 +647,39 @@
   height: 100%;
 }
 
-/* Who runs it: four quadrants in one band, edge to edge (two by two on
-   phones), like the mosaic. Neighbours never share a ground and none is black,
-   so the band keeps its edges on the black page. Each square enters by a wipe,
-   the brand's entrance for marks. */
+/* Who runs it: a signature. The Trilha mark and one line, centred; the whole
+   thing links to Trilha; the line turns blue on hover. */
 
 .organizer {
-  padding: var(--space) 0;
-}
-
-.quads {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 760px) {
-  .quads {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.quad {
-  position: relative;
   display: flex;
-  aspect-ratio: 1;
-  align-items: center;
   justify-content: center;
-  overflow: hidden;
-  background: #000;
+  padding: clamp(72px, 8vw, 120px) 0;
 }
 
-.quad[data-tone="blue"] {
-  background: var(--blue);
-}
-
-.quad[data-tone="white"] {
-  background: #fff;
-}
-
-.quad[data-tone="grey"] {
-  background: var(--grey2);
-}
-
-.quadArt {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.quadWordmark {
-  width: 72%;
-  height: auto;
-}
-
-/* The Trilha mark ships in cream; on the grey square it is black. */
-.quadTrilha {
-  width: 52%;
-  height: auto;
-  filter: brightness(0);
-}
-
-/* A wipe, not a fade: a black cover over each square pulls away to the
-   right. (Clipping the square itself would hide it from the
-   IntersectionObserver that triggers the reveal.) These rules replace the
-   default fade-up of [data-reveal]. */
-.quad[data-reveal][data-reveal-armed] {
-  opacity: 1;
-  transform: none;
-}
-
-.quad::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: #000;
-  transform: scaleX(0);
-  transform-origin: right center;
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  transition-delay: inherit;
-}
-
-.quad[data-reveal-armed]:not([data-reveal-visible])::after {
-  transform: scaleX(1);
-}
-
-.quadsCaption {
+.signature {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px 32px;
-  margin-top: 28px;
-}
-
-.quadsCaption p {
-  margin: 0;
-  font-size: clamp(18px, 1.6vw, 24px);
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+  font-size: clamp(18px, 1.6vw, 22px);
   font-weight: 300;
   letter-spacing: -0.01em;
+  transition: color 0.25s var(--ease);
 }
 
-.quadsCaption strong {
+.signature strong {
   font-weight: 800;
 }
 
-.quadsCaption .textLink {
-  margin-top: 0;
+/* The mark ships in cream; here white. */
+.signatureMark {
+  width: clamp(64px, 6vw, 88px);
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.signature:hover {
+  opacity: 1;
+  color: var(--blue);
 }

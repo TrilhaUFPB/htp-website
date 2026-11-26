@@ -118,32 +118,23 @@ export default async function Home() {
           </dl>
         </section>
 
-        {/* QUEM ORGANIZA — one band of four quadrants, edge to edge like the
-            mosaic: Hack The Path, the path climbing, Trilha, the next step */}
-        <section id="organizacao" className={styles.organizer} aria-label={t.organizer.a11y}>
-          <ol className={styles.quads} aria-hidden="true">
-            <li data-reveal className={styles.quad} data-tone="blue">
-              <Image src="/images/logo/svg/hack-the-path-03.svg" alt="" width={1564} height={585} className={styles.quadWordmark} />
-            </li>
-            <li data-reveal={140} className={styles.quad} data-tone="white">
-              <Image src={`${G}/escada-azul-branco.svg`} alt="" width={300} height={300} className={styles.quadArt} />
-            </li>
-            <li data-reveal={280} className={styles.quad} data-tone="grey">
-              <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.quadTrilha} />
-            </li>
-            <li data-reveal={420} className={styles.quad} data-tone="blue">
-              <Image src={`${G}/seta-preto-azul.svg`} alt="" width={300} height={300} className={styles.quadArt} />
-            </li>
-          </ol>
-          <div className={`${styles.wrap} ${styles.quadsCaption}`}>
-            <p>
-              {t.organizer.captionLead} <strong>Trilha</strong>
-            </p>
-            <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer" className={styles.textLink}>
-              {t.organizer.link}
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+        {/* QUEM ORGANIZA — just the signature: the Trilha mark and one line */}
+        <section id="organizacao" className={styles.organizer}>
+          <a
+            data-reveal
+            href="https://www.otrilha.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.organizer.linkAria}
+            className={styles.signature}
+          >
+            <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.signatureMark} />
+            <span>
+              {t.organizer.signature.split("{name}")[0]}
+              <strong>Trilha</strong>
+              {t.organizer.signature.split("{name}")[1]}
+            </span>
+          </a>
         </section>
 
         {/* PATROCÍNIO */}
