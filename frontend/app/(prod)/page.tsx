@@ -122,36 +122,7 @@ export default async function Home() {
         <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
           <div className={styles.wrap}>
             <HomeSponsors />
-            <a
-              href="https://www.instagram.com/hackthepath/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.textLink}
-              data-reveal
-            >
-              {t.sponsors.cta.replace(/\s*→$/, "")}
-              <span aria-hidden="true">↗</span>
-            </a>
           </div>
-        </section>
-
-        {/* QUEM ORGANIZA — just the signature: the Trilha mark and one line */}
-        <section id="organizacao" className={styles.organizer}>
-          <a
-            data-reveal
-            href="https://www.otrilha.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t.organizer.linkAria}
-            className={styles.signature}
-          >
-            <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.signatureMark} />
-            <span>
-              {t.organizer.signature.split("{name}")[0]}
-              <strong>Trilha</strong>
-              {t.organizer.signature.split("{name}")[1]}
-            </span>
-          </a>
         </section>
 
         {/* FAQ */}

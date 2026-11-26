@@ -105,8 +105,9 @@ const pt = {
     venuePending: "O local exato será anunciado em breve.",
   },
   organizer: {
+    label: "Organização",
     signature: "Um projeto {name}",
-    linkAria: "Conheça o Trilha (abre em nova aba)",
+    link: "Conheça o Trilha",
   },
   faq: {
     eyebrow: "Dúvidas",
@@ -333,8 +334,9 @@ const en: Copy = {
     venuePending: "The exact venue will be announced soon.",
   },
   organizer: {
+    label: "Organisation",
     signature: "A {name} project",
-    linkAria: "Meet Trilha (opens in a new tab)",
+    link: "Meet Trilha",
   },
   faq: {
     eyebrow: "FAQ",

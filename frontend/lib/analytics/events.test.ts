@@ -37,8 +37,8 @@ describe("waitlistFailureReason", () => {
 });
 
 describe("TRACKED_SECTIONS", () => {
-  // Every landing section id now lives in the page itself.
-  const sources = ["app/(prod)/page.tsx"].map((path) =>
+  // Section ids live in the page, except the organiser row inside the sponsors block.
+  const sources = ["app/(prod)/page.tsx", "components/home/sponsors.tsx"].map((path) =>
     readFileSync(join(__dirname, "..", "..", path), "utf8"),
   );
 

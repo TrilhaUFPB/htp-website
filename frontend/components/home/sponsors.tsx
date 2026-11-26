@@ -63,9 +63,22 @@ export function HomeSponsors() {
           </feMerge>
         </filter>
       </svg>
-      <h2 className={styles.sponsorTitle} data-reveal>
-        <span>{title.light}</span> <strong>{title.bold}</strong>
-      </h2>
+      {/* The title, and on its line the call for new sponsors. */}
+      <div className={styles.sponsorHead}>
+        <h2 className={styles.sponsorTitle} data-reveal>
+          <span>{title.light}</span> <strong>{title.bold}</strong>
+        </h2>
+        <a
+          href="https://www.instagram.com/hackthepath/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.textLink}
+          data-reveal
+        >
+          {t.sponsors.cta.replace(/\s*→$/, "")}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
       {tiers.map(({ tier, label }) => (
         <div key={tier} className={styles.sponsorTier} data-tier={tier}>
           <h3 className={styles.label} data-reveal>
@@ -118,6 +131,37 @@ export function HomeSponsors() {
           </ul>
         </div>
       ))}
+
+      {/* Organisation: the same label-and-squares row, one square for Trilha
+          and the line beside it. */}
+      <div id="organizacao" className={styles.sponsorTier} data-tier="organizer">
+        <h3 className={styles.label} data-reveal>
+          {t.organizer.label}
+        </h3>
+        <div className={styles.organizerRow}>
+          <a
+            href="https://www.otrilha.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Trilha (${t.sponsors.opensInNewTab})`}
+            className={styles.organizerCell}
+            data-reveal
+          >
+            <Image src="/images/logo/trilha.svg" alt="Trilha" width={190} height={133} />
+          </a>
+          <div className={styles.organizerText} data-reveal>
+            <p>
+              {t.organizer.signature.split("{name}")[0]}
+              <strong>Trilha</strong>
+              {t.organizer.signature.split("{name}")[1]}
+            </p>
+            <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer" className={styles.textLink}>
+              {t.organizer.link}
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

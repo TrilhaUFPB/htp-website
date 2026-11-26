@@ -63,8 +63,6 @@
 
 .sponsorsSection {
   padding-top: clamp(64px, 8vw, 112px);
-  /* The Trilha signature follows close behind, as part of the same block. */
-  padding-bottom: clamp(24px, 3vw, 40px);
 }
 
 .sponsorTiers {
@@ -381,7 +379,7 @@
    white, supporters a size down. */
 
 .sponsorTitle {
-  margin: 0 0 clamp(40px, 5vw, 72px);
+  margin: 0;
   font-size: clamp(36px, 4.2vw, 64px);
   line-height: 0.95;
   letter-spacing: -0.035em;
@@ -649,39 +647,77 @@
   height: 100%;
 }
 
-/* Who runs it: a signature. The Trilha mark and one line, centred; the whole
-   thing links to Trilha; the line turns blue on hover. */
-
-.organizer {
+/* Title row: the title, and on its line the call for new sponsors. */
+.sponsorHead {
   display: flex;
-  justify-content: center;
-  padding: 0 0 clamp(72px, 8vw, 120px);
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-bottom: clamp(40px, 5vw, 72px);
 }
 
-.signature {
-  display: flex;
-  flex-direction: column;
+.sponsorHead .sponsorTitle {
+  margin: 0;
+}
+
+.sponsorHead .textLink {
+  margin-top: 0;
+}
+
+/* Organisation: one square the size of a supporter's, the line beside it. */
+.organizerRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 16px;
-  color: #fff;
-  font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  transition: color 0.25s var(--ease);
 }
 
-.signature strong {
-  font-weight: 800;
+@media (min-width: 640px) {
+  .organizerRow {
+    grid-template-columns: 1fr 3fr;
+  }
 }
 
-/* The mark ships in cream; here white. */
-.signatureMark {
-  width: clamp(64px, 6vw, 88px);
-  height: auto;
+.organizerCell {
+  display: flex;
+  height: clamp(104px, 10vw, 140px);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hair);
+  transition: background-color 0.3s var(--ease);
+}
+
+.organizerCell:hover {
+  opacity: 1;
+  background: #0b0b0b;
+}
+
+/* The Trilha mark ships in cream; here white. */
+.organizerCell img {
+  width: auto;
+  height: clamp(36px, 3.6vw, 52px);
   filter: brightness(0) invert(1);
 }
 
-.signature:hover {
-  opacity: 1;
-  color: var(--blue);
+.organizerText {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding-left: clamp(20px, 3vw, 40px);
+}
+
+.organizerText p {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+}
+
+.organizerText strong {
+  font-weight: 800;
+}
+
+.organizerText .textLink {
+  margin-top: 0;
 }
