@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { faqItems } from "@/content/faq";
+import { copy } from "@/content/copy";
 import { siteConfig } from "@/content/site";
+
+// The FAQ as the page shows it in Portuguese, the canonical language.
+const faqItems = copy.pt.faq.items;
 import { createEventJsonLd, createFaqJsonLd } from "@/lib/seo";
 
 function findNode(type: string) {

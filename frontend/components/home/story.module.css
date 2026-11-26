@@ -1,0 +1,146 @@
+.story {
+  position: relative;
+  height: 1100vh;
+  background: #000;
+  color: #fff;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Chapter copy: stacked in one place, only the active one shows. */
+.copy {
+  position: absolute;
+  left: clamp(24px, 7vw, 128px);
+  bottom: clamp(72px, 14vh, 160px);
+  display: grid;
+  width: min(520px, calc(100% - 48px));
+}
+
+/* The outgoing chapter blurs out first; the next one waits for it, then
+   comes into focus. The exit has no delay, the entry is delayed by the exit's
+   length, so the two never overlap. */
+.chapter {
+  grid-area: 1 / 1;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-10px);
+  transition:
+    opacity 0.28s ease-in,
+    filter 0.28s ease-in,
+    transform 0.28s ease-in;
+}
+
+.chapter[data-active="true"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+    filter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+/* Entering from below: an inactive chapter that has not been reached yet
+   waits under the line, so the next one rises in while the last one lifts out. */
+.chapter[data-active="false"][data-ahead="true"] {
+  transform: translateY(14px);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(36px, 4.4vw, 64px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.body {
+  margin: 20px 0 0;
+  max-width: 400px;
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.5;
+  color: #aaa;
+}
+
+/* Chapter index, right edge. */
+.index {
+  position: absolute;
+  top: 50%;
+  right: clamp(20px, 3vw, 48px);
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateY(-50%);
+}
+
+.index li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+
+
+.indexDash {
+  width: 18px;
+  height: 1.5px;
+  background: #444;
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.index li[data-done="true"] .indexDash {
+  background: #888;
+}
+
+.index li[data-active="true"] .indexDash {
+  width: 26px;
+  background: #7a94fd;
+}
+
+@media (max-width: 899px) {
+  .story {
+    height: 900vh;
+  }
+
+  .copy {
+    bottom: 48px;
+  }
+
+  .index {
+    top: auto;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    gap: 6px;
+    transform: none;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter,
+  .chapter[data-active="true"],
+  .indexDash {
+    transition: none;
+  }
+
+  .chapter {
+    filter: none;
+  }
+}

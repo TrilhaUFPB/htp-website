@@ -37,11 +37,10 @@ describe("waitlistFailureReason", () => {
 });
 
 describe("TRACKED_SECTIONS", () => {
-  const sources = [
-    "app/(prod)/page.tsx",
-    "components/faq.tsx",
-    "components/cta.tsx",
-  ].map((path) => readFileSync(join(__dirname, "..", "..", path), "utf8"));
+  // Section ids live in the page, except the organiser row inside the sponsors block.
+  const sources = ["app/(prod)/page.tsx", "components/home/sponsors.tsx"].map((path) =>
+    readFileSync(join(__dirname, "..", "..", path), "utf8"),
+  );
 
   it("names only ids that exist on the landing page", () => {
     for (const section of TRACKED_SECTIONS) {

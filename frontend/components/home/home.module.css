@@ -1,0 +1,847 @@
+/* The home page: the agency's guidelines (marcha manual) read as a web page.
+   Semibold headlines in sentence case, regular body, one black ground from
+   top to bottom, blue as the one accent. */
+
+.page {
+  --blue: #7a94fd;
+  --grey1: #9e9e9e;
+  --grey2: #e5e5e4;
+  --ink-2: #aaa;
+  --ink-3: #8a8a8a;
+  --rule: #fff;
+  --hair: #2a2a2a;
+  background: #000;
+  color: #fff;
+  --gutter: clamp(24px, 7vw, 128px);
+  --space: clamp(88px, 10vw, 160px);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  box-sizing: border-box;
+}
+
+.section {
+  padding: var(--space) 0;
+}
+
+/* ---- Type ------------------------------------------------------------- */
+
+.label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--rule);
+  font-size: 15px;
+  font-weight: 600;
+  color: inherit;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.textLink:hover {
+  opacity: 1;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+/* ---- Sponsors --------------------------------------------------------- */
+
+.sponsorsSection {
+  padding-top: clamp(64px, 8vw, 112px);
+}
+
+.sponsorTiers {
+  display: grid;
+  gap: clamp(40px, 5vw, 64px);
+}
+
+.sponsorTier {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .sponsorTier {
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .sponsorTier .label {
+    padding-top: 14px;
+  }
+}
+
+.logoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  list-style: none;
+  background: var(--grey2);
+}
+
+.sponsorTier[data-tier="sponsor"] .logoGrid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .sponsorTier[data-tier="sponsor"] .logoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sponsorTier[data-tier="supporter"] .logoGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sponsorTier[data-tier="sponsor"] .logoGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.logoGrid li {
+  display: flex;
+  background: #fff;
+}
+
+.logoCell {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  transition: background-color 0.25s var(--ease);
+}
+
+.sponsorTier[data-tier="sponsor"] .logoCell {
+  height: clamp(112px, 15vw, 200px);
+}
+
+.sponsorTier[data-tier="supporter"] .logoCell {
+  height: clamp(96px, 9vw, 120px);
+}
+
+.logo {
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  transition: filter 0.25s var(--ease);
+}
+
+.sponsorTier[data-tier="sponsor"] .logo {
+  height: calc(clamp(36px, 3.6vw, 52px) * var(--logo-scale));
+}
+
+.sponsorTier[data-tier="supporter"] .logo {
+  height: calc(clamp(24px, 2.2vw, 32px) * var(--logo-scale));
+}
+
+.logoCell:hover {
+  opacity: 1;
+  background: #f5f5f4;
+}
+
+.logoCell:hover .logo {
+  filter: grayscale(0);
+}
+
+/* ---- Os dois dias ------------------------------------------------------ */
+
+.gesture.daysTitle {
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1.5px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .days {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  /* Head, title and moments share rows across the two days, so the lists
+     start on the same line even when one title wraps. */
+  .day {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+
+  .day + .day {
+    border-left: 1px solid var(--hair);
+    padding-left: clamp(32px, 4vw, 64px);
+  }
+
+  .day:first-child {
+    padding-right: clamp(32px, 4vw, 64px);
+  }
+}
+
+.day {
+  padding-top: 32px;
+  padding-bottom: 8px;
+}
+
+.day + .day {
+  border-top: 1px solid var(--hair);
+}
+
+@media (min-width: 900px) {
+  .day + .day {
+    border-top: 0;
+  }
+}
+
+.dayHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.dayNumber {
+  font-size: clamp(72px, 9vw, 136px);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+}
+
+.dayMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dayAccess {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.dayTitle {
+  margin: 32px 0 24px;
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.moments {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moments li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.moments li span {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ---- FAQ -------------------------------------------------------------- */
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 900px) {
+  .faqGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+
+}
+
+.faqList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1.5px solid var(--rule);
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--hair);
+}
+
+.faqHeading {
+  margin: 0;
+}
+
+.faqButton {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: clamp(18px, 1.6vw, 21px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.faqIcon {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.faqIcon::before,
+.faqIcon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: translateY(-50%);
+  transition: transform 0.3s var(--ease);
+}
+
+.faqIcon::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.faqItem[data-open="true"] .faqIcon::after {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.faqAnswer {
+  margin: 0;
+  max-width: 560px;
+  padding: 0 40px 28px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* ---- Footer ----------------------------------------------------------- */
+
+.footer {
+  padding: 28px 0 36px;
+  border-top: 1px solid var(--hair);
+}
+
+/* ---- Hero, inverted ----------------------------------------------------
+   The live hero opens full-bleed and contracts into a card. Here it opens as
+   a black card inset evenly in white, with the nav inside the card, and the
+   first stretch of scroll grows it to the full screen. From then on the page
+   is black. --open comes from HeroOpen (on the hero and on <html>, so the
+   fixed header can follow it); --hero-progress is ignored. */
+
+.page :global(.scroll-hero) {
+  --open: 0;
+  --inset: 24px;
+}
+
+.page :global(.hero-art) {
+  opacity: var(--art, 1);
+}
+
+.page :global(.scroll-hero-stage) {
+  background: #fff;
+}
+
+.page :global(.hero-frame) {
+  width: calc(100% - (1 - var(--open)) * var(--inset) * 2);
+  height: calc(100svh - (1 - var(--open)) * var(--inset) * 2);
+  border-radius: calc((1 - var(--open)) * 28px);
+}
+
+/* The header rides inside the card while it is framed: pushed down and in by
+   the same inset, so the logo and links keep their distance from its edges. */
+.page :global(.site-header[data-mode="top"]) {
+  top: calc((1 - var(--hero-open, 1)) * 24px);
+}
+
+.page :global(.site-header[data-mode="top"] .header-inner) {
+  width: min(1280px, calc(100% - 64px - (1 - var(--hero-open, 1)) * 48px));
+}
+
+@media (max-width: 680px) {
+  .page :global(.scroll-hero) {
+    --inset: 12px;
+  }
+
+  .page :global(.hero-frame) {
+    border-radius: calc((1 - var(--open)) * 20px);
+  }
+
+  .page :global(.site-header[data-mode="top"]) {
+    top: calc((1 - var(--hero-open, 1)) * 12px);
+  }
+
+  .page :global(.site-header[data-mode="top"] .header-inner) {
+    width: calc(100% - 32px - (1 - var(--hero-open, 1)) * 24px);
+  }
+}
+
+/* Past the hero the header comes back on black, not white. */
+.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"])) {
+  background: #000;
+  color: #fff;
+  border-bottom-color: #2a2a2a;
+}
+
+.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"]) .brand img) {
+  filter: invert(1);
+}
+
+.footerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footerLogo {
+  height: 30px;
+  width: auto;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.footerLinks a:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .logoCell,
+  .faqIcon::before,
+  .faqIcon::after {
+    transition: none;
+  }
+}
+
+/* ---- Sponsors on black ------------------------------------------------- */
+
+/* Hairlines drawn by each cell, not by the grid gap, so a cell that has not
+   revealed yet leaves black, not a grey hole. */
+.sponsorsSection .logoGrid {
+  gap: 0;
+  padding: 0;
+  background: none;
+}
+
+/* Transparent: the black under the logos is the squares filling in. */
+.sponsorsSection .logoGrid li {
+  background: transparent;
+  border: 1px solid var(--hair);
+  margin: 0 -1px -1px 0;
+}
+
+.sponsorsSection .label {
+  color: var(--ink-3);
+}
+
+/* ---- Sponsors, louder ---------------------------------------------------
+   A real title in the marcha gesture (light word, black word), the tiers
+   stacked full width with their label above, sponsor logos big and in pure
+   white, supporters a size down. */
+
+.sponsorTitle {
+  margin: 0;
+  font-size: clamp(36px, 4.2vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.sponsorTitle span {
+  font-weight: 300;
+}
+
+.sponsorTitle strong {
+  font-weight: 800;
+}
+
+.sponsorsSection .sponsorTier {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.sponsorsSection .sponsorTier .label {
+  padding-top: 0;
+}
+
+.sponsorsSection .sponsorTier[data-tier="sponsor"] .logoCell {
+  height: clamp(160px, 20vw, 280px);
+}
+
+.sponsorsSection .sponsorTier[data-tier="sponsor"] .logo {
+  height: calc(clamp(44px, 4.6vw, 72px) * var(--logo-scale));
+}
+
+.sponsorsSection .sponsorTier[data-tier="supporter"] .logoCell {
+  height: clamp(104px, 10vw, 140px);
+}
+
+/* Logos, at rest: a white silhouette, or the organisation's own light file,
+   or (for files with a white ground) inverted, or (for logos with their own
+   tones) lifted greys. On hover the same logo crossfades to colour on the
+   black cell: dark-on-light logos have their lightness inverted with the hue
+   kept, logos whose colours read on black show as they are. */
+.sponsorsSection .logoCell {
+  position: relative;
+}
+
+.sponsorsSection .logo {
+  transition: opacity 0.35s var(--ease);
+}
+
+.sponsorsSection .logoRest[data-rest="silhouette"] {
+  filter: brightness(0) invert(1);
+}
+
+.sponsorsSection .logoRest[data-rest="opaque"] {
+  filter: grayscale(1) invert(1) contrast(1.8) brightness(1.2);
+}
+
+.sponsorsSection .logoRest[data-rest="tones"] {
+  filter: url(#logo-tones);
+}
+
+.sponsorsSection .logoRest[data-rest="file"] {
+  filter: none;
+}
+
+.sponsorsSection .logoHover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: calc(100% - 48px);
+  translate: -50% -50%;
+  opacity: 0;
+}
+
+.sponsorsSection .logoHover[data-hover="lift"] {
+  filter: invert(1) hue-rotate(180deg) saturate(var(--logo-saturate, 1));
+}
+
+.sponsorsSection .logoHover[data-hover="original"] {
+  filter: none;
+}
+
+.sponsorsSection .logoHover[data-hover="text"] {
+  filter: url(#logo-text);
+}
+
+/* The cell itself stays black on hover; only the logo changes. */
+.sponsorsSection .logoCell:hover {
+  background: transparent;
+}
+
+.sponsorsSection .logoCell:hover .logoRest {
+  opacity: 0;
+}
+
+/* Single-colour logos have no hover image: the rest logo stays put. */
+.sponsorsSection .logoCell:not(:has(.logoHover)):hover .logoRest {
+  opacity: 1;
+}
+
+.sponsorsSection .logoCell:hover .logoHover {
+  opacity: 1;
+}
+
+.sponsorsSection .logoCell:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+
+/* ---- Below the story ----------------------------------------------------
+   A ticket line, the sponsors, the FAQ, the call. Titles use the
+   marcha gesture, a light phrase then a black one; labels are caixa-rótulos. */
+
+.gesture {
+  margin: 0;
+  font-size: clamp(44px, 5.6vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.gesture span {
+  font-weight: 300;
+}
+
+.gesture strong {
+  font-weight: 800;
+}
+
+/* The caixa-rótulo: a solid box, uppercase, tight. */
+.boxLabel {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The ticket line */
+
+.ticketSection {
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+
+.ticket {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .ticket {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.ticket > div {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  margin: 0;
+  padding: clamp(24px, 3vw, 40px) clamp(12px, 2vw, 28px);
+  border-left: 1px solid var(--hair);
+}
+
+.ticket > div:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+@media (max-width: 899px) {
+  .ticket > div:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .ticket > div:nth-child(n + 3) {
+    border-top: 1px solid var(--hair);
+  }
+}
+
+.ticket dt {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ticket dd {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.ticket dd.ticketNote {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.ticket dd.ticketBlue {
+  color: var(--blue);
+}
+
+/* FAQ */
+
+.faqTitle {
+  font-size: clamp(36px, 4.2vw, 64px);
+}
+
+/* The call */
+
+.cta {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .cta {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+  }
+}
+
+.ctaCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.ctaCopy .boxLabel {
+  background: var(--blue);
+  color: #000;
+}
+
+.ctaHeading {
+  font-size: clamp(48px, 6.4vw, 104px);
+}
+
+.ctaBody {
+  margin: 0 0 8px;
+  max-width: 420px;
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.ctaTile {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 480px;
+  justify-self: end;
+}
+
+.ctaTile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Title row: the title, and on its line the call for new sponsors. */
+.sponsorHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+
+.sponsorHead .sponsorTitle {
+  margin: 0;
+}
+
+.sponsorHead .textLink {
+  margin-top: 0;
+}
+
+/* Organisation: one square the size of a supporter's, the line beside it. */
+.organizerRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* The text sits on the square's bottom edge. */
+  align-items: end;
+}
+
+@media (min-width: 640px) {
+  .organizerRow {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+.organizerCell {
+  display: flex;
+  height: clamp(104px, 10vw, 140px);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hair);
+  transition: background-color 0.3s var(--ease);
+}
+
+.organizerCell:hover {
+  opacity: 1;
+  background: #0b0b0b;
+}
+
+/* The Trilha mark ships in cream; here white. */
+.organizerCell img {
+  width: auto;
+  height: clamp(36px, 3.6vw, 52px);
+  filter: brightness(0) invert(1);
+}
+
+.organizerText {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding-left: clamp(20px, 3vw, 40px);
+}
+
+.organizerText p {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+}
+
+.organizerText strong {
+  font-weight: 800;
+}
+
+.organizerText .textLink {
+  margin-top: 0;
+}

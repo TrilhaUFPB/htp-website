@@ -42,11 +42,11 @@ export function track<Name extends AnalyticsEventName>(
  * funnel. The ids must exist on the page; the section-tracker test checks them.
  */
 export const TRACKED_SECTIONS = [
-  "patrocinadores",
   "evento",
-  "programacao",
-  "numeros",
   "quando",
+  "patrocinadores",
+  "organizacao",
+  "programacao",
   "faq",
   "inscricao",
 ] as const;

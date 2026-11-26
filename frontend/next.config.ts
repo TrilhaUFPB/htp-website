@@ -2,8 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    // Two root layouts (the live site and /harry) leave no single layout for
-    // a 404; app/global-not-found.tsx serves unmatched URLs instead.
+    // The root layout lives in the (prod) route group, so there is no layout
+    // at the app root to compose a 404 from; app/global-not-found.tsx serves
+    // unmatched URLs instead.
     globalNotFound: true,
   },
   // PostHog's ingestion API uses trailing slashes (/e/), which Next would
