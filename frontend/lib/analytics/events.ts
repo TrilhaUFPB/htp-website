@@ -46,6 +46,7 @@ export const TRACKED_SECTIONS = [
   "quando",
   "patrocinadores",
   "organizacao",
+  "programacao",
   "faq",
   "inscricao",
 ] as const;

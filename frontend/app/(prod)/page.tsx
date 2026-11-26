@@ -51,6 +51,7 @@ export default async function Home() {
               <a href="#evento">{t.nav.about}</a>
               <a href="#quando">{t.nav.when}</a>
               <a href="#patrocinadores">{t.nav.sponsors}</a>
+              <a href="#programacao">{t.nav.schedule}</a>
               <a href="#faq">{t.nav.faq}</a>
             </nav>
             <LanguageSwitch />
@@ -122,6 +123,39 @@ export default async function Home() {
         <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
           <div className={styles.wrap}>
             <HomeSponsors />
+          </div>
+        </section>
+
+        {/* PROGRAMAÇÃO — the two days side by side, a few moments each */}
+        <section id="programacao" className={styles.section}>
+          <div className={styles.wrap}>
+            <h2 data-reveal className={`${styles.gesture} ${styles.daysTitle}`}>
+              <span>{t.schedule.headingLine1}</span> <strong>{t.schedule.headingLine2}</strong>
+            </h2>
+            <div className={styles.days}>
+              {t.schedule.days.map((day, index) => (
+                <article key={day.number} className={styles.day} data-reveal={80 + index * 80}>
+                  <header className={styles.dayHead}>
+                    <span className={styles.dayNumber} aria-hidden="true">
+                      {day.number}
+                    </span>
+                    <p className={styles.dayMeta}>
+                      <span>{day.date}</span>
+                      <span className={styles.dayAccess}>{day.access}</span>
+                    </p>
+                  </header>
+                  <h3 className={styles.dayTitle}>{day.title}</h3>
+                  <ol className={styles.moments}>
+                    {day.moments.map((moment) => (
+                      <li key={moment.time}>
+                        <span>{moment.time}</span>
+                        {moment.text}
+                      </li>
+                    ))}
+                  </ol>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

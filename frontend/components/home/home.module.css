@@ -165,6 +165,118 @@
   filter: grayscale(0);
 }
 
+/* ---- Os dois dias ------------------------------------------------------ */
+
+.gesture.daysTitle {
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1.5px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .days {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  /* Head, title and moments share rows across the two days, so the lists
+     start on the same line even when one title wraps. */
+  .day {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+
+  .day + .day {
+    border-left: 1px solid var(--hair);
+    padding-left: clamp(32px, 4vw, 64px);
+  }
+
+  .day:first-child {
+    padding-right: clamp(32px, 4vw, 64px);
+  }
+}
+
+.day {
+  padding-top: 32px;
+  padding-bottom: 8px;
+}
+
+.day + .day {
+  border-top: 1px solid var(--hair);
+}
+
+@media (min-width: 900px) {
+  .day + .day {
+    border-top: 0;
+  }
+}
+
+.dayHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.dayNumber {
+  font-size: clamp(72px, 9vw, 136px);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+}
+
+.dayMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dayAccess {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.dayTitle {
+  margin: 32px 0 24px;
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.moments {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moments li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.moments li span {
+  font-weight: 600;
+  color: #fff;
+}
+
 /* ---- FAQ -------------------------------------------------------------- */
 
 .faqGrid {

@@ -77,6 +77,11 @@ const pt = {
           "Qualquer estudante, de qualquer curso ou cidade. Você ouve, conversa e encontra quem já está onde você quer chegar.",
         participants: "+200 participantes",
         count: 0,
+        moments: [
+          { time: "Manhã", text: "Abertura e palestras" },
+          { time: "Tarde", text: "Talks, painéis e stands das empresas" },
+          { time: "Noite", text: "Revelação do desafio, só para os selecionados" },
+        ],
       },
       {
         number: "02",
@@ -87,6 +92,11 @@ const pt = {
           "Do zero ao pitch final. Staff, mentores e judges ficam com você do começo ao fim.",
         participants: "participantes",
         count: 100,
+        moments: [
+          { time: "09h", text: "Começa o código, com mentores nas mesas" },
+          { time: "17h", text: "Entrega e bancas: todo time apresenta" },
+          { time: "20h", text: "Pitch final e premiação" },
+        ],
       },
     ],
   },
@@ -306,6 +316,11 @@ const en: Copy = {
           "Any student, from any major or city. You listen, talk, and meet people who are already where you want to get.",
         participants: "+200 participants",
         count: 0,
+        moments: [
+          { time: "Morning", text: "Opening and keynotes" },
+          { time: "Afternoon", text: "Talks, panels and company booths" },
+          { time: "Evening", text: "The challenge revealed, to the selected only" },
+        ],
       },
       {
         number: "02",
@@ -316,6 +331,11 @@ const en: Copy = {
           "From zero to the final pitch. Staff, mentors and judges stay with you from start to finish.",
         participants: "participants",
         count: 100,
+        moments: [
+          { time: "9am", text: "Coding starts, mentors at the tables" },
+          { time: "5pm", text: "Hand-in and judging: every team presents" },
+          { time: "8pm", text: "Final pitch and prizes" },
+        ],
       },
     ],
   },
