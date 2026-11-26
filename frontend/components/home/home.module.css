@@ -479,6 +479,11 @@
   opacity: 0;
 }
 
+/* Single-colour logos have no hover image: the rest logo stays put. */
+.sponsorsSection .logoCell:not(:has(.logoHover)):hover .logoRest {
+  opacity: 1;
+}
+
 .sponsorsSection .logoCell:hover .logoHover {
   opacity: 1;
 }

@@ -24,9 +24,10 @@ export type Sponsor = {
    * default) inverts lightness but keeps hue, for logos drawn dark on light;
    * "original" shows the file as is, for logos whose colours already read on
    * black; "text" keeps the colours as they are and turns only the dark parts
-   * (the lettering) white, for logos with bright colour beside dark type.
+   * (the lettering) white, for logos with bright colour beside dark type;
+   * "none" keeps the rest image, for single-colour logos with no colour to show.
    */
-  hover?: "lift" | "original" | "text";
+  hover?: "lift" | "original" | "text" | "none";
   /** Extra saturation for the hover colour, for logos whose colour comes out faint. */
   hoverSaturate?: number;
   /** The logo carries its own tones (stripes, a shaded mark), so it is shown in greys, not as a flat silhouette. */
@@ -47,6 +48,7 @@ export const sponsors: readonly Sponsor[] = [
   {
     name: "Tako",
     tier: "sponsor",
+    hover: "none",
     url: "https://tako.ai",
     logo: "/images/sponsors/tako.svg",
     width: 845,

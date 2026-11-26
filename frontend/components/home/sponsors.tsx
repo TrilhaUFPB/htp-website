@@ -110,21 +110,23 @@ export function HomeSponsors() {
                         sponsor.onDark ? "file" : sponsor.opaque ? "opaque" : sponsor.tones ? "tones" : "silhouette"
                       }
                     />
-                    <Image
-                      src={sponsor.logo}
-                      alt=""
-                      aria-hidden="true"
-                      width={sponsor.width}
-                      height={sponsor.height}
-                      style={
-                        {
-                          "--logo-scale": sponsor.scale ?? 1,
-                          "--logo-saturate": sponsor.hoverSaturate ?? 1,
-                        } as React.CSSProperties
-                      }
-                      className={`${styles.logo} ${styles.logoHover}`}
-                      data-hover={sponsor.hover ?? "lift"}
-                    />
+                    {sponsor.hover !== "none" && (
+                      <Image
+                        src={sponsor.logo}
+                        alt=""
+                        aria-hidden="true"
+                        width={sponsor.width}
+                        height={sponsor.height}
+                        style={
+                          {
+                            "--logo-scale": sponsor.scale ?? 1,
+                            "--logo-saturate": sponsor.hoverSaturate ?? 1,
+                          } as React.CSSProperties
+                        }
+                        className={`${styles.logo} ${styles.logoHover}`}
+                        data-hover={sponsor.hover ?? "lift"}
+                      />
+                    )}
                   </a>
                 </li>
               ))}
