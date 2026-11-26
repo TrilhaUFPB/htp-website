@@ -106,8 +106,8 @@ const pt = {
   },
   organizer: {
     a11y: "Hack The Path é organizado pelo Trilha",
-    taglineLight: "De estudantes,",
-    taglineBold: "para estudantes.",
+    captionLead: "Um projeto do",
+    captionRest: "de estudantes para estudantes.",
     link: "Conheça o Trilha",
   },
   faq: {
@@ -336,8 +336,8 @@ const en: Copy = {
   },
   organizer: {
     a11y: "Hack The Path is run by Trilha",
-    taglineLight: "By students,",
-    taglineBold: "for students.",
+    captionLead: "A project by",
+    captionRest: "by students for students.",
     link: "Meet Trilha",
   },
   faq: {

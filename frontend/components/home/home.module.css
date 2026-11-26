@@ -647,105 +647,106 @@
   height: 100%;
 }
 
-/* Who runs it: a signature. The HTP block, the path, the Trilha mark. The
-   path is the H's crossbar, two arms offset by one bar, drawn in when the row
-   reveals. */
+/* Who runs it: four quadrants in a row (two by two on phones), the badge
+   and mosaic pattern of the manual. Neighbours never share a ground. Each
+   square enters by a wipe, the brand's entrance for marks. */
 
-.signature {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(28px, 3.5vw, 44px);
-  text-align: center;
+.quads {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.signatureRow {
+@media (min-width: 760px) {
+  .quads {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.quad {
+  position: relative;
   display: flex;
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+}
+
+.quad[data-tone="blue"] {
+  background: var(--blue);
+}
+
+.quad[data-tone="white"] {
+  background: #fff;
+}
+
+.quadArt {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 980px;
-  align-items: center;
-  gap: clamp(12px, 2vw, 24px);
+  height: 100%;
 }
 
-.signatureHtp {
-  flex: none;
-  width: clamp(120px, 16vw, 220px);
+.quadWordmark {
+  width: 72%;
   height: auto;
 }
 
-/* The H's crossbar as the path: two solid arms meeting at the middle, the
-   left one low, the right one high, offset by exactly one bar. */
-.signaturePath {
-  --bar: clamp(6px, 0.8vw, 10px);
-  display: flex;
-  flex: 1;
-  min-width: 48px;
-  height: calc(var(--bar) * 2);
+/* The Trilha mark ships in cream; on the white square it is black. */
+.quadTrilha {
+  width: 52%;
+  height: auto;
+  filter: brightness(0);
 }
 
-.signaturePath span {
-  flex: 1;
-  height: var(--bar);
-  background: var(--blue);
-  transform-origin: left center;
+/* A wipe, not a fade: a black cover over each square pulls away to the
+   right. (Clipping the square itself would hide it from the
+   IntersectionObserver that triggers the reveal.) These rules replace the
+   default fade-up of [data-reveal]. */
+.quad[data-reveal][data-reveal-armed] {
+  opacity: 1;
+  transform: none;
 }
 
-.signaturePath span:first-child {
-  align-self: flex-end;
-}
-
-.signaturePath span:last-child {
-  align-self: flex-start;
-}
-
-/* Drawn from the HTP side once the row reveals (ScrollEffects arms and then
-   marks [data-reveal] elements): the low arm, then the high one. */
-.signatureRow[data-reveal-armed]:not([data-reveal-visible]) .signaturePath span {
+.quad::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
   transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: inherit;
 }
 
-.signatureRow[data-reveal-visible] .signaturePath span {
-  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.25s;
+.quad[data-reveal-armed]:not([data-reveal-visible])::after {
+  transform: scaleX(1);
 }
 
-.signatureRow[data-reveal-visible] .signaturePath span:last-child {
-  transition-delay: 0.8s;
+.quadsCaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 24px;
 }
 
-.signatureTrilha {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.3em;
-  font-size: clamp(32px, 4.4vw, 64px);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-}
-
-/* The Trilha mark ships in cream; here it is white, one cap-height tall. */
-.signatureTrilha img {
-  width: auto;
-  height: 0.8em;
-  filter: brightness(0) invert(1);
-}
-
-.signatureLine {
+.quadsCaption p {
   margin: 0;
-  font-size: clamp(24px, 2.6vw, 40px);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-}
-
-.signatureLine span {
+  font-size: clamp(18px, 1.6vw, 24px);
   font-weight: 300;
+  letter-spacing: -0.01em;
 }
 
-.signatureLine strong {
+.quadsCaption strong {
   font-weight: 800;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .signatureRow[data-reveal-armed]:not([data-reveal-visible]) .signaturePath span {
-    transform: none;
-  }
+.quadsCaption .textLink {
+  margin-top: 0;
 }

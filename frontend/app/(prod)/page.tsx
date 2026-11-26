@@ -118,41 +118,33 @@ export default async function Home() {
           </dl>
         </section>
 
-        {/* QUEM ORGANIZA — a signature, not a paragraph: the HTP block and the
-            Trilha mark joined by the path (the stepped crossbar of the H),
-            which draws itself when the section arrives */}
+        {/* QUEM ORGANIZA — told in four quadrants, read left to right: Hack
+            The Path, the path climbing, Trilha, the next step. One line under. */}
         <section id="organizacao" className={styles.section} aria-label={t.organizer.a11y}>
-          <div className={`${styles.wrap} ${styles.signature}`}>
-            <div data-reveal className={styles.signatureRow}>
-              <Image
-                src="/images/logo/svg/htp-bloco-azul-preto.svg"
-                alt="Hack The Path"
-                width={1567}
-                height={602}
-                className={styles.signatureHtp}
-              />
-              <span className={styles.signaturePath} aria-hidden="true">
-                <span />
-                <span />
-              </span>
-              <span className={styles.signatureTrilha}>
-                <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} />
-                Trilha
-              </span>
+          <div className={styles.wrap}>
+            <ol className={styles.quads} aria-hidden="true">
+              <li data-reveal className={styles.quad} data-tone="blue">
+                <Image src="/images/logo/svg/hack-the-path-03.svg" alt="" width={1564} height={585} className={styles.quadWordmark} />
+              </li>
+              <li data-reveal={140} className={styles.quad}>
+                <Image src={`${G}/escada-azul-preto.svg`} alt="" width={300} height={300} className={styles.quadArt} />
+              </li>
+              <li data-reveal={280} className={styles.quad} data-tone="white">
+                <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} className={styles.quadTrilha} />
+              </li>
+              <li data-reveal={420} className={styles.quad}>
+                <Image src={`${G}/seta-preto-azul.svg`} alt="" width={300} height={300} className={styles.quadArt} />
+              </li>
+            </ol>
+            <div className={styles.quadsCaption}>
+              <p>
+                {t.organizer.captionLead} <strong>Trilha</strong>, {t.organizer.captionRest}
+              </p>
+              <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer" className={styles.textLink}>
+                {t.organizer.link}
+                <span aria-hidden="true">↗</span>
+              </a>
             </div>
-            <p data-reveal={200} className={styles.signatureLine}>
-              <span>{t.organizer.taglineLight}</span> <strong>{t.organizer.taglineBold}</strong>
-            </p>
-            <a
-              data-reveal={300}
-              href="https://www.otrilha.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.textLink}
-            >
-              {t.organizer.link}
-              <span aria-hidden="true">↗</span>
-            </a>
           </div>
         </section>
 
