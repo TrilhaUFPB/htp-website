@@ -45,6 +45,14 @@ export const sponsors: readonly Sponsor[] = [
     scale: 1.15,
   },
   {
+    name: "Tako",
+    tier: "sponsor",
+    url: "https://tako.ai",
+    logo: "/images/sponsors/tako.svg",
+    width: 845,
+    height: 295,
+  },
+  {
     name: "NXTP Ventures",
     tier: "sponsor",
     opaque: true,
