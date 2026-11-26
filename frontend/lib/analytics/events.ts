@@ -44,8 +44,8 @@ export function track<Name extends AnalyticsEventName>(
 export const TRACKED_SECTIONS = [
   "evento",
   "quando",
-  "organizacao",
   "patrocinadores",
+  "organizacao",
   "faq",
   "inscricao",
 ] as const;

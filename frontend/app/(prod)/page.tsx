@@ -118,6 +118,23 @@ export default async function Home() {
           </dl>
         </section>
 
+        {/* PATROCÍNIO */}
+        <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
+          <div className={styles.wrap}>
+            <HomeSponsors />
+            <a
+              href="https://www.instagram.com/hackthepath/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.textLink}
+              data-reveal
+            >
+              {t.sponsors.cta.replace(/\s*→$/, "")}
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </section>
+
         {/* QUEM ORGANIZA — just the signature: the Trilha mark and one line */}
         <section id="organizacao" className={styles.organizer}>
           <a
@@ -135,23 +152,6 @@ export default async function Home() {
               {t.organizer.signature.split("{name}")[1]}
             </span>
           </a>
-        </section>
-
-        {/* PATROCÍNIO */}
-        <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
-          <div className={styles.wrap}>
-            <HomeSponsors />
-            <a
-              href="https://www.instagram.com/hackthepath/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.textLink}
-              data-reveal
-            >
-              {t.sponsors.cta.replace(/\s*→$/, "")}
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
         </section>
 
         {/* FAQ */}
