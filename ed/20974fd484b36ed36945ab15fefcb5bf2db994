@@ -1,0 +1,34 @@
+frontend/lib/analytics/events.ts
+  s_0cd0a046eb57a0::t_79b86f0dcd85b3 48
+frontend/components/home/sponsors.tsx
+  s_0cd0a046eb57a0::t_79b86f0dcd85b3 66,71,78
+frontend/components/home/story.module.css
+  s_0cd0a046eb57a0::t_79b86f0dcd85b3 3,118
+frontend/components/home/home.module.css
+  s_0cd0a046eb57a0::t_e4cf3d2464fd5e 2-3,253-256,259-263,284
+  s_0cd0a046eb57a0::t_f3bcfabfd14fdb 431-432
+  s_0cd0a046eb57a0::t_8fe0e3314dd0df 252
+frontend/app/(prod)/page.tsx
+  s_0cd0a046eb57a0::t_7fa8a09dacb7ae 119-148
+  s_0cd0a046eb57a0::t_c7a236ec8d89c3 52,83-93,95-98,100-110,112-118,149-174,176-179,181,183-185,187-191,194-195,197-210
+frontend/components/home/story.tsx
+  s_0cd0a046eb57a0::t_e4cf3d2464fd5e 39-41,309,315
+  s_0cd0a046eb57a0::t_8fe0e3314dd0df 76,350,353
+  s_0cd0a046eb57a0::t_79b86f0dcd85b3 20-22,26-28,32-34,66,178-181,185-187,190-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ed20974fd484b36ed36945ab15fefcb5bf2db994",
+  "prompts": {},
+  "sessions": {
+    "s_0cd0a046eb57a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4b7330e-a990-4b3a-ab44-021e55cd415e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "gabriel <ggoc.carvalho@gmail.com>"
+    }
+  }
+}
