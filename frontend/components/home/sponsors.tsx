@@ -63,21 +63,19 @@ export function HomeSponsors() {
           </feMerge>
         </filter>
       </svg>
-      {/* The title waits for a little more scroll than the black needs. */}
-      <h2 className={styles.sponsorTitle} data-fill data-fill-delay={0.35}>
+      <h2 className={styles.sponsorTitle} data-reveal>
         <span>{title.light}</span> <strong>{title.bold}</strong>
       </h2>
       {tiers.map(({ tier, label }) => (
         <div key={tier} className={styles.sponsorTier} data-tier={tier}>
-          <h3 className={styles.label} data-fill>
+          <h3 className={styles.label} data-reveal>
             {label}
           </h3>
           <ul className={styles.logoGrid}>
             {sponsors
               .filter((sponsor) => sponsor.tier === tier)
               .map((sponsor, index) => (
-                // Logos come in one after another once the black is behind them.
-                <li key={sponsor.name} data-fill data-fill-delay={0.08 + index * 0.07}>
+                <li key={sponsor.name} data-reveal={80 + index * 70}>
                   <a
                     href={sponsor.url}
                     target="_blank"

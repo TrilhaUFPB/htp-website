@@ -17,26 +17,28 @@ type Chapter = { key: string; title: string; body: string };
 const COPY: Record<"pt" | "en", Chapter[]> = {
   pt: [
     { key: "ideia", title: "Tudo começa com uma ideia.", body: "Uma só. Pode ser a sua." },
-    { key: "chegar", title: "Estudantes de todos os cursos e cidades.", body: "Não importa de onde você vem, só para onde quer ir." },
-    { key: "encontro", title: "De todo o Brasil para João Pessoa.", body: "Um ponto de encontro no Nordeste." },
-    { key: "conectar", title: "Dia 01. Palestras, talks e empresas.", body: "Aberto a todos. Mais de 200 pessoas no mesmo lugar." },
-    { key: "construir", title: "Dia 02. Cem selecionados constroem.", body: "Do zero ao pitch final, com mentores e judges do lado." },
-    { key: "subir", title: "Hackeie o seu caminho.", body: "20 e 21 de fevereiro de 2027, na Grande João Pessoa." },
+    { key: "encontro", title: "De todo o Brasil para João Pessoa.", body: "Estudantes de qualquer curso e cidade, no mesmo lugar." },
+    { key: "dias", title: "Dois dias. Duas portas.", body: "Dia 01, palestras e empresas, aberto a todos. Dia 02, cem selecionados constroem." },
+    { key: "subir", title: "Hackeie o seu caminho.", body: "Gratuito. De estudantes, para estudantes." },
   ],
   en: [
     { key: "ideia", title: "It starts with one idea.", body: "Just one. It could be yours." },
-    { key: "chegar", title: "Students from every major and city.", body: "Where you come from matters less than where you are going." },
-    { key: "encontro", title: "From all over Brazil to João Pessoa.", body: "One meeting point in the Northeast." },
-    { key: "conectar", title: "Day 01. Talks, panels and companies.", body: "Open to everyone. More than 200 people in one place." },
-    { key: "construir", title: "Day 02. A hundred selected build.", body: "From zero to the final pitch, mentors and judges beside you." },
-    { key: "subir", title: "Hack your own path.", body: "20–21 February 2027, Greater João Pessoa." },
+    { key: "encontro", title: "From all over Brazil to João Pessoa.", body: "Students from any major and city, in one place." },
+    { key: "dias", title: "Two days. Two doors.", body: "Day 01, talks and companies, open to everyone. Day 02, a hundred selected build." },
+    { key: "subir", title: "Hack your own path.", body: "Free. By students, for students." },
   ],
 };
+
+// Six formations, four chapters: the crowd and the map share one, and so do the two days.
+const STAGE_CHAPTER = [0, 1, 1, 2, 2, 3];
 
 const N = 200;
 const BLUE = [122, 148, 253];
 const WHITE = [255, 255, 255];
 const GREY = [60, 60, 60];
+const INK = WHITE;
+const FADE = GREY;
+const MUTED = GREY.map((v) => v * 2.6);
 
 type Pt = { x: number; y: number };
 
@@ -61,7 +63,7 @@ for (let r = 4; r < 7; r++) for (let c = 6; c < 9; c++) H_CELLS.push([c, r]);
 const BRAZIL: [number, number][] = [[20, 6], [19, 6], [20, 7], [19, 5], [19, 7], [18, 6], [18, 5], [18, 7], [19, 8], [18, 8], [17, 6], [17, 5], [17, 7], [17, 4], [17, 8], [18, 9], [16, 6], [16, 5], [16, 7], [17, 9], [16, 4], [16, 8], [18, 10], [15, 6], [16, 9], [17, 10], [15, 5], [15, 7], [15, 4], [15, 8], [18, 11], [16, 10], [15, 9], [17, 11], [14, 6], [14, 5], [14, 7], [14, 4], [14, 8], [15, 10], [16, 11], [14, 3], [14, 9], [17, 12], [13, 6], [13, 5], [13, 7], [15, 11], [14, 10], [16, 12], [13, 4], [13, 8], [13, 3], [13, 9], [17, 13], [14, 11], [15, 12], [12, 6], [12, 5], [12, 7], [13, 10], [16, 13], [12, 4], [12, 8], [14, 12], [12, 3], [12, 9], [17, 14], [13, 11], [15, 13], [12, 2], [12, 10], [16, 14], [11, 6], [11, 5], [11, 7], [11, 4], [11, 8], [13, 12], [14, 13], [12, 11], [15, 14], [11, 3], [11, 9], [11, 2], [11, 10], [13, 13], [10, 6], [12, 12], [14, 14], [10, 5], [10, 7], [10, 4], [10, 8], [11, 11], [10, 3], [10, 9], [12, 13], [13, 14], [10, 2], [10, 10], [11, 12], [14, 15], [9, 6], [9, 5], [9, 7], [9, 4], [9, 8], [10, 11], [12, 14], [9, 3], [9, 9], [11, 13], [13, 15], [10, 12], [9, 2], [9, 10], [8, 6], [8, 5], [8, 7], [11, 14], [12, 15], [9, 11], [8, 4], [8, 8], [10, 13], [13, 16], [8, 3], [8, 9], [9, 12], [8, 2], [8, 10], [11, 15], [10, 14], [12, 16], [7, 6], [8, 11], [7, 5], [7, 7], [9, 13], [13, 17], [7, 4], [7, 8], [7, 3], [7, 9], [10, 15], [11, 16], [7, 2], [7, 10], [9, 14], [12, 17], [7, 1], [7, 11], [6, 6], [6, 5], [6, 7], [6, 4], [6, 8], [10, 16], [11, 17], [6, 3], [6, 9], [12, 18], [6, 2], [6, 1], [10, 17], [5, 6], [11, 18], [5, 5], [5, 7], [5, 4], [5, 8], [5, 3], [5, 2], [10, 18], [5, 1], [11, 19], [4, 6], [4, 5], [4, 7], [4, 4], [4, 3], [9, 18], [10, 19], [4, 2], [3, 6], [3, 5], [3, 7], [3, 4], [3, 3], [3, 2], [2, 6], [2, 5], [2, 7], [2, 4], [2, 3], [1, 6], [1, 5], [1, 7], [0, 6]];
 const MAP_SIZE = 21;
 const LAST = 5;
-// Inside each chapter (0 → 1): copy shows from COPY_IN to COPY_OUT; the squares
+// Inside each stage (0 → 1): copy shows from COPY_IN to COPY_OUT; the squares
 // rest from 0.2 to 0.8 and move to the next formation across the boundary.
 const COPY_IN = 0.2;
 const COPY_OUT = 0.75;
@@ -71,7 +73,7 @@ function smooth(t: number) {
   return c * c * (3 - 2 * c);
 }
 
-export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "dark" | "light" }) {
+export function Story({ id, locale }: { id?: string; locale: "pt" | "en" }) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // `chapter` follows the scroll and drives the index; `shown` is the chapter
@@ -88,9 +90,6 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
     if (!ctx) return;
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const INK = tone === "light" ? [0, 0, 0] : WHITE;
-    const FADE = tone === "light" ? [229, 229, 228] : GREY;
-    const MUTED = tone === "light" ? [158, 158, 158] : GREY.map((v) => v * 2.6);
     let w = 0;
     let h = 0;
     let dpr = 1;
@@ -176,20 +175,24 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       const rect = section.getBoundingClientRect();
       const runway = Math.max(1, section.offsetHeight - window.innerHeight);
       const p = Math.min(1, Math.max(0, -rect.top / runway)); // 0 → 1 over the story
-      // u walks 0 → 6 across six equal chapters. Inside each chapter the
-      // squares rest from 0.2 to 0.8 and play that chapter's own motion; the
-      // move to the next formation happens across the boundary (0.8 → 1.2),
-      // and the copy is off screen for that whole stretch.
+      // u walks 0 → 6 across six equal stages. Inside each stage the
+      // squares rest from 0.2 to 0.8 and play that stage's own motion; the
+      // move to the next formation happens across the boundary (0.8 → 1.2).
+      // The copy leaves for that stretch, unless both stages share a chapter.
       const u = p * (LAST + 1);
       const current = Math.min(LAST, Math.floor(u));
       const v = u - current;
+      const ch = STAGE_CHAPTER[current];
+      const holdIn = current > 0 && STAGE_CHAPTER[current - 1] === ch;
+      const holdOut = current < LAST && STAGE_CHAPTER[current + 1] === ch;
       // The same window in every chapter, except at the ends: the first copy
       // is there almost as soon as the story arrives, and the last one stays.
-      const copyOn = v >= (current === 0 ? 0.03 : COPY_IN) && (current === LAST || v <= COPY_OUT);
-      const nextShown = copyOn ? current : -1;
-      if (current !== lastChapter) {
-        lastChapter = current;
-        setChapter(current);
+      const copyOn =
+        (holdIn || v >= (current === 0 ? 0.03 : COPY_IN)) && (holdOut || current === LAST || v <= COPY_OUT);
+      const nextShown = copyOn ? ch : -1;
+      if (ch !== lastChapter) {
+        lastChapter = ch;
+        setChapter(ch);
       }
       if (nextShown !== lastShown) {
         lastShown = nextShown;
@@ -302,15 +305,14 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
         const r = half + 4 + pulse * f.mapCell * 1.4;
         ctx.strokeRect(jp.x - r, jp.y - r, r * 2, r * 2);
 
-        const ink = tone === "light" ? "0,0,0" : "255,255,255";
         const top = f.cy - (MAP_SIZE * f.mapCell) / 2 - 8;
-        ctx.strokeStyle = `rgba(${ink},${spot})`;
+        ctx.strokeStyle = `rgba(255,255,255,${spot})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(jp.x, jp.y - half - 6);
         ctx.lineTo(jp.x, top);
         ctx.stroke();
-        ctx.fillStyle = `rgba(${ink},${spot})`;
+        ctx.fillStyle = `rgba(255,255,255,${spot})`;
         ctx.font = `600 13px ${getComputedStyle(canvas).fontFamily}`;
         ctx.textAlign = "right";
         ctx.textBaseline = "bottom";
@@ -345,10 +347,10 @@ export function Story({ locale, tone = "dark" }: { locale: "pt" | "en"; tone?: "
       window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", schedule);
     };
-  }, [tone]);
+  }, []);
 
   return (
-    <section ref={sectionRef} className={styles.story} data-tone={tone} aria-label={chapters[LAST].title}>
+    <section ref={sectionRef} id={id} className={styles.story} aria-label={chapters[chapters.length - 1].title}>
       <div className={styles.stage}>
         <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
 

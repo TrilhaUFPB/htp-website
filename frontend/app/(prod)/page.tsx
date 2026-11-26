@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Aperture } from "@/components/aperture";
 import { HomeFaq } from "@/components/home/faq";
 import { Story } from "@/components/home/story";
-import { DarkReveal } from "@/components/home/dark-reveal";
 import { HomeSponsors } from "@/components/home/sponsors";
 import styles from "@/components/home/home.module.css";
 import { LanguageSwitch } from "@/components/language-switch";
@@ -19,40 +18,6 @@ import { getCopy } from "@/lib/i18n/server";
 import { createFaqJsonLd } from "@/lib/seo";
 
 const G = "/images/brand/grafismos";
-
-
-
-
-
-/** The grafismos mosaic from the manual's graphics page. */
-function MosaicTiles() {
-  return (
-    <>
-        <div className={styles.tile} style={{ background: "#7a94fd" }}>
-          <Image width={300} height={300} src={`${G}/esfera-preto-azul.svg`} alt="" />
-        </div>
-        <div className={`${styles.tile} ${styles.tileGrey}`}>
-          <svg viewBox="0 0 300 300">
-            <polygon points="104.11 68.67 67.35 68.67 67.35 231.33 104.11 231.33 104.11 182.94 150 182.94 150 150 104.11 150 104.11 68.67" />
-            <polygon points="195.89 68.67 195.89 117.06 150 117.06 150 150 195.89 150 195.89 231.33 232.65 231.33 232.65 68.67 195.89 68.67" />
-          </svg>
-        </div>
-        <div className={styles.tile}>
-          <Image width={300} height={300} src={`${G}/seta-azul-branco.svg`} alt="" />
-        </div>
-        <div className={`${styles.tile} ${styles.tileGrey1}`}>
-          <Image width={1567} height={602}
-            className={styles.htpChip}
-            src="/images/logo/svg/htp-bloco-azul-preto.svg"
-            alt=""
-          />
-        </div>
-        <div className={`${styles.tile} ${styles.tileWide}`}>
-          <Image width={300} height={300} src={`${G}/estrela-preto-branco.svg`} alt="" />
-        </div>
-    </>
-  );
-}
 
 export default async function Home() {
   const { locale, t } = await getCopy();
@@ -82,10 +47,9 @@ export default async function Home() {
           </Link>
           <div className="header-end">
             <nav aria-label={t.common.navAria}>
-              <a href="#patrocinadores">{t.nav.sponsors}</a>
               <a href="#evento">{t.nav.about}</a>
-              <a href="#programacao">{t.nav.schedule}</a>
               <a href="#quando">{t.nav.when}</a>
+              <a href="#patrocinadores">{t.nav.sponsors}</a>
               <a href="#faq">{t.nav.faq}</a>
             </nav>
             <LanguageSwitch />
@@ -116,195 +80,134 @@ export default async function Home() {
           </div>
         </ScrollHero>
 
-        {/* A HISTÓRIA — one system of squares told by scroll */}
-        <Story locale={locale} tone="light" />
+        {/* A HISTÓRIA — the whole event told by one system of squares */}
+        <Story id="evento" locale={locale} />
 
-        <DarkReveal>
-          {/* PATROCÍNIO */}
-          <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
-            <div className={styles.wrap}>
-              <HomeSponsors />
-              <a
-                href="https://www.instagram.com/hackthepath/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.textLink}
-                data-fill
-              >
-                {t.sponsors.cta.replace(/\s*→$/, "")}
-                <span aria-hidden="true">↗</span>
+        {/* QUANDO E ONDE — one line, like the stub of a ticket */}
+        <section id="quando" className={styles.ticketSection}>
+          <dl className={`${styles.wrap} ${styles.ticket}`}>
+            <div>
+              <dt>{t.when.eyebrow}</dt>
+              <dd>
+                {t.when.dateLine1} {t.when.dateLine2} 20{t.when.dateYear}
+              </dd>
+            </div>
+            <div>
+              <dt>{t.when.where}</dt>
+              <dd>{t.meta.locationName}</dd>
+              <dd className={styles.ticketNote}>{t.when.venuePending}</dd>
+            </div>
+            <div>
+              <dt>{locale === "pt" ? "Participantes" : "Participants"}</dt>
+              <dd>
+                <span data-count={200} data-prefix="+">
+                  +200
+                </span>{" "}
+                · 100
+              </dd>
+              <dd className={styles.ticketNote}>
+                {locale === "pt" ? "Dia 01 · Dia 02" : "Day 01 · Day 02"}
+              </dd>
+            </div>
+            <div>
+              <dt>{locale === "pt" ? "Custo" : "Cost"}</dt>
+              <dd className={styles.ticketBlue}>{t.stats[3].label}</dd>
+            </div>
+          </dl>
+        </section>
+
+        {/* QUEM ORGANIZA — one sentence set big on a blue band, the Trilha
+            mark sitting in the line like a word */}
+        <section id="organizacao" className={styles.organizerBand}>
+          <div className={styles.wrap}>
+            <p data-reveal className={styles.boxLabel}>
+              {t.organizer.eyebrow}
+            </p>
+            <h2 data-reveal={80} className={styles.organizerLine}>
+              <span>{t.organizer.lead}</span>{" "}
+              <span className={styles.organizerName}>
+                <Image
+                  src="/images/logo/trilha.svg"
+                  alt=""
+                  width={190}
+                  height={133}
+                  className={styles.organizerMark}
+                />
+                <strong>Trilha,</strong>
+              </span>{" "}
+              <span>{t.organizer.titleLight}</span> <strong>{t.organizer.titleBold}</strong>
+            </h2>
+            <div data-reveal={160} className={styles.organizerFoot}>
+              <p>{t.organizer.body}</p>
+              <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer">
+                {t.organizer.link} <span aria-hidden="true">↗</span>
               </a>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* The mosaic from the manual's graphics page, read as one object. */}
-            {/* The mosaic, running left in a loop: two copies side by side,
-                the track slides by one copy's width and starts over. */}
-            <div className={styles.mosaic} aria-hidden="true">
-              <div className={styles.mosaicTrack}>
-                <div className={styles.mosaicSet}>
-                  <MosaicTiles />
-                </div>
-                <div className={styles.mosaicSet}>
-                  <MosaicTiles />
-                </div>
-              </div>
-            </div>
+        {/* PATROCÍNIO */}
+        <section id="patrocinadores" className={`${styles.section} ${styles.sponsorsSection}`}>
+          <div className={styles.wrap}>
+            <HomeSponsors />
+            <a
+              href="https://www.instagram.com/hackthepath/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.textLink}
+              data-reveal
+            >
+              {t.sponsors.cta.replace(/\s*→$/, "")}
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </section>
 
-          {/* DOIS DIAS — the event, the two days and their numbers in one place */}
-          <section id="evento" className={styles.section}>
-            <div id="programacao" className={styles.wrap}>
-              <div className={styles.daysHead}>
-                <h2 data-reveal className={styles.gesture}>
-                  <span>{t.schedule.headingLine1}</span> <strong>{t.schedule.headingLine2}</strong>
-                </h2>
-                <p data-reveal={100} className={styles.lede}>
-                  {t.about.paragraph}
-                </p>
-              </div>
+        {/* FAQ */}
+        <section id="faq" className={styles.section}>
+          <div className={`${styles.wrap} ${styles.faqGrid}`}>
+            <h2 className={`${styles.gesture} ${styles.faqTitle}`}>
+              <span>{t.faq.headingLine1}</span> <strong>{t.faq.headingLine2}</strong>
+            </h2>
+            <HomeFaq canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
+          </div>
+        </section>
 
-              <div className={styles.doors}>
-                {t.schedule.days.map((day, index) => (
-                  <article
-                    key={day.number}
-                    data-reveal={index * 120}
-                    className={styles.door}
-                    data-tone={index === 0 ? "blue" : "white"}
-                  >
-                    <div className={styles.doorTop}>
-                      <span className={styles.boxLabel}>
-                        {locale === "pt" ? "Dia" : "Day"} {day.number}
-                      </span>
-                      <span className={styles.doorAccess}>{day.access}</span>
-                    </div>
-                    <p className={styles.doorDate}>{day.date}</p>
-                    <div className={styles.doorFoot}>
-                      <h3 className={styles.doorTitle}>{day.title}</h3>
-                      <p className={styles.doorCount}>
-                        {day.count > 0 ? (
-                          <>
-                            <span data-count={day.count}>0</span> {day.participants}
-                          </>
-                        ) : (
-                          day.participants
-                        )}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* QUANDO E ONDE — one line, like the stub of a ticket */}
-          <section id="quando" className={styles.ticketSection}>
-            <dl id="numeros" className={`${styles.wrap} ${styles.ticket}`}>
-              <div>
-                <dt>{t.when.eyebrow}</dt>
-                <dd>
-                  {t.when.dateLine1} {t.when.dateLine2} 20{t.when.dateYear}
-                </dd>
-              </div>
-              <div>
-                <dt>{t.when.where}</dt>
-                <dd>{t.meta.locationName}</dd>
-                <dd className={styles.ticketNote}>{t.when.venuePending}</dd>
-              </div>
-              <div>
-                <dt>{locale === "pt" ? "Participantes" : "Participants"}</dt>
-                <dd>
-                  <span data-count={200} data-prefix="+">
-                    +200
-                  </span>{" "}
-                  · 100
-                </dd>
-                <dd className={styles.ticketNote}>
-                  {locale === "pt" ? "Dia 01 · Dia 02" : "Day 01 · Day 02"}
-                </dd>
-              </div>
-              <div>
-                <dt>{locale === "pt" ? "Custo" : "Cost"}</dt>
-                <dd className={styles.ticketBlue}>{t.stats[3].label}</dd>
-              </div>
-            </dl>
-          </section>
-
-          {/* QUEM ORGANIZA — one sentence set big on a blue band, the Trilha
-              mark sitting in the line like a word */}
-          <section id="organizacao" className={styles.organizerBand}>
-            <div className={styles.wrap}>
+        {/* CTA — copy on black beside one quadrant: the arrow, the brand's sign for "next step" */}
+        <section id="inscricao" className={styles.section}>
+          <div className={`${styles.wrap} ${styles.cta}`}>
+            <div className={styles.ctaCopy}>
               <p data-reveal className={styles.boxLabel}>
-                {t.organizer.eyebrow}
+                {t.cta.eyebrow}
               </p>
-              <h2 data-reveal={80} className={styles.organizerLine}>
-                <span>{t.organizer.lead}</span>{" "}
-                <span className={styles.organizerName}>
-                  <Image
-                    src="/images/logo/trilha.svg"
-                    alt=""
-                    width={190}
-                    height={133}
-                    className={styles.organizerMark}
-                  />
-                  <strong>Trilha,</strong>
-                </span>{" "}
-                <span>{t.organizer.titleLight}</span> <strong>{t.organizer.titleBold}</strong>
+              <h2 data-reveal={80} className={`${styles.gesture} ${styles.ctaHeading}`}>
+                <span>{t.cta.heading.split(" ").slice(0, -1).join(" ")}</span>{" "}
+                <strong>{t.cta.heading.split(" ").slice(-1)}</strong>
               </h2>
-              <div data-reveal={160} className={styles.organizerFoot}>
-                <p>{t.organizer.body}</p>
-                <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer">
-                  {t.organizer.link} <span aria-hidden="true">↗</span>
-                </a>
+              <p data-reveal={160} className={styles.ctaBody}>
+                {t.cta.body}
+              </p>
+              <div data-reveal={240}>
+                <NotifySignup variant="cta" />
               </div>
             </div>
-          </section>
-
-          {/* FAQ */}
-          <section id="faq" className={styles.section}>
-            <div className={`${styles.wrap} ${styles.faqGrid}`}>
-              <h2 className={`${styles.gesture} ${styles.faqTitle}`}>
-                <span>{t.faq.headingLine1}</span> <strong>{t.faq.headingLine2}</strong>
-              </h2>
-              <HomeFaq canonicalQuestions={copy.pt.faq.items.map((item) => item.question)} />
+            <div data-reveal={120} className={styles.ctaTile} aria-hidden="true">
+              <Image width={300} height={300} src={`${G}/seta-preto-azul.svg`} alt="" />
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* CTA — copy on black beside one quadrant: the arrow, the brand's sign for "next step" */}
-          <section id="inscricao" className={styles.section}>
-            <div className={`${styles.wrap} ${styles.cta}`}>
-              <div className={styles.ctaCopy}>
-                <p data-reveal className={styles.boxLabel}>
-                  {t.cta.eyebrow}
-                </p>
-                <h2 data-reveal={80} className={`${styles.gesture} ${styles.ctaHeading}`}>
-                  <span>{t.cta.heading.split(" ").slice(0, -1).join(" ")}</span>{" "}
-                  <strong>{t.cta.heading.split(" ").slice(-1)}</strong>
-                </h2>
-                <p data-reveal={160} className={styles.ctaBody}>
-                  {t.cta.body}
-                </p>
-                <div data-reveal={240}>
-                  <NotifySignup variant="cta" />
-                </div>
-              </div>
-              <div data-reveal={120} className={styles.ctaTile} aria-hidden="true">
-                <Image width={300} height={300} src={`${G}/seta-preto-azul.svg`} alt="" />
-              </div>
-            </div>
-          </section>
-
-          <footer className={styles.footer}>
-            <div className={`${styles.wrap} ${styles.footerRow}`}>
-              <Image width={1564} height={318} src="/images/logo/svg/hack-the-path-01.svg" alt="Hack The Path" className={styles.footerLogo} />
-              <nav className={styles.footerLinks} aria-label="Hack The Path">
-                <a href="https://www.instagram.com/hackthepath/" target="_blank" rel="noopener noreferrer">
-                  {t.footer.instagram}
-                </a>
-                <Link href="/privacidade">{t.meta.privacyTitle}</Link>
-              </nav>
-            </div>
-          </footer>
-        </DarkReveal>
+        <footer className={styles.footer}>
+          <div className={`${styles.wrap} ${styles.footerRow}`}>
+            <Image width={1564} height={318} src="/images/logo/svg/hack-the-path-01.svg" alt="Hack The Path" className={styles.footerLogo} />
+            <nav className={styles.footerLinks} aria-label="Hack The Path">
+              <a href="https://www.instagram.com/hackthepath/" target="_blank" rel="noopener noreferrer">
+                {t.footer.instagram}
+              </a>
+              <Link href="/privacidade">{t.meta.privacyTitle}</Link>
+            </nav>
+          </div>
+        </footer>
       </main>
     </div>
   );

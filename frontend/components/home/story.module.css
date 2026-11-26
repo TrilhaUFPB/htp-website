@@ -1,6 +1,6 @@
 .story {
   position: relative;
-  height: 1000vh;
+  height: 800vh;
   background: #000;
   color: #fff;
 }
@@ -113,28 +113,9 @@
   background: #7a94fd;
 }
 
-/* Light tone: the white page the live hero contracts into, as on Marble. */
-.story[data-tone="light"] {
-  background: #fff;
-  color: #000;
-}
-
-.story[data-tone="light"] .body {
-  color: #444;
-}
-
-
-.story[data-tone="light"] .indexDash {
-  background: #e5e5e4;
-}
-
-.story[data-tone="light"] .index li[data-done="true"] .indexDash {
-  background: #9e9e9e;
-}
-
 @media (max-width: 899px) {
   .story {
-    height: 820vh;
+    height: 660vh;
   }
 
   .copy {

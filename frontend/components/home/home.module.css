@@ -1,7 +1,6 @@
 /* The home page: the agency's guidelines (marcha manual) read as a web page.
-   Semibold headlines in sentence case, regular body, black/white split
-   sections, blue as the one accent, grey 2 as an area colour, and the
-   graphics mosaic from page 14 as the only decorative object. */
+   Semibold headlines in sentence case, regular body, one black ground from
+   top to bottom, blue as the one accent. */
 
 .page {
   --blue: #7a94fd;
@@ -30,7 +29,6 @@
   padding: var(--space) 0;
 }
 
-
 /* ---- Type ------------------------------------------------------------- */
 
 .label {
@@ -40,15 +38,6 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-3);
-}
-
-.lede {
-  margin: 0;
-  max-width: 520px;
-  font-size: clamp(19px, 1.7vw, 24px);
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--ink-2);
 }
 
 .textLink {
@@ -170,90 +159,6 @@
   filter: grayscale(0);
 }
 
-/* ---- About ------------------------------------------------------------ */
-
-/* The mosaic stands between sections (after the sponsors), so the sections'
-   own padding is its spacing. */
-.mosaic {
-  --tile: calc(100vw / 3);
-  overflow: hidden;
-  margin: 0;
-}
-
-/* Two identical sets in a row; sliding by -50% moves exactly one set, so the
-   loop is seamless. 40s per lap, linear: the marquee rule of the brand. */
-.mosaicTrack {
-  display: flex;
-  width: max-content;
-  animation: mosaic-slide 40s linear infinite;
-}
-
-@keyframes mosaic-slide {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.mosaicSet {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: var(--tile);
-}
-
-.tile {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: #fff;
-}
-
-.tile img,
-.tile svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tileGrey {
-  background: var(--grey2);
-}
-
-.tileGrey svg {
-  fill: #000;
-}
-
-.tileGrey1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--grey1);
-}
-
-.tile img.htpChip {
-  width: 62%;
-  height: auto;
-}
-
-.tileWide {
-  grid-column: span 2;
-  aspect-ratio: 2;
-  background: #fff;
-}
-
-@media (min-width: 900px) {
-  .mosaic {
-    --tile: calc(100vw / 6);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mosaicTrack {
-    animation: none;
-  }
-}
-
-
 /* ---- FAQ -------------------------------------------------------------- */
 
 .faqGrid {
@@ -340,14 +245,22 @@
   color: var(--ink-2);
 }
 
-
 /* ---- Footer ----------------------------------------------------------- */
 
 .footer {
   padding: 28px 0 36px;
+  border-top: 1px solid var(--hair);
+}
+
+/* Past the hero the header comes back on black, not white. */
+.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"])) {
   background: #000;
   color: #fff;
-  border-top: 1px solid #2a2a2a;
+  border-bottom-color: #2a2a2a;
+}
+
+.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"]) .brand img) {
+  filter: invert(1);
 }
 
 .footerRow {
@@ -368,7 +281,7 @@
   flex-wrap: wrap;
   gap: 24px;
   font-size: 14px;
-  color: #aaa;
+  color: var(--ink-2);
 }
 
 .footerLinks a:hover {
@@ -383,19 +296,6 @@
   .faqIcon::after {
     transition: none;
   }
-}
-
-
-
-/* Past the hero the header comes back on black, not white. */
-.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"])) {
-  background: #000;
-  color: #fff;
-  border-bottom-color: #2a2a2a;
-}
-
-.page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"]) .brand img) {
-  filter: invert(1);
 }
 
 /* ---- Sponsors on black ------------------------------------------------- */
@@ -418,14 +318,6 @@
 .sponsorsSection .label {
   color: var(--ink-3);
 }
-
-/* The live hero contracts into a white page frame; this page is black, so the
-   stage carries the white itself. The story below continues on that white. */
-.page :global(.scroll-hero-stage) {
-  background: #fff;
-}
-
-
 
 /* ---- Sponsors, louder ---------------------------------------------------
    A real title in the marcha gesture (light word, black word), the tiers
@@ -536,9 +428,8 @@
   outline-offset: -2px;
 }
 
-
-/* ---- Below the mosaic ---------------------------------------------------
-   Four blocks: the two days, a ticket line, the FAQ, the call. Titles use the
+/* ---- Below the story ----------------------------------------------------
+   A ticket line, the sponsors, the FAQ, the call. Titles use the
    marcha gesture, a light phrase then a black one; labels are caixa-rótulos. */
 
 .gesture {
@@ -569,107 +460,6 @@
   color: #fff;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* The two days */
-
-.daysHead {
-  display: grid;
-  gap: 28px;
-  margin-bottom: clamp(48px, 6vw, 88px);
-}
-
-@media (min-width: 900px) {
-  .daysHead {
-    grid-template-columns: 1.2fr 1fr;
-    align-items: end;
-    gap: 64px;
-  }
-}
-
-.doors {
-  display: grid;
-  gap: 16px;
-}
-
-@media (min-width: 760px) {
-  .doors {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Rows: label line, date, then the foot pinned to the bottom, so both dates
-   sit at the same height whatever the length of the titles. */
-.door {
-  display: grid;
-  min-height: clamp(380px, 38vw, 520px);
-  grid-template-rows: auto auto 1fr;
-  gap: clamp(32px, 4vw, 56px);
-  padding: clamp(24px, 3vw, 40px);
-  box-sizing: border-box;
-}
-
-.door[data-tone="blue"] {
-  background: var(--blue);
-  color: #000;
-}
-
-.door[data-tone="white"] {
-  background: #fff;
-  color: #000;
-}
-
-.door[data-tone="white"] .boxLabel {
-  background: var(--blue);
-  color: #000;
-}
-
-.doorTop {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.doorAccess {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.doorDate {
-  margin: 0;
-  font-size: clamp(72px, 9vw, 148px);
-  font-weight: 800;
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-}
-
-.doorFoot {
-  align-self: end;
-  display: grid;
-  gap: 12px;
-  padding-top: 20px;
-  border-top: 1.5px solid #000;
-}
-
-.doorTitle {
-  margin: 0;
-  max-width: 420px;
-  font-size: clamp(20px, 1.8vw, 26px);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-}
-
-.doorCount {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
