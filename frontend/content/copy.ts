@@ -105,11 +105,9 @@ const pt = {
     venuePending: "O local exato será anunciado em breve.",
   },
   organizer: {
-    eyebrow: "Quem organiza",
-    lead: "Organizado pelo",
-    titleLight: "de estudantes",
-    titleBold: "para estudantes.",
-    body: "O Hack The Path é organizado pelo Trilha, uma instituição feita por estudantes e ex-estudantes de computação.",
+    a11y: "Hack The Path é organizado pelo Trilha",
+    taglineLight: "De estudantes,",
+    taglineBold: "para estudantes.",
     link: "Conheça o Trilha",
   },
   faq: {
@@ -337,11 +335,9 @@ const en: Copy = {
     venuePending: "The exact venue will be announced soon.",
   },
   organizer: {
-    eyebrow: "Who runs it",
-    lead: "Run by",
-    titleLight: "by students,",
-    titleBold: "for students.",
-    body: "Hack The Path is run by Trilha, an organisation made by computing students and alumni.",
+    a11y: "Hack The Path is run by Trilha",
+    taglineLight: "By students,",
+    taglineBold: "for students.",
     link: "Meet Trilha",
   },
   faq: {

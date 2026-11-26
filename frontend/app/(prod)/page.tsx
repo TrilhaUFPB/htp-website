@@ -118,33 +118,41 @@ export default async function Home() {
           </dl>
         </section>
 
-        {/* QUEM ORGANIZA — one sentence set big on a blue band, the Trilha
-            mark sitting in the line like a word */}
-        <section id="organizacao" className={styles.organizerBand}>
-          <div className={styles.wrap}>
-            <p data-reveal className={styles.boxLabel}>
-              {t.organizer.eyebrow}
-            </p>
-            <h2 data-reveal={80} className={styles.organizerLine}>
-              <span>{t.organizer.lead}</span>{" "}
-              <span className={styles.organizerName}>
-                <Image
-                  src="/images/logo/trilha.svg"
-                  alt=""
-                  width={190}
-                  height={133}
-                  className={styles.organizerMark}
-                />
-                <strong>Trilha,</strong>
-              </span>{" "}
-              <span>{t.organizer.titleLight}</span> <strong>{t.organizer.titleBold}</strong>
-            </h2>
-            <div data-reveal={160} className={styles.organizerFoot}>
-              <p>{t.organizer.body}</p>
-              <a href="https://www.otrilha.com" target="_blank" rel="noopener noreferrer">
-                {t.organizer.link} <span aria-hidden="true">↗</span>
-              </a>
+        {/* QUEM ORGANIZA — a signature, not a paragraph: the HTP block and the
+            Trilha mark joined by the path (the stepped crossbar of the H),
+            which draws itself when the section arrives */}
+        <section id="organizacao" className={styles.section} aria-label={t.organizer.a11y}>
+          <div className={`${styles.wrap} ${styles.signature}`}>
+            <div data-reveal className={styles.signatureRow}>
+              <Image
+                src="/images/logo/svg/htp-bloco-azul-preto.svg"
+                alt="Hack The Path"
+                width={1567}
+                height={602}
+                className={styles.signatureHtp}
+              />
+              <span className={styles.signaturePath} aria-hidden="true">
+                <span />
+                <span />
+              </span>
+              <span className={styles.signatureTrilha}>
+                <Image src="/images/logo/trilha.svg" alt="" width={190} height={133} />
+                Trilha
+              </span>
             </div>
+            <p data-reveal={200} className={styles.signatureLine}>
+              <span>{t.organizer.taglineLight}</span> <strong>{t.organizer.taglineBold}</strong>
+            </p>
+            <a
+              data-reveal={300}
+              href="https://www.otrilha.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.textLink}
+            >
+              {t.organizer.link}
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </section>
 

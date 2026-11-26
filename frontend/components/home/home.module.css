@@ -647,74 +647,105 @@
   height: 100%;
 }
 
-/* Who runs it: the blue scheme (blue ground, black type), one sentence set
-   large in the marcha gesture, the Trilha mark sitting in the line. */
+/* Who runs it: a signature. The HTP block, the path, the Trilha mark. The
+   path is the H's crossbar, two arms offset by one bar, drawn in when the row
+   reveals. */
 
-.organizerBand {
-  padding: clamp(72px, 9vw, 136px) 0;
+.signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(28px, 3.5vw, 44px);
+  text-align: center;
+}
+
+.signatureRow {
+  display: flex;
+  width: 100%;
+  max-width: 980px;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.signatureHtp {
+  flex: none;
+  width: clamp(120px, 16vw, 220px);
+  height: auto;
+}
+
+/* The H's crossbar as the path: two solid arms meeting at the middle, the
+   left one low, the right one high, offset by exactly one bar. */
+.signaturePath {
+  --bar: clamp(6px, 0.8vw, 10px);
+  display: flex;
+  flex: 1;
+  min-width: 48px;
+  height: calc(var(--bar) * 2);
+}
+
+.signaturePath span {
+  flex: 1;
+  height: var(--bar);
   background: var(--blue);
-  color: #000;
+  transform-origin: left center;
 }
 
-.organizerLine {
-  margin: clamp(24px, 3vw, 40px) 0 0;
-  max-width: 1100px;
-  font-size: clamp(40px, 6vw, 100px);
-  line-height: 1.02;
+.signaturePath span:first-child {
+  align-self: flex-end;
+}
+
+.signaturePath span:last-child {
+  align-self: flex-start;
+}
+
+/* Drawn from the HTP side once the row reveals (ScrollEffects arms and then
+   marks [data-reveal] elements): the low arm, then the high one. */
+.signatureRow[data-reveal-armed]:not([data-reveal-visible]) .signaturePath span {
+  transform: scaleX(0);
+}
+
+.signatureRow[data-reveal-visible] .signaturePath span {
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.25s;
+}
+
+.signatureRow[data-reveal-visible] .signaturePath span:last-child {
+  transition-delay: 0.8s;
+}
+
+.signatureTrilha {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3em;
+  font-size: clamp(32px, 4.4vw, 64px);
+  font-weight: 800;
   letter-spacing: -0.035em;
-  text-wrap: balance;
 }
 
-.organizerLine span {
+/* The Trilha mark ships in cream; here it is white, one cap-height tall. */
+.signatureTrilha img {
+  width: auto;
+  height: 0.8em;
+  filter: brightness(0) invert(1);
+}
+
+.signatureLine {
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.signatureLine span {
   font-weight: 300;
 }
 
-.organizerLine strong {
+.signatureLine strong {
   font-weight: 800;
 }
 
-.organizerName {
-  white-space: nowrap;
-}
-
-/* The mark is cream in its file; here black, one cap-height tall. */
-.organizerMark {
-  display: inline-block;
-  width: auto;
-  height: 0.72em;
-  margin: 0 0.12em 0 0.04em;
-  vertical-align: -0.02em;
-  filter: brightness(0);
-}
-
-.organizerFoot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px 40px;
-  margin-top: clamp(40px, 5vw, 72px);
-  padding-top: 20px;
-  border-top: 1.5px solid #000;
-}
-
-.organizerFoot p {
-  margin: 0;
-  max-width: 560px;
-  font-size: clamp(16px, 1.3vw, 19px);
-  line-height: 1.5;
-}
-
-.organizerFoot a {
-  padding-bottom: 3px;
-  border-bottom: 1.5px solid #000;
-  font-size: 15px;
-  font-weight: 700;
-  color: #000;
-}
-
-.organizerFoot a:hover {
-  opacity: 1;
-  color: #fff;
-  border-color: #fff;
+@media (prefers-reduced-motion: reduce) {
+  .signatureRow[data-reveal-armed]:not([data-reveal-visible]) .signaturePath span {
+    transform: none;
+  }
 }
