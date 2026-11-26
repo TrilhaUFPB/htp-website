@@ -1,6 +1,6 @@
 .story {
   position: relative;
-  height: 800vh;
+  height: 1100vh;
   background: #000;
   color: #fff;
 }
@@ -115,7 +115,7 @@
 
 @media (max-width: 899px) {
   .story {
-    height: 660vh;
+    height: 900vh;
   }
 
   .copy {
