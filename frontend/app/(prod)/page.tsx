@@ -9,6 +9,7 @@ import styles from "@/components/home/home.module.css";
 import { LanguageSwitch } from "@/components/language-switch";
 import { NotifySignup } from "@/components/notify-signup";
 import { ScrollEffects } from "@/components/scroll-effects";
+import { HeroOpen } from "@/components/home/hero-open";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollHeader } from "@/components/scroll-header";
 import { ScrollHero } from "@/components/scroll-hero";
@@ -59,6 +60,7 @@ export default async function Home() {
 
       <main id="conteudo" className="flex flex-col">
         <ScrollEffects />
+        <HeroOpen />
         <SmoothScroll />
         <SectionTracker />
 

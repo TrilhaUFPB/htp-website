@@ -252,6 +252,60 @@
   border-top: 1px solid var(--hair);
 }
 
+/* ---- Hero, inverted ----------------------------------------------------
+   The live hero opens full-bleed and contracts into a card. Here it opens as
+   a black card inset evenly in white, with the nav inside the card, and the
+   first stretch of scroll grows it to the full screen. From then on the page
+   is black. --open comes from HeroOpen (on the hero and on <html>, so the
+   fixed header can follow it); --hero-progress is ignored. */
+
+.page :global(.scroll-hero) {
+  --open: 0;
+  --inset: 24px;
+}
+
+.page :global(.hero-art) {
+  opacity: var(--art, 1);
+}
+
+.page :global(.scroll-hero-stage) {
+  background: #fff;
+}
+
+.page :global(.hero-frame) {
+  width: calc(100% - (1 - var(--open)) * var(--inset) * 2);
+  height: calc(100svh - (1 - var(--open)) * var(--inset) * 2);
+  border-radius: calc((1 - var(--open)) * 28px);
+}
+
+/* The header rides inside the card while it is framed: pushed down and in by
+   the same inset, so the logo and links keep their distance from its edges. */
+.page :global(.site-header[data-mode="top"]) {
+  top: calc((1 - var(--hero-open, 1)) * 24px);
+}
+
+.page :global(.site-header[data-mode="top"] .header-inner) {
+  width: min(1280px, calc(100% - 64px - (1 - var(--hero-open, 1)) * 48px));
+}
+
+@media (max-width: 680px) {
+  .page :global(.scroll-hero) {
+    --inset: 12px;
+  }
+
+  .page :global(.hero-frame) {
+    border-radius: calc((1 - var(--open)) * 20px);
+  }
+
+  .page :global(.site-header[data-mode="top"]) {
+    top: calc((1 - var(--hero-open, 1)) * 12px);
+  }
+
+  .page :global(.site-header[data-mode="top"] .header-inner) {
+    width: calc(100% - 32px - (1 - var(--hero-open, 1)) * 24px);
+  }
+}
+
 /* Past the hero the header comes back on black, not white. */
 .page :global(.site-header[data-mode="visible"]:not([data-hero-visible="true"])) {
   background: #000;
