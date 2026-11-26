@@ -680,7 +680,8 @@
 .organizerRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
+  /* The text sits on the square's bottom edge. */
+  align-items: end;
 }
 
 @media (min-width: 640px) {
