@@ -173,7 +173,9 @@ export function Story({ id, locale }: { id?: string; locale: "pt" | "en" }) {
     const draw = (now: number) => {
       raf = 0;
       const rect = section.getBoundingClientRect();
-      const runway = Math.max(1, section.offsetHeight - window.innerHeight);
+      // The pinned stage, not the window: on phones the two differ while the
+      // browser bars move.
+      const runway = Math.max(1, section.offsetHeight - canvas.parentElement!.offsetHeight);
       const p = Math.min(1, Math.max(0, -rect.top / runway)); // 0 → 1 over the story
       // u walks 0 → 6 across six equal stages. Inside each stage the
       // squares rest from 0.2 to 0.8 and play that stage's own motion; the
