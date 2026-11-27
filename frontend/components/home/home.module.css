@@ -386,14 +386,31 @@
   opacity: var(--art, 1);
 }
 
+/* On phones the visible height grows when the browser bar hides. The stage is
+   sized to the tallest viewport (lvh) so it always covers the screen, with no
+   black band under it; the card is sized to the current one (dvh) and pinned
+   to the top, so its frame stays on screen whether the bar is up or down. */
 .page :global(.scroll-hero-stage) {
+  height: 100lvh;
+  padding-top: calc((1 - var(--open)) * var(--inset));
+  place-items: start center;
   background: #fff;
 }
 
 .page :global(.hero-frame) {
   width: calc(100% - (1 - var(--open)) * var(--inset) * 2);
-  height: calc(100svh - (1 - var(--open)) * var(--inset) * 2);
+  height: calc(100dvh - (1 - var(--open)) * var(--inset) * 2);
   border-radius: calc((1 - var(--open)) * 28px);
+}
+
+.page :global(.hero-art) {
+  height: 100lvh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page :global(.scroll-hero-stage) {
+    height: 100svh;
+  }
 }
 
 /* The header rides inside the card while it is framed: pushed down and in by
