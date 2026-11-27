@@ -1,0 +1,23 @@
+frontend/components/scroll-hero.tsx
+  s_c2f5231acd1612::t_a74e087eb65fa8 29
+  s_c2f5231acd1612::t_9a980740ce54e5 65
+  s_c2f5231acd1612::t_abfcd92a40fd51 72
+frontend/app/(prod)/globals.css
+  s_c2f5231acd1612::t_93003a615eaed7 51-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e77e22a7e255974476373db99572cc438c654f19",
+  "prompts": {},
+  "sessions": {
+    "s_c2f5231acd1612": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d041cdb6-492b-4b74-a0d5-9231afaf479c",
+        "model": "unknown"
+      },
+      "human_author": "gabriel <ggoc.carvalho@gmail.com>"
+    }
+  }
+}
