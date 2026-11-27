@@ -5,10 +5,12 @@
   color: #fff;
 }
 
+/* The visible height with the browser bars showing (svh), so on phones the
+   copy at the bottom never sits under the toolbar. */
 .stage {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
