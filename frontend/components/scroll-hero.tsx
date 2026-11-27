@@ -15,8 +15,6 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const compact = window.matchMedia("(max-width: 680px)");
     let frame = 0;
-    let previousScroll = window.scrollY;
-    let scrolling = false;
 
     const update = () => {
       frame = 0;
@@ -28,19 +26,7 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
       // with the visual viewport (window.innerHeight), which differ on mobile
       // while the browser toolbars are collapsing.
       const distance = Math.max(1, element.offsetHeight - stage.offsetHeight);
-      let travelled = -element.getBoundingClientRect().top;
-      const upwardDistance = previousScroll - window.scrollY;
-      // Shorten the return trip only inside the pinned hero. Record the adjusted
-      // position so our own scroll event cannot recursively accelerate itself.
-      // Large navigation jumps keep their exact destination.
-      if (scrolling && !motion.matches && upwardDistance > 0 &&
-          upwardDistance < stage.offsetHeight / 2 && travelled > 0 && travelled < distance) {
-        const extra = Math.min(travelled, upwardDistance * 1.5);
-        window.scrollTo({ top: window.scrollY - extra, behavior: "instant" });
-        travelled = -element.getBoundingClientRect().top;
-      }
-      previousScroll = window.scrollY;
-      scrolling = false;
+      const travelled = -element.getBoundingClientRect().top;
       const progress = motion.matches
         ? 1
         : Math.min(1, Math.max(0, travelled / distance));
@@ -75,20 +61,15 @@ export function ScrollHero({ children }: { children: React.ReactNode }) {
       if (!frame) frame = window.requestAnimationFrame(update);
     };
 
-    const onScroll = () => {
-      scrolling = true;
-      schedule();
-    };
-
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     motion.addEventListener("change", schedule);
     compact.addEventListener("change", schedule);
 
     return () => {
       window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       motion.removeEventListener("change", schedule);
       compact.removeEventListener("change", schedule);

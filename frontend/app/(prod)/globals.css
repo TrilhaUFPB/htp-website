@@ -48,6 +48,8 @@ a:hover {
   --hero-beams: 0;
   position: relative;
   height: 526.667svh;
+  /* The page below is black; a white body would show as a border around the contracted frame. */
+  background: #000;
   /* The page wrapper is a flex column; opt out of shrinking so the runway
      keeps its full height. */
   flex: none;
