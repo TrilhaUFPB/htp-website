@@ -399,7 +399,10 @@
 
 .page :global(.hero-frame) {
   width: calc(100% - (1 - var(--open)) * var(--inset) * 2);
-  height: calc(100dvh - (1 - var(--open)) * var(--inset) * 2);
+  /* Grows from the current viewport to the stage's full height as it opens,
+     so once open it covers the stage and no white shows below it when the
+     stage scrolls away. */
+  height: calc(100dvh + var(--open) * (100lvh - 100dvh) - (1 - var(--open)) * var(--inset) * 2);
   border-radius: calc((1 - var(--open)) * 28px);
 }
 

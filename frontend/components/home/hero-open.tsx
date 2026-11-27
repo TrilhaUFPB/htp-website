@@ -25,13 +25,16 @@ export function HeroOpen() {
     const update = () => {
       frame = 0;
       const travelled = -hero.getBoundingClientRect().top;
-      const distance = window.innerHeight * 0.7;
+      const runway = Math.max(1, hero.offsetHeight - stage.offsetHeight);
+      // Fully open before the stage un-pins. On phones the runway can be
+      // shorter than 0.7 of the screen, and a card still opening as it scrolls
+      // away leaves the white stage showing under it.
+      const distance = Math.min(window.innerHeight * 0.7, runway * 0.9);
       const raw = motion.matches ? 0 : Math.min(1, Math.max(0, travelled / distance));
       const eased = raw * raw * (3 - 2 * raw);
       hero.style.setProperty("--open", eased.toFixed(4));
       root.style.setProperty("--hero-open", eased.toFixed(4));
 
-      const runway = Math.max(1, hero.offsetHeight - stage.offsetHeight);
       const progress = travelled / runway;
       const fade = Math.min(1, Math.max(0, (progress - 0.82) / 0.14));
       hero.style.setProperty("--art", motion.matches ? "1" : (1 - fade * fade * (3 - 2 * fade)).toFixed(4));
